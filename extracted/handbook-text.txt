@@ -1,0 +1,1575 @@
+
+
+Computational 
+Thinking and Artificial 
+Intelligence
+Class 7
+Student Handbook
+ 
+ 
+CENTRAL BOARD OF SECONDARY EDUCATION
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+First Edition: March, 2026 
+Country of Publication: India  
+Published by: Central Board of Secondary Education, Integrated Office, Sector 23, Dwarka, New 
+Delhi-110077 
+
+ 
+  
+Page 1  
+ 
+PREFACE 
+ 
+The  National  Education  Policy  (NEP)  aims  to  position  India  as  a  leader  in  emerging 
+knowledge fields by integrating technologies like AI, Machine Learning, Big Data, and 
+Computational  Thinking  into  school  education.  It  promotes  technology-enabled, 
+interactive, and gamified learning using tools such as Augmented Reality (AR), Virtual 
+Reality (VR), and virtual labs to foster creativity, problem-solving, and interdisciplinary 
+exploration. NCFSE 23 carries this recommendation further for implementation. 
+While  Artificial  Intelligence  (AI)  is  an  important  requirement,  Computational  Thinking 
+(CT)  should  be  a  broader  skill,  developing  a  foundation  for  learning  AI.  It  can  cover 
+various aspects like Cybersecurity, basic networking, etc. Hence, CBSE approaches 
+this by integrating Computational   Thinking   with   AI   and   other   technological 
+advancements, without dependence on any platform. 
+The   book   engages   learners   with   problems   involving   multi-layered   constraints, 
+conditional  dependencies,  optimisation  strategies,  data  interpretation  and  structured 
+decision-making  across  numerical,  spatial  and  real-life  contexts.  It  deepens  Artificial 
+Intelligence  understanding  through  concepts  such  as  rule-based  classification,  data 
+representation, bias and fairness and decision-making systems, enabling students to 
+analyse  how  data,  rules   and  assumptions   influence  intelligent  behaviour.  The 
+document  also  provides  pedagogical  guidance,  learning  resources,  assessment 
+support  and  classroom  implementation  guidelines  to  facilitate  competency-based 
+learning in alignment with NEP 2020. 
+ 
+                                                                                              TEAM CBSE 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+  
+Page 2  
+ 
+ACKNOWLEDGEMENTS 
+Expert Committee  
+1. Dr.  Karthik  Raman,  Core  Leadership,  IIT  Madras  Bodhan  AI  Foundation; Professor,  
+Department  of  Data  Science  and  AI,  Wadhwani  School  of  Data  Science  and  AI,  IIT 
+Madras 
+2. Dr. Rajesh Kumar, Professor, Department of Electrical Engineering, MNIT, Jaipur 
+3. Dr. Seema Verma, Professor (ECE), Project Director (Siemens CoE), NITTTR, Bhopal 
+4. Dr. S. Neethi, Core Leadership, IIT Madras Bodhan AI Foundation; Professor of Practice, 
+Department of Data Science and AI, Wadhwani School of Data Science and AI, IIT Madras 
+5. Dr. Arun L. Naik, Associate Professor, Mathematics Education, Azim Premji University,  
+Bengaluru  
+6. Dr.   Aanchal   Chomal,   Associate   Professor,   School   of   Continuing   Education   and 
+University Resource Centre, Azim Premji University  
+7. Dr.  Ankit  Vijayvargiya,  Assistant  Professor,  School  of  Technology,  Dhirubhai  Ambani 
+University, Gandhinagar 
+8. Sh. R P Singh, Associate Prof & Additional Director, CBSE 
+9. Mr. Mikin Lala, (IIT Roorkee and IIM Calcutta Alumnus), Field Expert  
+10. Ms.  Rekha  Malhotra, (Alumna  of  the  British  Institute  (Business  Management  and 
+Advertising),  Frameworks  Mumbai  (Advanced  Certification  in  Computer  Science),  and 
+Workstation (3D Animation)), Field Expert 
+Material Production Group 
+1. Dr.  S. Neethi  Core  Leadership,  IIT  Madras  Bodhan  AI  Foundation,  Professor  of  Practice, 
+Department of Data Science and AI, Wadhwani School of Data Science and AI, IIT Madras 
+2. Dr.  Ankit  Vijayvargiya,  Assistant  Professor,  School  of  Technology,  Dhirubhai  Ambani 
+University, Gandhinagar. 
+3. Mr. Jay Thakkar, Senior Technical Officer, Centre for Creative Learning, IIT Gandhinagar 
+4. Mr. Chris John, Project Scientist, Centre for Creative Learning, IIT Gandhinagar 
+5. Ms  Rekha  Malhotra  {Alumna  of  the  British  Institute  (Business  Management   and 
+Advertising),  Frameworks  Mumbai  (Advanced  Certification  in  Computer  Science),  and 
+Workstation (3D Animation)}, Field Expert 
+6. Mr. Mikin Lala, (IIT Roorkee and IIM Calcutta Alumnus), Field Expert 
+7. Ms. Amatullah Mustafa Neemuchwala, Field Expert 
+8. Ms. Telidevara Sree Lasya, Field Expert 
+9. Mr. Parth Oza, Field Expert 
+10. Mr. Deep Mayekar, Field Expert 
+11. Mr. Mayank Patil, Field Expert 
+12. Ms. Shivraj Ugale, Field Expert 
+13. Mr. Raj Dhorade, Field Expert 
+14. Mr. Nilesh Vijay Rajput, Field Expert 
+ 
+The efforts  of  Prof.  Manish  Jain and  his  whole  team  from  Centre  for  Creative  Learning,  IIT 
+Gandhinagar are also acknowledged and deeply appreciated.  
+ 
+
+ 
+  
+Page 3  
+ 
+TABLE OF CONTENTS  
+ 
+PART-1 COMPUTATIONAL THINKING 
+SR. NO. CHAPTER PAGE 
+NO. 
+ 
+1. Introduction 5 
+ 
+2. How to Use this Book? 
+ 
+10 
+3. Large Numbers Around Us 12 
+ 
+4. Arithmetic Expressions 20 
+ 
+5. A Peek Beyond the Point 28 
+ 
+6. Expressions using Letter-Numbers 40 
+ 
+7. Parallel and Intersecting Lines 47 
+ 
+8. Number Play 56 
+ 
+9. A Tale of Three Intersecting Lines 73 
+ 
+10. Working with Fractions 80 
+ 
+ 
+PART-2 ARTIFICIAL INTELLIGENCE 
+SR NO CHAPTER TITLE ETHICAL 
+AWARENESS 
+PAGE 
+NO 
+ 
+1 AI Domains and Applications 
+Learning Focus: 
+AI  domains,  Predictive  techniques,  Small 
+datasets, Computer Vision, Natural 
+Language Processing, Data Science 
+Understanding 
+responsible AI use 
+89 
+2 AI in Industries 
+Learning Focus: 
+AI   in   healthcare,   Education,   Transport, 
+Communication, Benefits of AI 
+Benefits and 
+responsible 
+application of AI 
+91 
+3 Data Visualization and Analysis 
+Learning Focus: 
+Collecting    and    organising    data,    Data 
+visualization, Interpreting data 
+Accurate and honest 
+data representation 
+93 
+4 Ethics and AI Bias Awareness 
+Learning Focus: 
+Ethics in AI, Bias in AI, Responsible and fair 
+use, Digital citizenship 
+Fair and responsible 
+use of AI 
+96 
+ 
+
+ 
+  
+Page 4  
+ 
+Introduction 
+Computational Thinking (CT) is a problem-solving approach that comprises Decomposition, Pattern 
+Recognition,  Abstraction,  Algorithm  Design,  Data  Analysis  and  Troubleshooting.  Computational 
+Thinking  Skills  involve  solving  complex  problems  that  promote  thinking  skills  such  as  critical  & 
+creative  thinking,  abstraction  and  pattern  recognition,  as  well  as  algorithmic  thinking.  Problem 
+identification and problem solving necessitate the application  of multidisciplinary understanding for 
+creating effective solutions.    
+Artificial  intelligence  (AI)  is  a  cutting-edge  technology  that  empowers  machines  and  computers  to 
+perform  tasks  that  usually  require  mimicking  human  intelligence.  These  machines  can  perform 
+complex thinking processes such as data analysis, pattern recognition, prediction of trends, solving 
+problems  and  decision  making.  Thus,  AI  involves simulating cognitive  processes  associated  with 
+human intelligence and is widely applicable in various sectors such as banking, healthcare, defence, 
+education,  entertainment, agriculture  and  others  for  processing  information,  solving  intricate 
+problems and for planning.  
+The National Education Policy (NEP) aims for India to emerge as a global leader in new  emerging 
+knowledge  domains such  as artificial intelligence, machine learning, data analytics, 3-D machining 
+etc.  To  realise  this  goal,  the  policy  suggests  teaching  students  Mathematics  and  Computational 
+Thinking,  along  with  new  subjects  like  Artificial  Intelligence,  Machine  Learning,  and  Data  Science 
+during  their  school  education.  The  policy  also  focuses  on  technology-enabled learning  and 
+classrooms by using tools like artificial intelligence, machine learning, and adaptive testing to create 
+knowledge. 
+The National Curriculum for School Education draws from this policy aspiration and emphasises the 
+need  to  introduce  these  emerging  domains  of  study  and  technologies  in  the  school  curriculum.  It 
+recommends inclusion of subjects such as design thinking, augmented reality, virtual reality, artificial 
+intelligence,  and  computational  thinking.  Additionally,  it  promotes  the  use  of  gamified  content, 
+interactive content, and immersive experiences (such as AR, VR, or virtual labs) to enhance student 
+learning. In a variety of subjects, including design, music, art, and sciences, these resources support 
+students  in  knowledge  creation  and  exploration,  and  development  of  capacities  such  as  problem-
+solving, critical and creative thinking.  
+CBSE, under the aegis of the Department of School Education and Literacy, Ministry of Education, 
+Govt. of India, is implementing a Curriculum on Computational Thinking and Artificial Intelligence (CT 
+& AI) to inculcate AI-readiness in school students. This curriculum will be implemented from classes 
+3rd  to  8th,  in  the  session  2026-27,  and  aims  to  develop  AI-Ready  learners,  by  focussing  on 
+Computational Thinking Skills.  The AI-readiness, so inculcated through CT Skills, will help develop 
+the capacities of learners to use computational thinking, such as logical thinking,  problem solving, 
+pattern recognition, and so on, and understand the role and use of Artificial Intelligence in daily life. 
+The  Curriculum aims  to  build  strong  foundations  in  computational  thinking,  digital  literacy,  and 
+responsible use of technology, along with nurturing innovation, critical thinking, and ethical decision-
+making capacities. 
+ 
+ 
+ 
+
+ 
+  
+Page 5  
+ 
+1. Relevance:   Importance   of   introducing   Computational   Thinking   (CT)   and   Artificial 
+Intelligence (AI) 
+• Preparing  for  the  future: To  contribute  to  the  world  of  work  in  modern  societies,  individuals 
+need  capabilities  such  as  problem  solving,  using  data  effectively,  identifying  patterns,  and 
+applying AI ethically for various purposes in life. 
+• Holistic  Development: Study  of  CT  and  AI  contributes  to  development  of  reasoning,  logical 
+thinking, creative problem-solving skills, critical thinking, ethical decision-making abilities, leading 
+to individual flourishing. It leads to creation of responsible digital citizens in society. 
+• Interdisciplinary  Relevance: Embedding  CT  and  AI  concepts  in  the  school  curriculum  helps 
+students  to  develop  an  integrated  view  of  the  world  by  connecting  various  disciplines  such  as 
+Mathematics, Science, Humanities etc. 
+• Innovation and Entrepreneurship: At the core CT and AI is about solving problems,  devising 
+innovative  solutions  and  recreating  human  thinking.  This  leads  to  an  entrepreneurial  and 
+innovative mindset in the learners. 
+• Ethical Awareness: Study of CT & AI will sensitise learners about the misuse and bias, fairness 
+and inclusivity in AI systems. 
+2. Objectives (Curricular Goals) 
+• CG-1: Develops skills and capacities of computational thinking, namely, decomposition, pattern 
+recognition,  data  representation,  generalisation,  abstraction,  and  algorithms  to  solve  problems 
+where such techniques of computational thinking are effective. 
+• CG-2: Develops spatial and visual reasoning. 
+• CG-3: Gain foundational knowledge of AI, its types, and domains. 
+• CG-4: Understand key ethical terms such as bias and fairness in relation to AI. 
+• CG-5: Demonstrates  proficiency  to  use  Computer  &  other  devices,  computer  applications  for 
+learning and practical purposes such as data analysis, preparation of visual representations and 
+communication of ideas. 
+3. Learning Outcomes  
+Computational Thinking (CT) Learning Outcomes 
+ABSTRACT THINKING 
+Students will be able to interpret and solve complex, multi-layered problems by: 
+• Visualising and  analysing  3D  objects  and  their  transformations,  including  rotations,  reflections, 
+cross-sections, and nets. 
+• Understanding    compound    transformations    involving    multiple    flips,    turns,    folds,    and 
+rearrangements. 
+• Identifying  hidden  relationships  and  constraints  within  incomplete  figures,  patterns,  or  logical 
+setups. 
+• Analysing symmetry, congruence, and proportional reasoning across different representations. 
+• Interpreting  relative  positions,  orientations,  and  viewpoints  of  objects  in  advanced  visual 
+scenarios. 
+ 
+ 
+
+ 
+  
+Page 6  
+ 
+PATTERN RECOGNITION 
+Students will be able to recognise, extend, and predict complex patterns involving: 
+• Multi-rule numerical sequences, including alternating, nested, and dependent patterns 
+• Algebraic patterns using variables, expressions, and functional relationships 
+• Visual and geometric patterns formed through transformations or growth rules 
+• Letter and symbol-based patterns involving positional and logical dependencies 
+• Integrated patterns combining numbers, shapes, symbols, and logical conditions 
+DECOMPOSITION 
+Students will be able to break down real-world and abstract problems by: 
+• Separating interconnected conditions and constraints into manageable components 
+• Analysing number properties (factors, multiples, ratios, percentages, powers) within layered clues 
+• Deconstructing problems involving spatial reasoning, measurements, and geometry 
+• Interpreting tables, grids, charts, and flow-based information with multiple dependencies 
+• Breaking  multi-step  logical  situations  (movement,  exchanges,  comparisons,  scheduling)  into 
+ordered steps 
+• Translating visual or verbal information into structured data for systematic analysis 
+ALGORITHMIC THINKING 
+Students  will  be  able  to  design  and  follow  logical  procedures  to  solve  advanced  problems 
+involving: 
+• Rule-based sequences and algorithms with conditional branching 
+• Grid-based navigation and pathfinding with constraints and decision points 
+• Step-wise transformations involving calculations, swaps, transfers, or positional changes 
+• Ordering  and  arranging  elements  (people,  objects,  events)  using  multiple  attributes  and  logical 
+clues 
+• Solving problems using if–then reasoning, elimination strategies, and logical consistency checks 
+• Creating or analysing procedural steps to reach an optimal or valid solution 
+ 
+Artificial Intelligence (AI) Learning Outcomes 
+Learners will be able to: 
+• Distinguish key predictive techniques such as: 
+- Regression: The method of predicting a number based on patterns in past data 
+- Classification: The process by which a machine arranges things in a group based on what it 
+has learned 
+- Clustering: The process by which a system automatically puts similar items together 
+• Explain about the key domains of AI, namely: 
+- Data Science: learn to manage and extract insights from data 
+- Computer  Vision: learn  the  basics  of  how  machines  understand  and  respond  to  visual 
+information 
+- Natural  Language  Processing: understand  the  basics  and  limitations  of  how  computers 
+process and handle natural language inputs 
+• Explain what bias in AI means, and identify situations where AI can give unfair results 
+• Demonstrate courteous, safe, and responsible use of technology as part of good digital citizenship 
+ 
+
+ 
+  
+Page 7  
+ 
+• Use safe practices for maintaining data privacy, including giving informed consent before personal 
+data is collected, used, shared, archived, or deleted 
+• Collect and organise simple structured data, interpreting patterns and trends, and create bar 
+charts, line graphs and pie charts 
+• Apply basic predictive approaches/techniques to a small dataset 
+• Explain uses of AI in healthcare, education, transport, and communication 
+4. Mapped with NEP and NCF 2023 
+• The National Education Policy (NEP) aims to position India as a leader in  emerging knowledge 
+fields  by  integrating  technologies  like  AI,  Machine  Learning,  Big  Data,  and  Computational 
+Thinking into school education 
+• NCFSE 23 carries this recommendation further for implementation 
+• Learning  standards  are  derived  using  the  approach  suggested in and  are  aligned  to  NCF  SE- 
+2023 
+• Curricular Goals are derived from the Aims of Education, along with other relevant considerations 
+5. Time Allocation 
+The Middle stage (Class 6–8) suggests 100 hours annually, including the time for specific topics on 
+basics of AI and interdisciplinary projects. For Grade 7, the breakdown is: 
+• Advanced CT skills: 40 hrs. per academic year 
+• Introductory concepts of AI: 20 hrs. in an academic year 
+• Interdisciplinary projects: 40 hrs. total (20 hrs. allocated to each of the two required projects) 
+6. Approach / Pedagogy 
+• Use  hands-on  and  real-world  problems,  collaborative  and  group  work  to  solidify  and  apply 
+multidisciplinary foundational knowledge on Coding, Data Analysis and Artificial Intelligence tools 
+• Use complex  puzzles,  riddles  and games  to build on the computational thinking  abilities taught 
+in the previous stage 
+• Deliver  fundamental  concepts  of  AI  through  explanations,  demonstrations  and  hands-on 
+experience 
+• Organise  group  discussions,  design  collaborative  projects  that  integrate  CT  &  AI,  and  offer 
+guidance to students to carry out these projects 
+• Independent  activities  for  students  such  as  data  collection,  organisation  and  analysis  created 
+using digital tools or manually 
+• Discussions, debates and case studies on ethical use of AI 
+7. Assessment 
+Assessment  approaches  move  away  from  traditional  summative  assessment  to  continuous, 
+formative, and competency-based assessment. Methods for Class 7 include: 
+• Written Tests and Practical Examinations 
+• Project presentations, assignments, and reflective journals 
+
+ 
+  
+Page 8  
+ 
+• Interactive Group activities like treasure hunts 
+• Teacher Observation Journal 
+• Thematic Projects and Reflections/Group Discussions 
+ 
+CT and AI Transition 
+• Computational Thinking (CT) forms the basis of learning AI. 
+• Skills  like  breaking  problems  into  parts,  spotting  patterns,  filtering  essential  information,  and 
+designing  step-wise  procedures  are  the  same  reasoning  processes  that  power  AI  and  ML 
+systems. 
+• The curriculum begins with the introduction of CT and deepens it as we move across the stages; 
+AI is introduced later, once pre-requisite knowledge of CT is built for understanding AI. 
+ 
+ 
+ 
+
+ 
+  
+Page 9  
+ 
+                   How to Use This Book? 
+PART-1 Computational Thinking 
+ 
+The  part  1  of this handbook  is  designed  as  a  companion  to  the  Mathematics  textbook  and  is 
+intended  to  be  used  alongside  regular  classroom  teaching.  Since  it  follows  the  same  chapter 
+sequence, the Mathematics teacher can seamlessly integrate it into daily instruction. As concepts 
+are  introduced  in  class,  the  corresponding  questions  from  this  book  can  be  used  to  deepen 
+understanding and encourage application. 
+Before beginning a chapter, the teacher is encouraged to read and identify the underlying concepts 
+required for each question and plan how to align them with classroom teaching. As these concepts 
+are taught, the teacher can introduce the related ‘thinking questions’ to students. It is important to 
+note  that  the  questions  in  this  book  are  thinking-based  and  designed  to  promote  analysis, 
+reasoning, and problem-solving.  
+Teachers should adopt a facilitative approach, guiding students through prompts and discussions 
+rather  than  directly  providing  solutions.  Students  should  be  given  time  to  think  and  attempt 
+independently,  followed  by  classroom  discussions  where  different  approaches  are  shared  and 
+explored. 
+Some  chapters  also  include  activities  that  build  intuition  and  engagement.  These  should  be 
+conducted  before  attempting  the  questions,  as  they  help  students  approach  the  problems  with 
+better understanding. 
+PART-2 Artificial Intelligence 
+ 
+The  part-2  of  the handbook provides a structured  introduction  to  Artificial  Intelligence  (AI)  as  a 
+technology that enables machines to learn from data, recognise patterns, and make decisions. The 
+concepts of AI are presented using simple explanations and real-life examples from areas such as 
+healthcare, education, transport, and communication. 
+Each chapter includes: 
+ Foundational understanding of AI concepts 
+ Real-life examples and applications of AI 
+ Introduction to key AI domains such as Data Science, Computer Vision, and Natural Language 
+Processing 
+ Activities and data-based tasks 
+ Reflection on ethical use of AI 
+ 
+The  AI  content  progresses  from introduction  to application,  including  introductory  predictive 
+techniques  such  as  regression,  classification,  and  clustering. The  book  emphasises on ethical 
+and  responsible  use  of  AI,  including introduction  to bias,  fairness,  privacy,  and  safe  use  of 
+technology, enabling informed and thoughtful engagement with AI systems. 
+ 
+Teachers  should  approach  the book  with  the  mindset  that  the  process  of  thinking  is  more 
+important  than  arriving  at  the  correct  answer.  Creating  a  safe  and  encouraging  environment 
+where students feel comfortable making mistakes, exploring multiple strategies, and expressing 
+their  reasoning  is  essential.  The  goal  is  to  nurture  confident,  independent  thinkers  rather  than 
+focus solely on correctness. 
+
+ 
+  
+Page 10  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+PART-1 
+COMPUTATIONAL THINKING 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+  
+Page 11  
+ 
+Chapter 1: Large Numbers Around Us 
+1. ‘X’ is a 6-digit number formed using exactly three different digits. One of the digits appears once, 
+another  appears  twice,  and  the  third  appears  three  times.  When  2  lakhs  are  added  to ‘X’,  the 
+resulting number ‘Y’ is still a 6-digit number. What is the highest possible value of ‘Y’? 
+a) 977889 b) 999999 c) 999988 d) 999887 
+_____________________________________________________________________________________ 
+2. What is the product of all the numbers on a telephone dial-pad? 
+a) 12345 b) 32451 c) 362880 d) None of these 
+_____________________________________________________________________________________ 
+3. Sam  forms  two  different  6-digit  numbers,  X  and  Y,  using  digits  from  0  to  9  (without  repetition 
+within a number). Exactly two digits are common between X and Y. 
+● The digit 9 appears in the same position in both numbers 
+● Y ends with 0, has only one even digit, and its digits are arranged in descending order 
+● 6 is present in X, and the number of even digits on its left is equal to the number of even digits 
+on its right 
+If X is the largest possible number, what is the difference between X and Y? 
+a) 9310 b) 9210 c) 8420 d) 8310 
+_____________________________________________________________________________________ 
+4. If each of the rows follows the same theme, what will come in place of “?” 
+ 
+a)  b)  c)  d)  
+_____________________________________________________________________________________ 
+5. What will come in place of “?”   
+ 
+a) 0 b) 00 c) 000 d) 0000   
+
+ 
+  
+Page 12  
+ 
+6. Six number tokens are given. Rearrange them to form a 6-digit number such that: 
+● The difference between the first and last digits is as small as possible 
+● The hundreds digit is double the thousands digit 
+● No consecutive digits appear next to each other 
+● All given tokens must be used exactly once 
+How  many  different  6-digit  numbers  between  2 lakhs and  8 lakhs can  be  formed  under 
+these conditions? 
+ 
+a) 1                                    b) 2 c) 3 d) More than 3 
+__________________________________________________________________________________ ___          
+7. Two five-digits numbers are formed using  different  digits from 0 to  9. Both numbers have  some 
+digits missing, as shown below: 
+Number 1:  _ 1 _ 9 _ 
+Number 2: _ 4 _ 6 _ 
+No two consecutive digits of the number series are present in the same number. 
+What is the maximum possible difference of the numbers formed?  
+a) 47525 b) 52663 c) 52429 d) 46733 
+_____________________________________________________________________________________ 
+8. A,  B,  C,  D,  and  E  each  have  a  different  number  card  among  one  hundred,  one  thousand,  ten 
+thousand, one lakh, and ten lakhs. 
+- C has an even number of zeros in his number 
+- A’s number has 2 zeros less than C’s number 
+- D’s number has 4 zeros more than A’s number 
+- The number of zeros in B is more than that of A but less than C 
+Which number card does E have? 
+a) One thousand b) Ten thousand c) One lakh d) Ten lakh 
+_____________________________________________________________________________________ 
+9. 4 friends, Alex, Bob, Calvin and David have a different profession – Doctor, Lawyer, Cricketer, 
+and Engineer and earn a different salary – ₹40,000, ₹50,000, ₹60,000 and ₹70,000 per year. (not 
+necessarily in the same order) 
+- The cricketer earns the highest 
+- Alex earns more than Bob, while the doctor earns more than David, who is the engineer 
+- Bob is the lawyer, and neither Bob nor David has an exact salary of ₹50,000 
+Which of these options shows the correct profession and salary of Calvin?  
+a) Cricketer - ₹70,000 b) Doctor - ₹60,000 c) Doctor - ₹50,000 d) Doctor - ₹40,000 
+__________________________________________________________________________________ ___ 
+10. The following are the clues to the 6-digit password of Nisha’s laptop: 
+35 tens 
+31 thousands 
+25 ones 
+423 hundreds 
+14 ten thousands 
+What is Nisha’s password? 
+a) 213625 b) 203675 c) 212375 d) 213675  
+
+ 
+  
+Page 13  
+ 
+ 
+ 
+ 
+ 
+Columns A, B, and C contain 3 numbers each, such that: 
+- The number of times each  number appears in all 3 columns combined, is equal 
+to its value (e.g., 2 appears twice, 3 appears thrice, etc.) 
+- Each column contains AT LEAST TWO different numbers 
+If column A is the only column with THREE different numbers, then which column 
+has the highest sum?  
+ 
+(a) Column A       (b) Column B         
+(c) Column C (d) Both columns B and C   
+ 
+ 
+ 
+
+ 
+  
+Page 14  
+ 
+Chapter 2: Arithmetic Expressions 
+1. Identify the odd one out from the following expressions, after INTERCHANGING their operators.  
+a) 204 + 3 ÷ 29 b) 67 - 2 × 37 c) 48 ÷ 6 × 3 d) 195 × 49 - 2 
+_____________________________________________________________________________________ 
+2. There is a seminar from 11:00 AM to 2:00 PM, where students must  spend AT LEAST 1 hour in 
+the  seminar.  The  table  displays  the  number  of  students  entering  and  exiting  the  seminar  at 
+different times. What is the MAXIMUM possible number of students who spent at least 2 hours in 
+the seminar? 
+ 
+a) 60 b) 80 c) 100 d) 120 
+_____________________________________________________________________________________ 
+3. In  the  given  expression,  '8  @  7 - 15  <  4  ×  2  ×  5' which  operator  cannot  be  used  in  place  of  '@', 
+such that the condition remains valid? 
+a) - b) ÷ c) + d) × 
+_____________________________________________________________________________________ 
+4. A bus has 40 seats, and some seats are already occupied, with one passenger in each seat. 
+● At the first stop, 5 passengers get off and 8 passengers get in 
+● At the second stop, 2 passengers get off and 4 passengers get in 
+● At the third stop, exactly half of the passengers get off 
+After this, half of the bus seats are occupied. 
+Which  of  the  following  expressions  represents  the  number  of  passengers  on  the  bus  at  the 
+beginning? 
+a) 5 × 5 + 5 b) 6 × 6 - 4 c) 5 × 5 + 10 d) 6 × 6 - 5 
+_____________________________________________________________________________________ 
+5. The following expression has a whole number ‘n’. If a blank can either take ‘×4’ or ‘–12’, what is 
+the least possible value of ‘n’? 
+Expression: (n  ____    ____  )  ____ = 96 
+a) 9 b) 18 c) 4 d) 72 
+_____________________________________________________________________________________ 
+6. Which operators should be interchanged to get the minimum value of the given expression? 
+8 × 4 + 2 - 1 
+a) × and + b) + and - c) - and × d) No change 
+_____________________________________________________________________________________ 
+7. In certain code, 1 is coded as 2, 3 is coded as 10, 5 is coded as 26. 
+In the same way, 4 is coded as A and 6 is coded as B.  
+If C is the sum of A and B, which of the following is correct regarding C? 
+a) C > 55 b) C < 50 c) C = 50 d) C < 55 
+
+ 
+  
+Page 15  
+ 
+8. In  the  following  expression,  each  ball  with  a  mathematical  operator  is  swapped  with  the  ball 
+immediately  to  its  left,  to  form  a  new  arithmetic  expression.  What  will  be  the  value  of  NEW 
+EXPRESSION - ORIGINAL EXPRESSION? 
+ 
+a) 63 b) 73 c) - 63 d) - 73 
+_____________________________________________________________________________________ 
+9. A stone with an initial value of 10 is  dropped through one of the holes at the START and moves 
+in  a  straight  path  to  reach  the  END.  As  it  passes  each  numbered  bar  along  the  way,  its  value 
+changes according to the operation shown on that bar. What is the maximum value the stone can 
+have when it reaches the END? 
+ 
+a) 60 b) 88 c) 53 d) 68 
+_____________________________________________________________________________________ 
+10. Each arrow has a mathematical operator. When placed in the centre box, its operator replaces the 
+letter A in the equation it points to. Which arrow satisfies an equation based on this rule? 
+ 
+a)  b)  c)  d)  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+  
+Page 16  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Tom, Sam, Mariya, John, and Bob each selected a shape. They placed their shapes 
+in the grid below. 
+Tom’s shape is neither a circle nor a triangle 
+Sam’s shape is in column number 3 
+Mariya’s shape is not in the first three rows 
+John’s shape is neither square nor circle 
+Which of the following shapes is chosen by Bob?  
+ 
+(a) Square  (b) Circle  (c) Hexagon  (d) Triangle 
+ 
+
+ 
+  
+Page 17  
+ 
+Chapter 3: A Peek Beyond the Point 
+Activity Time 
+Activity: Punched Cards 
+ 
+ 
+Consider a set of cards with the alphabet written on them, and we shuffle them. The objective is to arrange 
+them in alphabetical order.  
+One method is to find the card A first, then B and so on. This might take some time. 
+Now,  notice  that  the  cards  have  been  punched  on  the  top.  There  are  an  O-shaped  and  a  U-shaped 
+punch,  and  using  these  holes,  we  can  sort  the  cards  in  an  interesting  way.    Insert  a  stick  in  the  set  of 
+cards starting from the rightmost  hole.  Once you lift  the stick, some will come along with it. Now, bring 
+them in front & repeat this for all sets of holes. Magically, the cards are sorted. 
+In our day-to-day life, we use the decimal number system, which uses the numbers 0, 1, 2, 3, 4, 5, 6, 7, 
+8,  and  9.   The  decimal  number  system  is  based  on  bundles  of  ten   (Powers  of   10  which  is 
+1,10,100,1000,.....). Similarly, the binary number system is based on bundles of two (Power of 2 which is 
+1,2,4,8,.....). So, if we compare the two numbering systems for place values, this is what it looks like.... 
+ Decimal (Bundles of Ten) Binary (Bundles of 
+Two) 
+Units Place 1 1 
+First Bundle 10 = 10 2 = 2  
+Second Bundle 10x10 = 100 2x2 = 4 
+Third Bundle 10x10x10 = 1000 2x2x2 = 8 
+ 
+ 
+
+ 
+  
+Page 18  
+ 
+The binary number system (popularly known as the language of computers) deals with only two numbers: 
+0 and 1. We can convert any  decimal  number to its  binary  equivalent and vice versa. You can convert 
+any decimal number into a binary representation by writing it with the power of 2.  
+For example, 23 = 16 + 4 + 2 + 1.  
+23 in decimal 10
+1
+=10 10
+0
+=1 
+23 2 3 
+ 
+23 in binary 2
+4
+=16 2
+3
+=8 2
+2
+=4 2
+1
+=2 2
+0
+=1 
+(10111)
+2
+ 1 0 1 1 1 
+ 
+1. What will be the binary representation for the decimal number 14? 
+a) 1010 b) 1100 c) 1110 d) 1111 
+The  number  of  digits  or  bits  (binary  digits)  in  a  binary  number  depends  on  the  number.  For  example, 
+numbers  up  to  7  can  be  represented  in  a  3-bit  binary  number,  numbers  from  8  to  15  in  a  4-bit  binary 
+number, numbers from 16 to 31 similarly need an additional bit, hence a  5-bit binary number, and so on. 
+There are 26 letters in English; hence, 5 sets of holes on each card for sorting. 
+_____________________________________________________________________________________ 
+2. You want to perform a similar punched card activity with Hindi alphabets. How many holes are 
+needed on each card? 
+a) 5 b) 6 c) 8 d) 10 
+Punching Pattern on the Card 
+Every alphabet can correspond to a number, and every number can be represented in the binary system. 
+The following table contains the corresponding conversion from decimal to binary. 
+Letter Corresponding 
+Decimal Number 
+Corresponding 
+Binary Number 
+A 1 00001 
+B 2 00010 
+C 3 00011 
+D 4 00100 
+E  5 00101 
+.. .. .. 
+.. .. .. 
+Y 25 11001 
+Z 26 11010 
+ 
+
+ 
+  
+Page 19  
+ 
+These binary numbers indicate to us a unique way to punch. Where there is 0, punch an O-shaped hole, 
+and where there is 1, punch a U-shaped  hole. For example: 01010 is the binary equivalent of J, so  the 
+holes on card J from left to right will be O U O U O. 
+_____________________________________________________________________________________ 
+3. Can you identify which card the binary pattern 10101 belongs to? 
+a) P b) S c) T d) U 
+_____________________________________________________________________________________ 
+4. The alphabet R comes 18th in the order starting from A as 1. What will be the punching pattern 
+on Card R? 
+a) U0U0U b) UU0U0 c) U00U0 d) 0UU00 
+Punched cards, utilising binary choices is analogous to their role in powering early computing machines 
+such as IBM sorters and Turing's Bombe. This binary concept has its roots in study of poetry in ancient 
+India,  which  was  well  studied  by  Acharya  Pingala's  and  documented  in  his  work  Chandaḥśāstra (~2 
+BCE). 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+  
+Page 20  
+ 
+Questions 
+1. Two decimal numbers differ by 3.6. In one of the numbers, the decimal point is moved one place 
+to  the  right.  After  this  change,  both  numbers  become  equal.  Which  was  the  smaller  of  the  two 
+original numbers before shifting the decimal point? 
+a) 0.4 b) 0.36 c) 3.6 d) 4 
+_____________________________________________________________________________________ 
+2. What will come in place of “?” 
+ 
+a) 2000 b) 4000 c) 40000 d) 8000 
+_____________________________________________________________________________________ 
+3. Find the next term in the given series below: 
+85.41, 88.71, 89.01, 92.31, 92.61, 95.91, 96.21, __ 
+a) 96.51 b) 99.21 c) 99.51 d) None of these 
+_____________________________________________________________________________________ 
+4. There are three sensors - A, B, and C. Each sensor displays the measurement of the length of the 
+same item, but in different units: metres, centimetres, or kilometres. Only one sensor shows the 
+correct length. The other two show values that are 10 times greater and 10 times smaller than the 
+actual length (the units remain unchanged). Based on the readings shown, which sensor displays 
+the correct length? 
+ 
+a) Sensor A  b) Sensor B  
+c) Sensor C  d) Cannot be determined 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+  
+Page 21  
+ 
+5. What will come in place of “?” in the given series?  
+ 
+a)  b)   c)  d)  
+_____________________________________________________________________________________ 
+6. Four friends A, B, C, and D each select a distinct point on the following number line (from 0 to 1) 
+such that: 
+- A’s point is 4th to the right of D’s point 
+- The value of C’s point is at least 0.4 and B’s point has the highest value among all friends 
+- No two friends choose adjacent points 
+What is the LEAST possible sum of the points chosen by all of them? 
+ 
+a) 2.0 b) 1.9 c) 1.8 d) 1.4 
+_____________________________________________________________________________________ 
+7. Alex has  to fill in the blank with a DECIMAL NUMBER formed using every digit among 0, 1, 2, 3, 
+and 4, each exactly once, where:  
+- The sum of the digits before the decimal point is equal to the sum of the digits after the decimal 
+point 
+- The digits before the  decimal point are in descending order and  the digits after  the  decimal 
+point are in ascending order 
+- The conditions of “<” are satisfied  
+How many different numbers can be placed in the blank? 
+ 
+a) 2 b) 3 c) 4 d) More than 4 
+_____________________________________________________________________________________ 
+8. Raj  measures  the  lengths  of  two  objects,  Object  A  and  Object  B,  using  a  ruler  marked  in 
+centimetres. 
+● On Day 1, Object A measures 5.2 cm. Its length decreases by 1 line on Day 2, 2 lines on Day 
+3, 3 lines on Day 4, and so on, following the same pattern 
+● On Day 1, Object B measures 1.2 cm. Its length increases by 1 line on Day 2, 2 lines on Day 3, 
+3 lines on Day 4, and so on, following the same pattern 
+On which day will the difference between the lengths of the two objects be the least?  
+Note: The scale is in centimetres 
+ 
+a) Day 3 b) Day 4 c) Day 5 d) Day 6 
+ 
+ 
+ 
+
+ 
+  
+Page 22  
+ 
+9. Some numbers are given in the boxes below. In each number, interchange the digits immediately 
+to the left and right of the decimal point. After making this change, how many boxes will contain 
+a number greater than 498.540? 
+ 
+a) 1 b) 2 c) 3 d) 4 
+_____________________________________________________________________________________ 
+10. Seven decimal numbers, A-G, are given. 
+1. Arrange the numbers in ascending order to form Arrangement 1 
+2. Modify the numbers as follows: 
+○ For numbers in odd positions, move the decimal point one place to the right 
+○ For numbers in even positions, move the decimal point one place to the left 
+3. Arrange the modified numbers again in ascending order to form Arrangement 2 
+In Arrangement 2, which pair(s) of numbers have exactly three numbers between them? 
+ 
+a) A and E b) G and D c) C and F d) E and D 
+_____________________________________________________________________________________ 
+ 
+ 
+ 
+ 
+ 
+The numbers given below are to be placed in the grid in such a way that the sum 
+of two adjacent numbers in the grid should be greater than 9 but less than 17. 
+What will come in place of A and B?  
+Numbers: 2, 3, 5, 11, 15 
+ 
+(a) A = 5 and B = 2    (b) A = 3 and B = 5  
+(c) A = 2 and B = 3    (d) A = 5 and B = 3 
+ 
+ 
+
+ 
+  
+Page 23  
+ 
+Chapter 4: Expressions using Letter-Numbers 
+1. It is given that x means ‘greater than’, $ means ‘equal to’, < means ‘not less than’, A means ‘less 
+than’ and + means ‘not greater than’. Which of the following options has the same meaning as 
+the given expression? 
+a x b A c 
+a) a $ c A b b) b < a x c c) c x b A a d) c + b < a 
+_____________________________________________________________________________________ 
+2. A factory ‘S’ sends goods to four cities: A, B, C, and D through pipelines (represented by arrows), 
+as shown below. The demand  of each city is mentioned above that city (for example, the  demand 
+at City A is 400 units). The demands are satisfied exactly, and no extra units are left in the pipelines. 
+If 300 units are sent through the pipeline from A to B, how many units are sent from D to B? 
+ 
+a) 200 b) 600 c) 800 d) 1000 
+_____________________________________________________________________________________ 
+3. Each letter in Set 1 corresponds to exactly one different number from Set 2 (in any order). 
+Set 1: A, B, C, P, Q, R 
+Set 2: 1, 2, 4, 5, 7, 9 
+The following conditions are given: 
+● A and C are consecutive numbers, with A > C 
+● P + Q = R, with P > Q 
+● B is greater than both A and C 
+Using this information, find the value of: (4P+3B) − (2P+3C) + (2A−3B) 
+a) 9 b) 13 c) 15 d) 11 
+_____________________________________________________________________________________ 
+4. The sum of the ages of four people A, B, C, and D is 35. Each one of them is at least 8 years old. 
+What is the MAXIMUM possible age of the oldest person? 
+a) 9 years b) 10 years c) 11 years d) 12 years 
+_____________________________________________________________________________________ 
+5. 3  whole  numbers  A,  B,  and  C,  satisfy  the  given  conditions.  At  maximum,  how  many  different 
+possible values can C have? 
+  
+a) 4 b) 5 c) 3 d) 2 
+_____________________________________________________________________________________ 
+6. If the sum of the ages of Shubham and Shivam is 36. What would be the sum of their ages after 
+36 years? 
+a) 108 b) 136 c) 72 d) 96 
+ 
+ 
+ 
+
+ 
+  
+Page 24  
+ 
+7. A, B, and Z are natural numbers such that A + B = Z and: 
+● The value of B is twice the value of A 
+● The value of B is greater than 4 
+● The value of Z is less than 10 
+What could be the value of A? 
+a) 1 b) 2 c) 3 d) 4 
+_____________________________________________________________________________________ 
+8. In the given  image,  each number equals  the  sum of the two numbers immediately  below it.  If P, 
+Q, and R are unknown, what is the value of P × Q + R? 
+ 
+a) 42 b) 48 c) 38 d) 36 
+_____________________________________________________________________________________ 
+9. 5A, 5B, and C9 are 2-digit numbers, where A, B, and C represent one of the digits of the respective 
+numbers, and A + B + C = 15. Find the MAXIMUM possible value of 3B + 4C + 8, if: 
+ 
+a) 43 b) 39 c) 31 d) 36 
+_____________________________________________________________________________________ 
+10. All the cells having ‘x’ in the given calendar represent dates that are consecutive multiples of a 
+particular number. The first ‘x’ represents the first Thursday of the month, as shown below. Which 
+of the following is the last day of the month? 
+ 
+ 
+a) Monday b) Sunday c) Saturday d) Friday 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+  
+Page 25  
+ 
+ 
+ 
+ 
+ 
+Numbers from 1-9 are to be placed in the grid such that no two consecutive 
+numbers are placed adjacent to each other.  
+For example, the bottom-left circle has 1, so the circle above it and the circle on 
+the immediate right cannot have the number 2. 
+Each group of circles which are inter-connected by lines must contain either only 
+odd or only even numbers. 
+Find the values of A and B. 
+ 
+(a) A = 9 and B = 3 (b) A = 3 and B = 9 (c) A = 7 and B = 3 (d) A = 9 and B = 8 
+ 
+ 
+
+ 
+  
+Page 26  
+ 
+Chapter 5: Parallel and Intersecting Lines 
+1. Each side of a square is divided into three equal parts by marking points on it. Using these points 
+as endpoints, line segments are drawn inside the square, such that each line segment is parallel 
+to at least one side of the square. What is the maximum number of squares that can be found in 
+the resulting figure? 
+a) 6 b) 9 c) 14 d) 16 
+_____________________________________________________________________________________ 
+2. The following arrangement is formed using a cube and a cuboid. How many edges are parallel to 
+the edge highlighted by the red line? 
+ 
+a) 5 b) 6 c) 7 d) 8 
+_____________________________________________________________________________________ 
+3. In  the  following  solid,  every  edge  has  at  least  one  other  edge  parallel  to  it.  How  many  different 
+pairs of PARALLEL FACES are present in the solid?  
+ 
+a) 8 b) 7 c) 6 d) 5 
+_____________________________________________________________________________________ 
+4. In a clock, the hour hand and the minute hand are perpendicular to each other, where the minute 
+hand is at 12. How many different possible positions the hands of the clock can have at this time?  
+a) 1 b) 2 c) 3 d) 4 
+_____________________________________________________________________________________ 
+5. If each of the given terms follows the same theme, what will come in place of “?” 
+ 
+a) 7 - 1  b) 2 - 8 c) 1 - 8 d) 5 - 11 
+ 
+
+ 
+  
+Page 27  
+ 
+6. Figures A and B are formed using  two transparent squares, each. If  figure A is  placed on top of 
+figure  B  (without  rotation),  such  that  it  completely  overlaps  figure  B,  how  many  right-angled 
+triangles can be seen in the resultant image? 
+ 
+a) 10 b) 12 c) 13 d) 14 
+_____________________________________________________________________________________ 
+7. In triangle ABC, BC is the base. 
+Point P lies on AB and point Q lies on BC such that PQ is parallel to AC. 
+Point R lies on AB and point S lies on AC such that RS is parallel to BC. 
+Lines PQ and RS intersect at a point O inside the triangle. 
+Which of the following quadrilaterals must be a parallelogram? 
+a) QPAC b) ORBQ c) QOSC d) SAPO 
+_____________________________________________________________________________________ 
+8. Two lines intersect at point K. 
+One angle is (ax − 10)° and its vertically opposite angle is (bx + 20)°. 
+Which of the following is DEFINITELY true? 
+a) a = b b) a ≠ b c) x = 10 d) a + b = 0 
+_____________________________________________________________________________________ 
+9. A  computer  draws  two  intersecting  lines.  One  angle  formed  at  the  intersection  is  70°,  but 
+originally,  it  was  intended  to  be  40°.  Which  of  the  following  options  shows  the  respective 
+‘Expected and Resultant’ measures of one of the other angles? 
+a) 140 degrees and 110 degrees b) 110 degrees and 140 degrees   
+c) 140 degrees and 170 degrees d) 170 degrees and 140 degrees 
+_____________________________________________________________________________________ 
+10. ABCD is a square of side length 4 m. Raj starts from  point A and walks North  to reach point D. 
+From point D, he further walks 4 m without taking any turns and reaches point P. At P, he turns 
+135°  clockwise  and  walks  a  certain  distance  and  stops  only  when  he  reaches  a  point  on  the 
+square.  Which  of  the  following  statements  is  INCORRECT  with  respect  to  the  boundary  of  the 
+square and the path taken?  
+ 
+a) PC ∥ DB    b) ∠PCD = ∠DCA c) PC ≠ AC d) ∠DPC = ∠DCP   
+
+ 
+  
+Page 28  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+A, B, and C are all different numbers having any value among 1, 2, and 5. What will 
+come  in  place  of  C  so  that  no  two  consecutive  numbers  are  placed  next  to  each 
+other in any direction (vertically, horizontally, or diagonally)?  
+ 
+ 
+(a) 2   (b) 1   (c) 5   (d) None 
+ 
+
+ 
+  
+Page 29  
+ 
+Chapter 6: Number Play 
+Activity Time 
+Introduction  
+Solving puzzles always seems complex. But have you wondered how computers solve puzzles? We will 
+see a simplified way to solve some puzzles by following simple instructions and using the binary computer 
+language. This will give us insight into how we can break complex problems into smaller pieces that can 
+be easily solved. By combining smaller problems, computers can solve a larger one. 
+Activity: Logical puzzle punch cards 
+In this activity, you will use punched cards to solve logical puzzles. By stacking, aligning, and filtering the 
+cards, we will see how complex reasoning can be built from simple decisions - True or False, mirroring 
+how binary logic works inside a computer. 
+The scenario is that you have the following lights in the room: Yellow Y, Pink P, Red R, Green G, and 
+Blue B. By following the clues given in the Case Cards, you have to figure out which lights are ON in the 
+given Puzzle. To solve these puzzles, we have a deck of cards representing all possible combinations of 
+these lights being ON or OFF. 
+ 
+Understanding the cards  
+To solve these puzzles, we have a deck of cards representing all possible combinations of these lights 
+being ON or OFF. Each card has five positions for holes on the top, and each position corresponds to a 
+coloured light mentioned above in the given order.  
+Each position has two possible hole types: U-shaped or O-shaped. Each card represents one possible 
+combination. If a light is ON  in a card, then the hole corresponding to it is U-shaped. If a light is OFF in 
+a card, then the hole corresponding to it is O-shaped. 
+Eg: Yellow Y is OFF, Pink P is ON, Red R is ON, Green G is OFF, Blue B is OFF is the card where 
+the holes are  O U U O O. 
+Each hole, thus, has 2 possible states. If we have  two holes,  then we have 2 ×2=4 possible states. 
+Likewise, if we have 3 holes, we have 2 ×2 ×2=8 states. Therefore, if we have 5 holes, we will have 
+2 ×2 ×2 ×2 ×2=32 states. That is the number of distinct cards we have. 
+
+ 
+  
+Page 30  
+ 
+ 
+Figure: All the possible three-hole states and how they come from the two-hole states 
+    
+Figure: Some possible cards with 5 binary digits  
+Procedure  
+If the puzzle says a light is ON, we need to remove all cards where that light is OFF. For that, we put the 
+stick into the deck of cards through the hole corresponding to that light and pull out all the cards that get 
+stuck to it. We remove these cards because they got stuck due to O-shaped holes that indicate the light 
+is OFF. 
+If we know some light is OFF in the puzzle, we remove all the cards that do not come out with the stick; 
+these are the cards with U-shaped holes in positions corresponding to the given colour, which indicate 
+that the light is ON.  
+Ensuring the above helps us solve the logical puzzles through punch cards. 
+Let’s get familiar with the cards and the rules. 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure: All the possible three
+-
+hole states and how it comes 
+from the two
+-
+hole states
+ 
+
+ 
+  
+Page 31  
+ 
+1. Can you identify which bulbs are ‘OFF’ based on the card? 
+ 
+a) Blue B and Yellow Y bulbs       b) Green G and Red R bulbs               
+c) Red R and Yellow Y bulbs d) All bulbs are OFF 
+Understanding using a case 
+The operation of the cards is explained by showing how they can be used for solving a problem in two-
+valued logic.  
+We can start by taking Case 1, which contains the first 8 cards from 0 to 7, and focus only on the Red R, 
+Green  G, and Blue  B lights.  Three  statements  are  given  containing  simple  assertions  and  negation 
+statements. The aim is to determine which bulbs are on or off among these.  
+ 
+To  solve  this  problem,  let’s  establish  some  notation.  Only  three  terms  are  involved,  so  we  shall  be 
+concerned with only the Red R, Green G, and Blue B holes. 
+Red bulb ‘ON’, 1st position will be U Red bulb ‘OFF’, 1st position will be O 
+Green bulb ‘ON’, 2nd position will be U Green  bulb ‘OFF’, 2nd position will be O 
+Blue bulb ‘ON’, 3rd position will be U  Blue  bulb ‘OFF’, 3rd position will be O 
+ 
+If all lights are ON, then RGB = U U U 
+If all lights are OFF, then RGB = O O O 
+If Red is OFF, Green is ON, Blue is OFF, then RGB = O U O 
+If Red and Green are ON, but Blue can be anything, then RGB = U U X 
+_____________________________________________________________________________________ 
+2. Can you identify which bulb is OFF based on this pattern: RGB = U U O?   
+a) Red bulb b) Green Bulb c) Blue Bulb d) All bulbs are OFF 
+ 
+
+ 
+  
+Page 32  
+ 
+Case 1: Focusing on RGB cards only (with 8 cards only) 
+Statements  
+I. The Red light is ON  
+II. The Blue light is OFF  
+III. ON light only has OFF Neighbour  
+The problem has three statements.  
+● The statement I: "The Red light is ON”   
+Insert the stick in the R position and lift.  
+The stick will raise all RGB = O X X cards: All cards where Red is OFF.   
+RGB = O X X cards are discarded. 
+All remaining cards are assembled into a pack once more (in any order), and we are ready for the second 
+statement.  
+ 
+_____________________________________________________________________________________ 
+3. After performing an action using Statement I, how many cards are left in the pack? 
+a) 8 b) 4 c) 2 d) 1 
+● The second statement, II, “The Blue light is OFF”  
+_____________________________________________________________________________________ 
+4. After performing the action using Statement II, among these, which card will not be discarded? 
+a) RGB = X X O b) RGB = U O U c) RGB = X X U d) All will be eliminated 
+Correct answer: a. RGB = X X O 
+Explanation: We  discard  all  the  cards  where Blue light  is ON, RGB  =  X  X  U, and  keep  those  cards 
+where RGB = X X O. 
+Competencies: Algorithmic thinking, decomposition, pattern recognition 
+All remaining cards are assembled into a pack once more (in any order), and we are ready for the third 
+statement. 
+● The third statement, III, “ON light only has OFF Neighbour” 
+ 
+After this action, only one card will be left, and that will be the solution to the logical puzzle. 
+ 
+ 
+
+ 
+  
+Page 33  
+ 
+5. What is the pattern of the last card (solution)?  
+a) RGB = U U O b) RGB = U O U c) RGB = O U U d) RGB = U O O 
+Case 2: Focusing on RGB cards only (with 8 cards only) 
+Statements  
+I. The Red light is ON 
+II. The Lights are either all ON or all OFF 
+ 
+_____________________________________________________________________________________ 
+6. Among these, what would be the pattern of the solution? 
+a) RGB = U O O b) RGB = O O O c) RGB = U O U d) RGB = U U U 
+More Puzzles 
+Below  are  three  progressively  harder  cases.  They  introduce  additional  logic  and  multi-step  filtering  to 
+mimic advanced truth-table-based reasoning. Each ends with one solution card. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+  
+Page 34  
+ 
+Questions 
+1. Form  the  largest  four-digit  odd  number  by  selecting  exactly  one  digit  from  each  row  and  each 
+column. What is the sum of the digits? 
+ 
+a) 21 b) 22 c) 23 d) 24 
+_____________________________________________________________________________________ 
+2. In the  given image, S, T, and N represent distinct single-digit numbers, where T > S. What is the 
+value of N + S? 
+   
+a) 13 b) 12 c) 9 d) 11 
+_____________________________________________________________________________________ 
+3. Each square of the given puzzle must be filled with a single-digit natural number such that: 
+- The sum of all four different digits in each row and each column is 10 
+- All the inequality signs (< and >) between the boxes must be followed 
+Find the correct values of A and B. 
+ 
+a) A = 3, B = 4 b) A = 2, B = 1 c) A = 1, B = 4 d) A = 3, B = 1 
+_____________________________________________________________________________________ 
+4. How many cells contain a digit equal  to  the sum  of all the  other digits in  its  corresponding row 
+and column combined? 
+ 
+a) 2 b) 3 c) 4 d) 5 
+ 
+ 
+ 
+
+ 
+  
+Page 35  
+ 
+5. Using  the  digits  1,  2,  3,  and  4,  form  the  highest  and  the  smallest  three-digit  numbers  such  that 
+each number contains exactly two different digits. What is the sum of the two numbers formed? 
+a) 545 b) 555 c) 565 d) 575 
+_____________________________________________________________________________________ 
+6. A 2-digit number is formed using two different digits, and the digits are reversed to create another 
+2-digit number. The difference between these 2 numbers CANNOT be: 
+a) An even number b) An odd number c) A prime number d) An integer 
+_____________________________________________________________________________________ 
+7. A four-digit number has  the  same number of even and odd digits. Which of the  following could 
+possibly be the sum of the digits of this number? 
+a) 11 b) 15 c) 20 d) All of these 
+_____________________________________________________________________________________ 
+8. The given grid is to be filled with distinct single-digit natural numbers such that:  
+● The sum of each row is the same and is an even number 
+● The larger number in each column is placed in the red block  
+What is the sum of the numbers in the white blocks?  
+ 
+a) 16 b) 17 c) 15 d) 20 
+_____________________________________________________________________________________ 
+9. A  computer  generates  rectangles  where  the  length  and  breadth  (dimensions)  follow  a  series.  If 
+the pattern continues, what will be the area of the next rectangle the computer should draw? 
+ 2 × 3, 3 × 5, 5 × 8, 8 × 13, 13 × 21, ? 
+a) 693 sq. units b) 2210 sq. units c) 442 sq. units d) 714 sq. units 
+_____________________________________________________________________________________ 
+10. Given below is a 3 × 3 grid to be filled by numbers from 1 to 9 such that: 
+● Every pair of adjacent digits in a row should have a difference of three  
+● Some of the numbers have already been placed 
+Based on the given conditions, choose the correct option. 
+ 
+a) A row can have all numbers as even b) A row can have all numbers as odd   
+c) A row can have 2 even and 1 odd number d) All of these 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+  
+Page 36  
+ 
+     
+ 
+ 
+Given  below are bulbs, each with a switch beneath it. When you press a switch, it 
+lights up ONLY  the  adjacent bulbs and not  the  bulb above the switch. What is  the 
+minimum number of switches you need to press to light up all the bulbs? 
+ 
+(a) 2   (b) 3   (c) 4   (d) 5 
+ 
+ 
+ 
+
+ 
+  
+Page 37  
+ 
+Chapter 7: A Tale of Three Intersecting Lines 
+1. If the sides  of  an  equilateral triangle and that  of a square are  of equal length, what can you say 
+about the area of both the shapes? 
+a) The area of the square is the same as that of the triangle    
+b) The area of the triangle is greater than that of the square   
+c) The area of the square is greater than that of the triangle    
+d) None of these 
+_____________________________________________________________________________________ 
+2. Three identical pieces  of paper, each in the  shape  of  an equilateral triangle,  are joined together 
+edge to edge, with no gaps or overlaps. Which of the following figures can be formed by joining 
+them? 
+a) Rhombus b) Trapezium c) Hexagon d) Triangle 
+_____________________________________________________________________________________ 
+3. If dots of the same  colour are connected  to form triangles, which triangle is not formed by any 
+coloured dots? 
+ 
+a) Right-angled triangle  b) Obtuse angled triangle 
+c) Equilateral triangle d) Isosceles triangle 
+_____________________________________________________________________________________  
+4. Is the given triangle isosceles, scalene, or equilateral? 
+Information 1: The given triangle is similar to a right-angled triangle 
+Information 2: The given triangle is not a scalene triangle 
+To answer the given question, which of the given information is/are sufficient? 
+a) Only 1   
+b) Only 2   
+c) Both 1 and 2 together  
+d) Question cannot be answered even if both pieces of information are used 
+_____________________________________________________________________________________ 
+5. At least how many folds are required to convert the given paper sheet into an equilateral triangle? 
+ 
+a) 1 b) 2 c) 3 d) 4 
+ 
+ 
+
+ 
+  
+Page 38  
+ 
+6. Each option contains exactly two types of triangles from the following: a right-angled triangle, an 
+equilateral triangle, and a scalene triangle. Which option contains both a right-angled triangle and 
+an equilateral triangle? 
+Note: Consider only those triangles whose all three sides are clearly visible 
+a)  b)  c)  d)  
+_____________________________________________________________________________________ 
+7. An isosceles  triangle  has a perimeter  of 23 cm and  all its side lengths are whole  numbers. The 
+two equal sides are multiples of 3. How many different possible lengths can the third side have? 
+a) 1 b) 2 c) 3 d) 4 
+_____________________________________________________________________________________ 
+8. Two  triangles,  triangle  X  and  triangle  Y,  are  given.  Only  partial  information  about  their 
+corresponding sides and angles is provided below. 
+Question: Are triangles X and Y similar? 
+Information 1: Two pairs of corresponding sides of triangle X and triangle Y are proportional, but 
+no information is given about the third pair of corresponding sides. 
+Information 2: Two pairs  of corresponding angles  of triangle X and triangle Y are  equal,  but  no 
+information is given about the third pair of corresponding angles. 
+To answer the given question, which of the given information is/are sufficient? 
+a) Only 1    
+b) Only 2    
+c) Both 1 and 2 together    
+d) Question cannot be answered even if both pieces of information are used 
+_____________________________________________________________________________________ 
+9. An  equilateral  triangle  is  given.  Inside  it,  two  straight  lines  are  drawn  in  any  direction.  If  the 
+triangle is cut along these two lines, what is the maximum number of right-angled triangles that 
+can be formed? 
+Note: You cannot form a triangle by joining two or more pieces. 
+ 
+a) 2 b) 3 c) 4 d) 5 
+_____________________________________________________________________________________ 
+10. How many right-angled triangles are there in the given figure? 
+ 
+a) 7 b) 8 c) 9 d) 10 
+ 
+ 
+ 
+ 
+ 
+
+ 
+  
+Page 39  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+A  3 x 3  grid  is  shown  below.  You  need  to  place  some  circles  in  the  cells  without 
+making three in a row, column, and diagonal. How many circles at maximum can you 
+place in the grid? 
+ 
+(a) 5   (b) 4   (c) 6   (d) 7 
+ 
+
+ 
+  
+Page 40  
+ 
+Chapter 8: Working with Fractions 
+1. Samuel received chocolates for his birthday. He decided to share it with his family. 
+- He keeps 1/3rd of the chocolates for himself 
+- He gives 1/4th of what is left to his sister Sarah 
+- He gives the remaining 12 chocolates (except the ones which he kept for himself) to his 
+brother 
+How many chocolates had Samuel received in total before he shared it?  
+a) 20 b) 22 c) 24 d) None of these 
+_____________________________________________________________________________________ 
+2. If each of the given terms follows the same theme, what will come in place of “?” 
+ 
+a) 2/9 b) 2/3 c) 4/9 d) 1/9 
+ 
+3. A bus started its journey from Mumbai. 
+- 1/4th of the passengers got off the bus in Pune and 35 new passengers got on the bus 
+- Half of the passengers got off the bus in Goa with no new passengers getting on the bus 
+When  the  bus  left  from  Goa,  the  total  number  of  passengers  was  85.  How  many  passengers 
+boarded the bus from Mumbai?   
+a) 135 b) 170  
+c) 180 d) Cannot be Determined 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+  
+Page 41  
+ 
+4. Which of the following statements is/are sufficient to answer the given question? 
+Question: What fraction of the initial liquid remains in the vessel after Day 2? 
+Statement 1: The vessel originally contained 100 litres of liquid 
+Statement 2: On Day 1, the amount of liquid that evaporates  is equal to half of the quantity that 
+would remain if one-third of the initial liquid were removed 
+Statement 3: On Day  2, the liquid left in the vessel  becomes one-fourth  of the  quantity that was 
+present at the beginning of Day 2 
+a) Statement 3 alone is sufficient    
+b) Both Statement 1 and Statement 2 are necessarily required      
+c) Both Statement 2 and Statement 3 are necessarily required    
+d) Question cannot be answered even if all the Statements are used    
+_____________________________________________________________________________________ 
+5. A  farmer  has  a  square  farm  as  shown  in Image  1.  He  divides  it  into  4  equal  parts  as  shown  in 
+Image 2. Now, he  allotted certain portions of land for specific  purposes  (Rice crop, Wheat crop, 
+Water) and some part of the farm is unused, as shown in Image 3. What fraction of the new farm 
+is occupied by wheat? 
+ 
+a) 3/16 b) 1/4 c) 5/16 d) 6/16 
+_____________________________________________________________________________________ 
+6. A  wire  is  bent  to  form  a  rectangle  with  length  L  and  breadth  B. After  some  time,  the  length  is 
+increased by one-fifth of its original value, and the breadth is decreased by one-fifth of its original 
+value. After this change: 
+● The perimeter of the rectangle remains the same 
+● The area of the rectangle decreases by 100 sq. cm 
+What was the original length of the rectangle? 
+a) 25 cm b) 40 cm c) 45 cm d) 50 cm 
+_____________________________________________________________________________________ 
+7. A number sequence is mentioned below: 
+19/2,38/6,76/18,152/54,... 
+Which will be the first term of the series that will be less than 1? 
+a) 7th term of the series b) 8th term of the series  
+c) 10th term of the series d) None of these 
+_____________________________________________________________________________________ 
+8. A box has 98 chalks. Each day, a teacher picks up a chalk to write. 
+When a chalk becomes 1/7 of its original size, she sets it aside. 
+Whenever she collects enough such small pieces to make one full chalk, she joins them and 
+uses it. For how many days will the 98 chalks last? 
+a) 84 b) 98 c) 112 d) 114 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+  
+Page 42  
+ 
+9. A grid contains apples and flowers in some of its cells. A 3 × 3 square frame can be placed on the 
+grid without rotating and without extending outside the grid, covering exactly 9 cells. In how many 
+different positions can the frame be placed so that at least one-third of the covered cells contain 
+flowers? 
+ 
+a) 3 b) 5 c) 4 d) 6 
+_____________________________________________________________________________________ 
+10. Each circle is divided into equal parts, with some parts shaded. A fraction is written to the right 
+of  each  circle.  How  many  of  these  fractions  correctly  represent  the  shaded  part  of  their 
+corresponding circles? 
+ 
+a) 4 b) 3 c) 2 d) 5 
+_____________________________________________________________________________________ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+You have a collection of 10 different squares arranged as shown below. What is the 
+minimum number of pairs of squares you need to interchange to ensure that white 
+and black squares are arranged alternately? 
+Note: If you swap 1 black square with 1 white square, it is counted as 1 PAIR OF 
+SQUARES being swapped  
+ 
+(a) 1   (b) 2   (c) 3   (d) 5 
+ 

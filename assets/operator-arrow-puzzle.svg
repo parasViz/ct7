@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-labelledby="title desc">
+  <title id="title">Operator arrow puzzle</title>
+  <desc id="desc">Four arrows labeled P, Q, R, and S point to a centre operator box. Each arrow has an operator and an equation to test.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f3fffb"/>
+      <stop offset="0.55" stop-color="#f7fbff"/>
+      <stop offset="1" stop-color="#fff7e0"/>
+    </linearGradient>
+    <linearGradient id="dark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#172034"/>
+      <stop offset="1" stop-color="#24365d"/>
+    </linearGradient>
+    <filter id="shadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#172034" flood-opacity="0.13"/>
+    </filter>
+    <marker id="arrowHeadBlue" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0 0 L10 4 L0 8 Z" fill="#118ab2"/>
+    </marker>
+    <marker id="arrowHeadPink" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0 0 L10 4 L0 8 Z" fill="#f95877"/>
+    </marker>
+    <marker id="arrowHeadGreen" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0 0 L10 4 L0 8 Z" fill="#06d6a0"/>
+    </marker>
+    <marker id="arrowHeadYellow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0 0 L10 4 L0 8 Z" fill="#ffd166"/>
+    </marker>
+  </defs>
+
+  <rect width="640" height="360" rx="24" fill="url(#bg)"/>
+  <rect x="26" y="24" width="588" height="312" rx="22" fill="#ffffff" stroke="#dfe9f4" stroke-width="2" filter="url(#shadow)"/>
+
+  <g font-family="Roboto, Segoe UI, Arial, sans-serif">
+    <rect x="238" y="132" width="164" height="96" rx="18" fill="url(#dark)"/>
+    <text x="320" y="166" text-anchor="middle" fill="#bdefff" font-size="14" font-weight="900">CENTRE BOX</text>
+    <text x="320" y="204" text-anchor="middle" fill="#ffffff" font-size="44" font-weight="900">@</text>
+
+    <g transform="translate(58 56)">
+      <rect width="188" height="74" rx="14" fill="#f8fbff" stroke="#118ab2" stroke-width="3"/>
+      <text x="18" y="26" fill="#118ab2" font-size="13" font-weight="900">ARROW P</text>
+      <text x="112" y="31" text-anchor="middle" fill="#172034" font-size="25" font-weight="900">+</text>
+      <text x="94" y="58" text-anchor="middle" fill="#172034" font-size="18" font-weight="900">15 @ 5 = 3</text>
+    </g>
+    <path d="M246 95 C286 96 290 130 299 145" fill="none" stroke="#118ab2" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowHeadBlue)"/>
+
+    <g transform="translate(394 56)">
+      <rect width="188" height="74" rx="14" fill="#f3fffb" stroke="#06d6a0" stroke-width="3"/>
+      <text x="18" y="26" fill="#00775a" font-size="13" font-weight="900">ARROW Q</text>
+      <text x="112" y="31" text-anchor="middle" fill="#172034" font-size="25" font-weight="900">/</text>
+      <text x="94" y="58" text-anchor="middle" fill="#172034" font-size="18" font-weight="900">24 @ 6 = 4</text>
+    </g>
+    <path d="M394 95 C354 96 350 130 341 145" fill="none" stroke="#06d6a0" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowHeadGreen)"/>
+
+    <g transform="translate(58 230)">
+      <rect width="188" height="74" rx="14" fill="#fff0f4" stroke="#f95877" stroke-width="3"/>
+      <text x="18" y="26" fill="#f95877" font-size="13" font-weight="900">ARROW R</text>
+      <text x="112" y="31" text-anchor="middle" fill="#172034" font-size="25" font-weight="900">-</text>
+      <text x="94" y="58" text-anchor="middle" fill="#172034" font-size="18" font-weight="900">9 @ 3 = 27</text>
+    </g>
+    <path d="M246 267 C286 266 290 230 299 215" fill="none" stroke="#f95877" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowHeadPink)"/>
+
+    <g transform="translate(394 230)">
+      <rect width="188" height="74" rx="14" fill="#fff8e6" stroke="#ffd166" stroke-width="3"/>
+      <text x="18" y="26" fill="#9a6a00" font-size="13" font-weight="900">ARROW S</text>
+      <text x="112" y="31" text-anchor="middle" fill="#172034" font-size="25" font-weight="900">x</text>
+      <text x="94" y="58" text-anchor="middle" fill="#172034" font-size="18" font-weight="900">18 @ 3 = 6</text>
+    </g>
+    <path d="M394 267 C354 266 350 230 341 215" fill="none" stroke="#ffd166" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowHeadYellow)"/>
+  </g>
+</svg>

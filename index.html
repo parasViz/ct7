@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Computational Thinking Class 7</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu">Menu</button>
+
+    <nav class="sidebar" id="sidebar" aria-label="Lesson navigation">
+      <div class="sidebar-card">
+        <div class="brand">
+          <div class="brand-icon">CT</div>
+          <div class="brand-text">Computational<br />Thinking Lab</div>
+        </div>
+
+        <div class="sidebar-nav" id="module-nav">
+          <button class="nav-item active" type="button" data-section="section-welcome">Introduction</button>
+        </div>
+
+        <div class="sidebar-footer">
+          <div class="mini-score">
+            <span>Completed</span>
+            <strong><span id="completed-count">0</span>/<span id="module-total">0</span></strong>
+          </div>
+          <div class="mini-score student-mini">
+            <span>Learner</span>
+            <strong id="student-label">CT Explorer</strong>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main id="mainContent" class="main-content">
+      <section id="section-welcome" class="content-section active">
+        <h1 class="section-title">Computational Thinking Class 7</h1>
+
+        <div class="welcome-hero">
+          <div class="welcome-copy">
+            <p class="story-highlight">Welcome, careful reasoner!</p>
+            <h2>Use constraints, number systems, and models to solve richer puzzles.</h2>
+            <p>
+              Class VII Computational Thinking moves from simple patterns to layered rules:
+              large-number clues, decimal shifts, binary cards, line relationships, fractions, and logical filtering.
+            </p>
+            <div class="welcome-actions" aria-label="Computational Thinking ideas">
+              <span>Break it</span>
+              <span>Spot it</span>
+              <span>Encode it</span>
+              <span>Prove it</span>
+            </div>
+          </div>
+          <div class="welcome-visual" aria-label="Class 7 computational thinking puzzle illustration">
+            <div class="hero-image-frame">
+              <img class="hero-robot" alt="Madhava studying place value and zero on a scroll" src="assets/madhava-hero-place-value.png" />
+            </div>
+          </div>
+        </div>
+
+        <div class="thinking-grid" aria-label="What Computational Thinking helps you do">
+          <article class="thinking-card">
+            <div class="thinking-picture" aria-hidden="true">
+              <img src="assets/ct-decompose-rangoli-v2.png" alt="" />
+            </div>
+            <h3>Decompose</h3>
+            <p>Split a big task into smaller jobs you can solve one by one.</p>
+          </article>
+          <article class="thinking-card">
+            <div class="thinking-picture" aria-hidden="true">
+              <img src="assets/ct-patterns-rangoli.png" alt="" />
+            </div>
+            <h3>Find Patterns</h3>
+            <p>Notice what repeats in numbers, shapes, data, and decisions.</p>
+          </article>
+          <article class="thinking-card">
+            <div class="thinking-picture" aria-hidden="true">
+              <img src="assets/ct-abstraction-lotus.png" alt="" />
+            </div>
+            <h3>Abstract</h3>
+            <p>Keep the details that matter and ignore distracting noise.</p>
+          </article>
+          <article class="thinking-card">
+            <div class="thinking-picture" aria-hidden="true">
+              <img src="assets/ct-algorithm-rangoli-v2.png" alt="" />
+            </div>
+            <h3>Make Algorithms</h3>
+            <p>Write clear steps, check them, and improve them when needed.</p>
+          </article>
+        </div>
+
+        <div class="story-card module-intro-card">
+          <div class="story-text">
+            <p class="story-highlight">Class VII learning path</p>
+            <p>
+              These modules follow the Computational Thinking chapters of the CBSE Class VII student handbook:
+              large numbers, arithmetic expressions, decimals and binary, letter-number expressions,
+              parallel and intersecting lines, number play, triangles, and fractions.
+            </p>
+          </div>
+          <img class="module-banner" src="assets/ct7-learning-path-rangoli.png" alt="Rangoli-inspired Class 7 computational thinking learning path" />
+          <div id="module-grid" class="module-grid"></div>
+        </div>
+      </section>
+
+      <section id="section-module" class="content-section">
+        <header class="module-header">
+          <button id="back-to-home" class="icon-button" type="button" aria-label="Back to module list">&lt;</button>
+          <div>
+            <p id="module-kicker" class="eyebrow"></p>
+            <h1 id="module-title" class="section-title"></h1>
+          </div>
+        </header>
+
+        <div id="module-body"></div>
+
+        <div class="nav-buttons">
+          <button id="previous-module" class="cta-button secondary" type="button">Previous</button>
+          <button id="start-quiz" class="cta-button" type="button">Start quiz</button>
+          <button id="next-module" class="cta-button secondary" type="button">Next</button>
+        </div>
+      </section>
+
+      <section id="section-quiz" class="content-section">
+        <header class="quiz-header">
+          <button id="back-to-module" class="icon-button" aria-label="Back to module">Back</button>
+          <div>
+            <p id="quiz-module-kicker" class="eyebrow"></p>
+            <h2 id="quiz-title"></h2>
+          </div>
+          <div class="summary-pill"><span id="quiz-score">0</span>/<span id="quiz-total">0</span></div>
+        </header>
+        <div class="progress-track"><div id="progress-bar"></div></div>
+        <section class="question-panel">
+          <p id="question-count" class="question-count"></p>
+          <h3 id="question-text"></h3>
+          <figure id="question-image-wrap" class="question-image-wrap" hidden>
+            <img id="question-image" alt="" />
+          </figure>
+          <div id="question-table-wrap" class="question-table-wrap" hidden></div>
+          <div id="question-brief-wrap" class="question-brief-wrap" hidden></div>
+          <div id="question-clue" class="question-clue"></div>
+          <div id="answer-options" class="answer-options"></div>
+          <button id="pattern-hint-button" class="hint-button" type="button" hidden>Show hint</button>
+          <div id="pattern-visual" class="pattern-visual" aria-label="Visual hint for the quiz question" hidden></div>
+          <div id="feedback" class="feedback" role="status"></div>
+        </section>
+        <div class="nav-buttons">
+          <button id="choose-another" class="cta-button secondary" type="button">Choose another</button>
+          <button id="next-question" class="cta-button" type="button" disabled>Next</button>
+        </div>
+      </section>
+
+      <section id="section-result" class="content-section result-screen">
+        <div class="result-card">
+          <p class="eyebrow" id="result-module"></p>
+          <h2 id="result-title"></h2>
+          <p id="result-message"></p>
+          <div class="result-score"><span id="final-score">0</span>/<span id="final-total">0</span></div>
+          <div class="result-actions">
+            <button id="retry-module" class="cta-button">Try again</button>
+            <button id="result-choose-another" class="cta-button secondary">Choose another module</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+    <script src="data/modules.js"></script>
+    <script src="sketches/pattern-hints.js"></script>
+    <script src="sketches/binary-fingers.js"></script>
+    <script src="scripts/question-ui.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
