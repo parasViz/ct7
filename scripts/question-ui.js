@@ -9,12 +9,14 @@ function renderQuestionImage(question) {
   if (question.image) {
     questionImage.src = question.image.src;
     questionImage.alt = question.image.alt || "";
+    questionImageWrap.classList.toggle("wide", question.image.size === "wide");
     questionImageWrap.hidden = false;
     return;
   }
 
   questionImage.removeAttribute("src");
   questionImage.alt = "";
+  questionImageWrap.classList.remove("wide");
   questionImageWrap.hidden = true;
 }
 
@@ -94,7 +96,9 @@ function renderQuestionBrief(question) {
 function createBriefGrid(brief) {
   const list = document.createElement("div");
   list.className = "question-brief-grid";
-  if (brief.items.length === 3) {
+  if (brief.items.length === 1) {
+    list.classList.add("one");
+  } else if (brief.items.length === 3) {
     list.classList.add("three");
   }
 

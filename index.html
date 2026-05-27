@@ -2,22 +2,35 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#f95877" />
+    <meta name="color-scheme" content="light" />
+    <meta name="description" content="Interactive Computational Thinking lessons for CBSE Class 7: place value, binary, algorithms, fractions, and logical puzzles." />
     <title>Computational Thinking Class 7</title>
+
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    <link rel="preload" as="image" href="assets/madhava-hero-place-value.webp" type="image/webp" fetchpriority="high" />
     <link rel="stylesheet" href="styles.css" />
+
+    <!-- Prefetch sketch scripts so they're cached when the user opens a module.
+         These are loaded on-demand by app.js, not on initial render. -->
+    <link rel="prefetch" as="script" href="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js" />
+    <link rel="prefetch" as="script" href="sketches/pattern-hints.js" />
   </head>
   <body>
-    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu">Menu</button>
+    <a class="skip-link" href="#mainContent">Skip to main content</a>
 
-    <nav class="sidebar" id="sidebar" aria-label="Lesson navigation">
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open lesson menu" aria-controls="sidebar" aria-expanded="false">Menu</button>
+
+    <nav class="sidebar" id="sidebar" aria-label="Lesson navigation" aria-hidden="false">
       <div class="sidebar-card">
         <div class="brand">
-          <div class="brand-icon">CT</div>
+          <div class="brand-icon" aria-hidden="true">CT</div>
           <div class="brand-text">Computational<br />Thinking Lab</div>
         </div>
 
-        <div class="sidebar-nav" id="module-nav">
-          <button class="nav-item active" type="button" data-section="section-welcome">Introduction</button>
+        <div class="sidebar-nav" id="module-nav" role="tablist" aria-label="Modules">
+          <button class="nav-item active" type="button" data-section="section-welcome" aria-current="page">Introduction</button>
         </div>
 
         <div class="sidebar-footer">
@@ -33,9 +46,9 @@
       </div>
     </nav>
 
-    <main id="mainContent" class="main-content">
-      <section id="section-welcome" class="content-section active">
-        <h1 class="section-title">Computational Thinking Class 7</h1>
+    <main id="mainContent" class="main-content" tabindex="-1">
+      <section id="section-welcome" class="content-section active" aria-labelledby="welcome-title">
+        <h1 id="welcome-title" class="section-title" tabindex="-1">Computational Thinking Class 7</h1>
 
         <div class="welcome-hero">
           <div class="welcome-copy">
@@ -54,7 +67,18 @@
           </div>
           <div class="welcome-visual" aria-label="Class 7 computational thinking puzzle illustration">
             <div class="hero-image-frame">
-              <img class="hero-robot" alt="Madhava studying place value and zero on a scroll" src="assets/madhava-hero-place-value.png" />
+              <picture>
+                <source type="image/webp" srcset="assets/madhava-hero-place-value.webp" />
+                <img
+                  class="hero-robot"
+                  alt="Madhava studying place value and zero on a scroll"
+                  src="assets/madhava-hero-place-value.png"
+                  width="1280"
+                  height="767"
+                  fetchpriority="high"
+                  decoding="async"
+                />
+              </picture>
             </div>
           </div>
         </div>
@@ -62,28 +86,40 @@
         <div class="thinking-grid" aria-label="What Computational Thinking helps you do">
           <article class="thinking-card">
             <div class="thinking-picture" aria-hidden="true">
-              <img src="assets/ct-decompose-rangoli-v2.png" alt="" />
+              <picture>
+                <source type="image/webp" srcset="assets/ct-decompose-rangoli-v2.webp" />
+                <img src="assets/ct-decompose-rangoli-v2.png" alt="" loading="lazy" decoding="async" width="640" height="427" />
+              </picture>
             </div>
             <h3>Decompose</h3>
             <p>Split a big task into smaller jobs you can solve one by one.</p>
           </article>
           <article class="thinking-card">
             <div class="thinking-picture" aria-hidden="true">
-              <img src="assets/ct-patterns-rangoli.png" alt="" />
+              <picture>
+                <source type="image/webp" srcset="assets/ct-patterns-rangoli.webp" />
+                <img src="assets/ct-patterns-rangoli.png" alt="" loading="lazy" decoding="async" width="640" height="427" />
+              </picture>
             </div>
             <h3>Find Patterns</h3>
             <p>Notice what repeats in numbers, shapes, data, and decisions.</p>
           </article>
           <article class="thinking-card">
             <div class="thinking-picture" aria-hidden="true">
-              <img src="assets/ct-abstraction-lotus.png" alt="" />
+              <picture>
+                <source type="image/webp" srcset="assets/ct-abstraction-lotus.webp" />
+                <img src="assets/ct-abstraction-lotus.png" alt="" loading="lazy" decoding="async" width="640" height="427" />
+              </picture>
             </div>
             <h3>Abstract</h3>
             <p>Keep the details that matter and ignore distracting noise.</p>
           </article>
           <article class="thinking-card">
             <div class="thinking-picture" aria-hidden="true">
-              <img src="assets/ct-algorithm-rangoli-v2.png" alt="" />
+              <picture>
+                <source type="image/webp" srcset="assets/ct-algorithm-rangoli-v2.webp" />
+                <img src="assets/ct-algorithm-rangoli-v2.png" alt="" loading="lazy" decoding="async" width="640" height="427" />
+              </picture>
             </div>
             <h3>Make Algorithms</h3>
             <p>Write clear steps, check them, and improve them when needed.</p>
@@ -99,17 +135,20 @@
               parallel and intersecting lines, number play, triangles, and fractions.
             </p>
           </div>
-          <img class="module-banner" src="assets/ct7-learning-path-rangoli.png" alt="Rangoli-inspired Class 7 computational thinking learning path" />
+          <picture>
+            <source type="image/webp" srcset="assets/ct7-learning-path-rangoli.webp" />
+            <img class="module-banner" src="assets/ct7-learning-path-rangoli.png" alt="Rangoli-inspired Class 7 computational thinking learning path" loading="lazy" decoding="async" width="1200" height="660" />
+          </picture>
           <div id="module-grid" class="module-grid"></div>
         </div>
       </section>
 
-      <section id="section-module" class="content-section">
+      <section id="section-module" class="content-section" aria-labelledby="module-title">
         <header class="module-header">
           <button id="back-to-home" class="icon-button" type="button" aria-label="Back to module list">&lt;</button>
           <div>
             <p id="module-kicker" class="eyebrow"></p>
-            <h1 id="module-title" class="section-title"></h1>
+            <h1 id="module-title" class="section-title" tabindex="-1"></h1>
           </div>
         </header>
 
@@ -122,29 +161,29 @@
         </div>
       </section>
 
-      <section id="section-quiz" class="content-section">
+      <section id="section-quiz" class="content-section" aria-labelledby="quiz-title">
         <header class="quiz-header">
-          <button id="back-to-module" class="icon-button" aria-label="Back to module">Back</button>
+          <button id="back-to-module" class="icon-button" type="button" aria-label="Back to module">Back</button>
           <div>
             <p id="quiz-module-kicker" class="eyebrow"></p>
-            <h2 id="quiz-title"></h2>
+            <h2 id="quiz-title" tabindex="-1"></h2>
           </div>
-          <div class="summary-pill"><span id="quiz-score">0</span>/<span id="quiz-total">0</span></div>
+          <div class="summary-pill" aria-label="Quiz score"><span id="quiz-score">0</span>/<span id="quiz-total">0</span></div>
         </header>
-        <div class="progress-track"><div id="progress-bar"></div></div>
+        <div class="progress-track" role="progressbar" aria-label="Quiz progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="progress-bar"></div></div>
         <section class="question-panel">
           <p id="question-count" class="question-count"></p>
           <h3 id="question-text"></h3>
           <figure id="question-image-wrap" class="question-image-wrap" hidden>
-            <img id="question-image" alt="" />
+            <img id="question-image" alt="" decoding="async" loading="lazy" />
           </figure>
           <div id="question-table-wrap" class="question-table-wrap" hidden></div>
           <div id="question-brief-wrap" class="question-brief-wrap" hidden></div>
           <div id="question-clue" class="question-clue"></div>
-          <div id="answer-options" class="answer-options"></div>
+          <div id="answer-options" class="answer-options" role="radiogroup" aria-label="Answer options"></div>
           <button id="pattern-hint-button" class="hint-button" type="button" hidden>Show hint</button>
           <div id="pattern-visual" class="pattern-visual" aria-label="Visual hint for the quiz question" hidden></div>
-          <div id="feedback" class="feedback" role="status"></div>
+          <div id="feedback" class="feedback" role="status" aria-live="polite" aria-atomic="true"></div>
         </section>
         <div class="nav-buttons">
           <button id="choose-another" class="cta-button secondary" type="button">Choose another</button>
@@ -152,25 +191,28 @@
         </div>
       </section>
 
-      <section id="section-result" class="content-section result-screen">
+      <section id="section-result" class="content-section result-screen" aria-labelledby="result-title">
         <div class="result-card">
           <p class="eyebrow" id="result-module"></p>
-          <h2 id="result-title"></h2>
+          <h2 id="result-title" tabindex="-1"></h2>
           <p id="result-message"></p>
-          <div class="result-score"><span id="final-score">0</span>/<span id="final-total">0</span></div>
+          <div class="result-score" aria-label="Final score"><span id="final-score">0</span>/<span id="final-total">0</span></div>
           <div class="result-actions">
-            <button id="retry-module" class="cta-button">Try again</button>
-            <button id="result-choose-another" class="cta-button secondary">Choose another module</button>
+            <button id="retry-module" class="cta-button" type="button">Try again</button>
+            <button id="result-choose-another" class="cta-button secondary" type="button">Choose another module</button>
           </div>
         </div>
       </section>
     </main>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
-    <script src="data/modules.js"></script>
-    <script src="sketches/pattern-hints.js"></script>
-    <script src="sketches/binary-fingers.js"></script>
-    <script src="scripts/question-ui.js"></script>
-    <script src="app.js"></script>
+    <noscript>
+      <p style="padding:24px;text-align:center;font-family:Roboto,sans-serif;">
+        This interactive lab needs JavaScript. Please enable it to explore the lessons.
+      </p>
+    </noscript>
+
+    <!-- Initial JS: just module data + app shell. Sketches are loaded on demand. -->
+    <script defer src="data/modules.js"></script>
+    <script defer src="app.js"></script>
   </body>
 </html>

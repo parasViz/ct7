@@ -21,7 +21,7 @@ function preparePatternHint(module, question) {
     return;
   }
 
-  const hasVisualHint = Boolean(question.visual);
+  const hasVisualHint = Boolean(question.visual || question.hintBrief);
   button.hidden = !hasVisualHint;
   button.textContent = "Show hint";
   button.setAttribute("aria-expanded", "false");
@@ -55,6 +55,12 @@ function renderQuestionVisual(module, question) {
 
   destroyPatternVisual();
 
+  if (question.hintBrief) {
+    host.hidden = false;
+    host.innerHTML = briefHintMarkup(question.hintBrief);
+    return;
+  }
+
   if (!question.visual) {
     return;
   }
@@ -68,33 +74,74 @@ function renderQuestionVisual(module, question) {
   });
 }
 
+// Visual-type -> { selector, mount } registry. Each visual file registers its
+// own mounter. createPatternSketch looks up the entry and calls the mount fn.
+const SKETCH_MOUNTERS = window.__ct7HintMounters || (window.__ct7HintMounters = {});
+
 function createPatternSketch(host, visual) {
   host.innerHTML = patternHintMarkup(visual);
-  if (visual.type === "digitBuild") {
-    const buildHost = host.querySelector(".digit-build");
-    if (buildHost) mountDigitBuild(buildHost, visual);
-  } else if (visual.type === "binaryPlace") {
-    const sketchHost = host.querySelector(".binary-place-host");
-    if (sketchHost) mountBinaryPlaceSketch(sketchHost, visual);
-  } else if (visual.type === "doublingTree") {
-    const sketchHost = host.querySelector(".doubling-tree-host");
-    if (sketchHost) mountDoublingTreeSketch(sketchHost, visual);
-  } else if (visual.type === "binaryHoles") {
-    const sketchHost = host.querySelector(".binary-holes-host");
-    if (sketchHost) mountBinaryHolesSketch(sketchHost, visual);
-  } else if (visual.type === "decimalShift") {
-    const sketchHost = host.querySelector(".decimal-shift-host");
-    if (sketchHost) mountDecimalShiftSketch(sketchHost, visual);
-  } else if (visual.type === "numberLine") {
-    const sketchHost = host.querySelector(".number-line-host");
-    if (sketchHost) mountNumberLineSketch(sketchHost, visual);
-  } else if (visual.type === "digitBalance") {
-    const sketchHost = host.querySelector(".digit-balance-host");
-    if (sketchHost) mountDigitBalanceSketch(sketchHost, visual);
-  }
+  const entry = SKETCH_MOUNTERS[visual.type];
+  if (!entry) return;
+  const sketchHost = host.querySelector(entry.selector);
+  if (sketchHost) entry.mount(sketchHost, visual);
+}
+
+Object.assign(SKETCH_MOUNTERS, {
+  digitBuild:        { selector: ".digit-build",          mount: mountDigitBuild },
+  binaryPlace:       { selector: ".binary-place-host",    mount: mountBinaryPlaceSketch },
+  doublingTree:      { selector: ".doubling-tree-host",   mount: mountDoublingTreeSketch },
+  binaryHoles:       { selector: ".binary-holes-host",    mount: mountBinaryHolesSketch },
+  decimalShift:      { selector: ".decimal-shift-host",   mount: mountDecimalShiftSketch },
+  numberLine:        { selector: ".number-line-host",     mount: mountNumberLineSketch },
+  digitBalance:      { selector: ".digit-balance-host",   mount: mountDigitBalanceSketch },
+  multiplierCompare: { selector: ".multiplier-compare-host", mount: mountMultiplierCompareSketch },
+  binaryCount:       { selector: ".binary-count-host",    mount: mountBinaryCountSketch }
+});
+
+function briefHintMarkup(brief) {
+  const itemCountClass = brief.items?.length === 3 ? " three" : "";
+  const items = (brief.items || [])
+    .map(
+      (item) => `
+        <section class="question-brief-card">
+          <span>${escapeHintHtml(item.label)}</span>
+          <strong>${escapeHintHtml(item.value)}</strong>
+          <small>${escapeHintHtml(item.detail)}</small>
+        </section>
+      `
+    )
+    .join("");
+  const note = brief.note
+    ? `<p class="question-brief-note">${escapeHintHtml(brief.note)}</p>`
+    : "";
+
+  return `
+    <article class="question-brief hint-brief">
+      <p class="question-brief-title">${escapeHintHtml(brief.title || "Hint")}</p>
+      <div class="question-brief-grid${itemCountClass}">${items}</div>
+      ${note}
+    </article>
+  `;
+}
+
+function escapeHintHtml(value = "") {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
 
 function patternHintMarkup(visual) {
+  const takeaway = visual.hint
+    ? `
+      <footer class="hint-takeaway">
+        <strong>Try this:</strong>
+        <span>${visual.hint}</span>
+      </footer>
+    `
+    : "";
   return `
     <article class="hint-card hint-${visual.type}">
       <header class="hint-card-header">
@@ -104,54 +151,32 @@ function patternHintMarkup(visual) {
       <div class="hint-card-body">
         ${patternHintBody(visual)}
       </div>
-      <footer class="hint-takeaway">
-        <strong>Try this:</strong>
-        <span>${visual.hint}</span>
-      </footer>
+      ${takeaway}
     </article>
   `;
 }
 
+// Visual-type -> hint-markup-fn registry. Each visual file (this one + any
+// split files) appends its entries here.
+const HINT_RENDERERS = window.__ct7HintRenderers || (window.__ct7HintRenderers = {});
+
 function patternHintBody(visual) {
-  switch (visual.type) {
-    case "differences":
-      return sequenceHint(visual.values, visual.diffs, "Look at the gap between each pair.");
-    case "wrongDiff":
-      return sequenceHint(visual.values, visual.diffs, "One jump does not fit the expected gap pattern.", visual.expected);
-    case "doubling":
-      return pairHint(visual.pairs, "x2", "Letters move forward. Numbers double.");
-    case "alphabet":
-      return sequenceHint(visual.letters, visual.jumps, "Use alphabet positions and compare jumps.");
-    case "digitBuild":
-      return digitBuildHint(visual);
-    case "binaryPlace":
-      return binaryPlaceHint(visual);
-    case "doublingTree":
-      return doublingTreeHint(visual);
-    case "binaryHoles":
-      return binaryHolesHint(visual);
-    case "decimalShift":
-      return decimalShiftHint(visual);
-    case "numberLine":
-      return numberLineHint(visual);
-    case "digitBalance":
-      return digitBalanceHint(visual);
-    case "split":
-      return splitHint(visual);
-    case "table":
-      return tableHint(visual);
-    case "stacks":
-      return stackHint(visual);
-    case "linear":
-      return linearHint(visual);
-    case "cycle":
-      return cycleHint(visual);
-    case "stair":
-      return stairHint(visual);
-    default:
-      return "";
-  }
+  const renderer = HINT_RENDERERS[visual.type];
+  return renderer ? renderer(visual) : "";
 }
+
+Object.assign(HINT_RENDERERS, {
+  digitBuild: digitBuildHint,
+  binaryPlace: binaryPlaceHint,
+  doublingTree: doublingTreeHint,
+  binaryHoles: binaryHolesHint,
+  decimalShift: decimalShiftHint,
+  numberLine: numberLineHint,
+  digitBalance: digitBalanceHint,
+  multiplierCompare: multiplierCompareHint,
+  binaryCount: binaryCountHint,
+  densityCompare: densityCompareHint
+});
 
 function digitBuildHint(visual) {
   const values = visual.digits
@@ -402,6 +427,81 @@ function digitBalanceHint(visual) {
   `;
 }
 
+function multiplierCompareHint(visual) {
+  return `
+    ${p5SketchHost("multiplier-compare-host", "Multiplier comparison animation")}
+  `;
+}
+
+function binaryCountHint(visual) {
+  return `
+    <p class="hint-focus"><span>Try it</span><strong>${visual.instruction}</strong></p>
+    ${p5SketchHost("binary-count-host", "ON and OFF card counter interactive")}
+  `;
+}
+
+function densityCompareHint(visual) {
+  const countNumbers = visual.countNumbers || ["1", "2", "3", "4"];
+  const decimalTicks = visual.decimalTicks || ["1.1", "1.2", "1.35", "1.5", "1.75", "1.9"];
+  const startLabel = visual.startLabel || "1";
+  const endLabel = visual.endLabel || "2";
+  const insideLabel = visual.insideLabel || `Inside ${startLabel} to ${endLabel}`;
+  const zoomLabel = visual.zoomLabel || "zoom inside one counting gap";
+  const countingTitle = visual.countingTitle || "Counting steps";
+  const decimalTitle = visual.decimalTitle || "There is still room to keep adding decimals";
+  const hasFocusedGap = visual.focusedGap !== null;
+  const focusedGap = Number.isInteger(visual.focusedGap) ? visual.focusedGap : 0;
+  const focusCaption = visual.focusCaption || "look inside";
+  const countingTrack = countNumbers
+    .map((value, index) => {
+      const gap =
+        index < countNumbers.length - 1
+          ? `<span class="count-gap ${hasFocusedGap && index === focusedGap ? "is-focused" : ""}">${hasFocusedGap && index === focusedGap ? `<i data-caption="${focusCaption}"></i>` : ""}</span>`
+          : "";
+      return `<b>${value}</b>${gap}`;
+    })
+    .join("");
+  const countTail = visual.countTail
+    ? `<span class="count-gap count-tail-gap"></span><span class="count-tail">${visual.countTail}</span>`
+    : "";
+  const countNote = visual.countNote ? `<p class="count-note">${visual.countNote}</p>` : "";
+
+  return `
+    <p class="hint-focus"><span>Look</span><strong>${visual.instruction}</strong></p>
+    <div class="density-hint" aria-hidden="true">
+      <div class="density-panel density-panel-counting">
+        <div class="density-panel-head">
+          <span>Universe 1</span>
+          <strong>${countingTitle}</strong>
+        </div>
+        <div class="counting-track">${countingTrack}${countTail}</div>
+        ${countNote}
+      </div>
+      <div class="density-zoom" aria-hidden="true">
+        <span class="density-lens"></span>
+        <strong>${zoomLabel}</strong>
+      </div>
+      <div class="density-panel density-panel-decimals">
+        <div class="density-panel-head">
+          <span>${insideLabel}</span>
+          <strong>${decimalTitle}</strong>
+        </div>
+        <div class="decimal-window">
+          <div class="decimal-ruler">
+            <b>${startLabel}</b>
+            ${decimalTicks.map((value) => `<i>${value}</i>`).join("")}
+            <b>${endLabel}</b>
+          </div>
+          <div class="decimal-dots">
+            ${Array.from({ length: 23 }, (_, index) => `<span class="dot-${index % 5}"></span>`).join("")}
+          </div>
+        </div>
+        <p>Between any two shown points, another point can still be placed.</p>
+      </div>
+    </div>
+  `;
+}
+
 function ctTheme() {
   const styles = getComputedStyle(document.documentElement);
   const read = (name, fallback) => styles.getPropertyValue(name).trim() || fallback;
@@ -435,10 +535,642 @@ function makeP5Sketch(host, factory) {
   activePatternSketch = new window.p5(factory, host);
 }
 
+const RGB_LIGHTS = ["R", "G", "B"];
+const RGB_NAMES = { R: "Red", G: "Green", B: "Blue" };
+const RGB_COLORS = { R: "#f95877", G: "#06d6a0", B: "#4c7cff" };
+
+function mountBinaryCountSketch(host, visual) {
+  const theme = ctTheme();
+  const totalLights = visual.lights || 5;
+  const practiceMax = Math.max(1, Math.min(visual.practiceMax || totalLights, totalLights));
+  const labels = visual.labels || ["A", "B", "C", "D", "E", "F"].slice(0, totalLights);
+
+  makeP5Sketch(host, (p) => {
+    let shownLights = Math.min(2, practiceMax);
+    let controls = [];
+
+    p.setup = () => {
+      p.createCanvas(sketchWidth(), sketchHeight());
+      p.textFont("Roboto, Segoe UI, Arial, sans-serif");
+    };
+
+    p.windowResized = () => p.resizeCanvas(sketchWidth(), sketchHeight());
+
+    p.draw = () => {
+      controls = [];
+      p.clear();
+      drawHeader();
+      drawCards();
+      drawNextStep();
+    };
+
+    p.mousePressed = () => handleClick();
+    p.touchStarted = () => (handleClick() ? false : undefined);
+
+    function sketchWidth() {
+      return Math.max(320, Math.floor(host.clientWidth || 760));
+    }
+
+    function sketchHeight() {
+      return countLayout().height;
+    }
+
+    function handleClick() {
+      const hit = controls.find((control) => pointIn(control, p.mouseX, p.mouseY));
+      if (!hit || !hit.enabled) return false;
+      const before = shownLights;
+      if (hit.action === "down") shownLights = Math.max(1, shownLights - 1);
+      if (hit.action === "up") shownLights = Math.min(practiceMax, shownLights + 1);
+      if (shownLights !== before) {
+        p.resizeCanvas(sketchWidth(), sketchHeight());
+      }
+      return true;
+    }
+
+    function countLayout() {
+      const width = p.width > 0 ? p.width : sketchWidth();
+      const compact = width < 560;
+      const combos = Math.pow(2, shownLights);
+      const columns = compact ? Math.min(2, combos) : Math.min(4, combos);
+      const rows = Math.ceil(combos / columns);
+      const gap = compact ? 8 : 12;
+      const margin = compact ? 16 : 22;
+      const maxCardW = compact ? 142 : 158;
+      const cardW = Math.min(maxCardW, (width - margin * 2 - gap * (columns - 1)) / columns);
+      const cardH = shownLights <= 2 ? 90 : 96;
+      const gridW = columns * cardW + (columns - 1) * gap;
+      const startX = (width - gridW) / 2;
+      const startY = compact ? 130 : 98;
+      const footerY = startY + rows * cardH + (rows - 1) * gap + 14;
+      const footerH = 54;
+      return { columns, rows, gap, cardW, cardH, startX, startY, footerY, footerH, height: footerY + footerH + 18 };
+    }
+
+    function drawHeader() {
+      const y = 20;
+      const compact = p.width < 560;
+      p.noStroke();
+      p.fill(theme.text);
+      p.textStyle(p.BOLD);
+      p.textSize(16);
+      p.textAlign(p.LEFT, p.TOP);
+      p.text("ON/OFF choices", 22, y);
+
+      p.fill(theme.soft);
+      p.textSize(12);
+      p.textStyle(p.BOLD);
+      p.text(
+        `Question asks about ${totalLights} lights. Explore up to ${practiceMax} first.`,
+        22,
+        y + 25,
+        compact ? p.width - 44 : p.width - 286,
+        34
+      );
+
+      drawStepper(compact ? 22 : p.width - 230, compact ? 72 : y + 7);
+    }
+
+    function drawButton(x, y, w, h, label, enabled, action) {
+      controls.push({ x, y, w, h, action, enabled });
+      p.stroke(enabled ? theme.blue : theme.border);
+      p.strokeWeight(1.6);
+      p.fill(enabled ? "#ffffff" : "#f4f6fa");
+      p.rect(x, y, w, h, 10);
+      p.noStroke();
+      p.fill(enabled ? theme.blue : theme.soft);
+      p.textAlign(p.CENTER, p.CENTER);
+      p.textSize(20);
+      p.textStyle(p.BOLD);
+      p.text(label, x + w / 2, y + h / 2 - 1);
+    }
+
+    function drawStepper(x, y) {
+      const buttonW = 38;
+      const labelW = 112;
+      const h = 36;
+      drawButton(x, y, buttonW, h, "-", shownLights > 1, "down");
+
+      p.stroke("rgba(76, 124, 255, 0.22)");
+      p.strokeWeight(1.4);
+      p.fill("rgba(76, 124, 255, 0.08)");
+      p.rect(x + buttonW + 8, y, labelW, h, 10);
+      p.noStroke();
+      p.fill(theme.blue);
+      p.textAlign(p.CENTER, p.CENTER);
+      p.textSize(14);
+      p.textStyle(p.BOLD);
+      p.text(`${shownLights} light${shownLights === 1 ? "" : "s"}`, x + buttonW + 8 + labelW / 2, y + h / 2);
+
+      drawButton(x + buttonW + labelW + 16, y, buttonW, h, "+", shownLights < practiceMax, "up");
+    }
+
+    function drawCards() {
+      const combos = Math.pow(2, shownLights);
+      const { columns, gap, cardW, cardH, startX, startY } = countLayout();
+
+      for (let index = 0; index < combos; index += 1) {
+        const col = index % columns;
+        const row = Math.floor(index / columns);
+        const x = startX + col * (cardW + gap);
+        const y = startY + row * (cardH + gap);
+        drawBinaryCard(x, y, cardW, cardH, index);
+      }
+    }
+
+    function drawBinaryCard(x, y, w, h, index) {
+      const bits = index.toString(2).padStart(shownLights, "0").split("").map(Number);
+      const code = bits.map((bit) => (bit ? "U" : "O")).join("");
+      const singleOn = shownLights === 1 && bits[0] === 1;
+      const singleOff = shownLights === 1 && bits[0] === 0;
+      const activeColor = singleOn ? theme.teal : singleOff ? theme.soft : theme.blue;
+      const cardFill = singleOn
+        ? "rgba(6, 214, 160, 0.08)"
+        : singleOff
+          ? "rgba(100, 112, 134, 0.06)"
+          : "#ffffff";
+
+      p.stroke(singleOn ? theme.teal : theme.border);
+      p.strokeWeight(singleOn ? 2 : 1.2);
+      p.fill(cardFill);
+      p.rect(x, y, w, h, 8);
+
+      if (shownLights === 1) {
+        const badgeText = singleOn ? "ON" : "OFF";
+        const badgeW = Math.min(w - 28, 64);
+        p.stroke(singleOn ? theme.teal : "#c9d3e0");
+        p.strokeWeight(1.2);
+        p.fill(singleOn ? "#f3fffb" : "#f7f9fc");
+        p.rect(x + (w - badgeW) / 2, y + 10, badgeW, 24, 999);
+        p.noStroke();
+        p.fill(activeColor);
+        p.textStyle(p.BOLD);
+        p.textSize(12);
+        p.textAlign(p.CENTER, p.CENTER);
+        p.text(badgeText, x + w / 2, y + 22);
+      } else {
+        p.noStroke();
+        p.fill(theme.soft);
+        p.textStyle(p.BOLD);
+        p.textSize(11);
+        p.textAlign(p.CENTER, p.TOP);
+        p.text(`Card ${index + 1}`, x + w / 2, y + 10);
+      }
+
+      const gap = Math.min(13, w / (shownLights + 1) * 0.18);
+      const dotSize = Math.min(38, (w - 28 - gap * (shownLights - 1)) / shownLights);
+      const totalW = dotSize * shownLights + gap * (shownLights - 1);
+      let dotX = x + (w - totalW) / 2 + dotSize / 2;
+      const dotY = shownLights === 1 ? y + h / 2 + 8 : y + h / 2 + 4;
+
+      bits.forEach((bit, bitIndex) => {
+        p.stroke(bit ? theme.teal : "#c9d3e0");
+        p.strokeWeight(bit ? 2.4 : 1.5);
+        p.fill(bit ? "rgba(6, 214, 160, 0.22)" : "#ffffff");
+        p.circle(dotX, dotY, dotSize);
+        p.noStroke();
+        p.fill(bit ? theme.teal : theme.soft);
+        p.textSize(Math.max(14, dotSize * 0.46));
+        p.textStyle(p.BOLD);
+        p.textAlign(p.CENTER, p.CENTER);
+        p.text(bit ? "U" : "O", dotX, dotY + 0.5);
+        p.fill(theme.soft);
+        p.textSize(10);
+        p.text(shownLights === 1 ? `Light ${labels[bitIndex] || bitIndex + 1}` : labels[bitIndex] || bitIndex + 1, dotX, y + h - 12);
+        dotX += dotSize + gap;
+      });
+    }
+
+    function drawNextStep() {
+      const { footerY, footerH } = countLayout();
+      const y = footerY;
+      p.stroke("rgba(76, 124, 255, 0.25)");
+      p.strokeWeight(1.4);
+      p.fill("rgba(76, 124, 255, 0.06)");
+      p.rect(20, y, p.width - 40, footerH, 10);
+      p.noStroke();
+      p.fill(theme.text);
+      p.textStyle(p.BOLD);
+      p.textSize(13);
+      p.textAlign(p.LEFT, p.CENTER);
+      const nextText = shownLights < totalLights
+        ? "Adding one more light makes an ON copy and an OFF copy of every card."
+        : "Every light adds one more ON/OFF choice.";
+      p.text(nextText, 36, y + footerH / 2, p.width - 160, footerH - 14);
+
+      p.fill("#ffffff");
+      p.stroke(theme.blue);
+      p.strokeWeight(1.4);
+      p.rect(p.width - 112, y + 11, 76, 32, 999);
+      p.noStroke();
+      p.fill(theme.blue);
+      p.textAlign(p.CENTER, p.CENTER);
+      p.textStyle(p.BOLD);
+      p.textSize(13);
+      p.text(`${Math.pow(2, shownLights)} cards`, p.width - 74, y + 27);
+    }
+  });
+}
+
+function pointIn(rect, x, y) {
+  return x >= rect.x && x <= rect.x + rect.w && y >= rect.y && y <= rect.y + rect.h;
+}
+
+// Shared, hover-aware button used by the Module 7 (triangle) hint sketches.
+function hintButton(p, theme, btn) {
+  const accent = btn.accent || theme.blue;
+  const active = btn.active;
+  const hovered = btn.hovered;
+  p.push();
+  p.stroke(active || hovered ? accent : theme.border);
+  p.strokeWeight(active ? 2.4 : 1.4);
+  p.fill(active ? accent : hovered ? colorWithAlpha(accent, 0.12) : "#ffffff");
+  p.rect(btn.x, btn.y, btn.w, btn.h, 9);
+  p.noStroke();
+  p.fill(active ? "#ffffff" : accent);
+  p.textStyle(p.BOLD);
+  p.textSize(btn.size || 12.5);
+  p.textAlign(p.CENTER, p.CENTER);
+  p.text(btn.label, btn.x + btn.w / 2, btn.y + btn.h / 2 + 0.5);
+  p.pop();
+}
+
+function distanceTo(x1, y1, x2, y2) {
+  return Math.hypot(x1 - x2, y1 - y2);
+}
+
+function colorWithAlpha(hex, alpha) {
+  const clean = String(hex).replace("#", "");
+  const value = parseInt(clean, 16);
+  const r = (value >> 16) & 255;
+  const g = (value >> 8) & 255;
+  const b = value & 255;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+function mountMultiplierCompareSketch(host, visual) {
+  const theme = ctTheme();
+  const start = visual.start || 10;
+  const minK = visual.minK ?? 0;
+  const maxK = visual.maxK ?? 2;
+  let currentK = visual.initialK ?? 1;
+  let displayK = currentK;
+  const baseMax = start * 1.4;
+  let displayMax = baseMax;
+  const anchorKs = Array.isArray(visual.cases) && visual.cases.length
+    ? visual.cases
+        .map((c) => (typeof c === "number" ? { k: c } : c))
+        .filter((c) => typeof c.k === "number" && c.k >= minK && c.k <= maxK)
+    : [{ k: 0.5 }, { k: 1 }, { k: 1.5 }, { k: 2 }].filter((c) => c.k >= minK && c.k <= maxK);
+
+  makeP5Sketch(host, (p) => {
+    let dragging = false;
+
+    p.setup = () => {
+      p.createCanvas(sketchWidth(), sketchHeight());
+      p.textFont("Roboto, Segoe UI, Arial, sans-serif");
+    };
+
+    p.windowResized = () => p.resizeCanvas(sketchWidth(), sketchHeight());
+
+    p.draw = () => {
+      p.clear();
+      displayK += (currentK - displayK) * 0.18;
+      drawVector();
+      drawSlider();
+    };
+
+    p.mousePressed = () => startDrag();
+    p.mouseDragged = () => dragSlider();
+    p.mouseReleased = () => { dragging = false; };
+    p.touchStarted = () => (startDrag() ? false : undefined);
+    p.touchMoved = () => (dragSlider() ? false : undefined);
+    p.touchEnded = () => { dragging = false; };
+
+    function sketchWidth() {
+      return Math.max(320, Math.floor(host.clientWidth || 760));
+    }
+
+    function sketchHeight() {
+      return p.width < 560 ? 314 : 292;
+    }
+
+    function relationColor(k) {
+      if (k < 0.98) return theme.blue;
+      if (k > 1.02) return theme.pink;
+      return theme.teal;
+    }
+
+    function relationLabel(k) {
+      if (k < 0.98) return "smaller";
+      if (k > 1.02) return "bigger";
+      return "equal";
+    }
+
+    function sliderLayout() {
+      const maxW = p.width < 560 ? p.width - 120 : 420;
+      const width = Math.min(maxW, p.width - 180);
+      return {
+        x: (p.width - width) / 2,
+        y: p.height - 66,
+        w: width
+      };
+    }
+
+    function vectorLayout() {
+      const maxW = p.width < 560 ? p.width - 92 : 560;
+      const width = Math.min(maxW, p.width - 156);
+      return {
+        x: (p.width - width) / 2,
+        y: p.width < 560 ? 118 : 112,
+        w: width
+      };
+    }
+
+    function kToX(k, layout) {
+      return p.map(p.constrain(k, minK, maxK), minK, maxK, layout.x, layout.x + layout.w);
+    }
+
+    function startDrag() {
+      const layout = sliderLayout();
+      const knobX = kToX(currentK, layout);
+      const nearKnob = distanceTo(p.mouseX, p.mouseY, knobX, layout.y) <= 24;
+      const nearTrack = p.mouseX >= layout.x - 8 && p.mouseX <= layout.x + layout.w + 8 && Math.abs(p.mouseY - layout.y) <= 22;
+      if (!nearKnob && !nearTrack) return false;
+      dragging = true;
+      updateKFromPointer();
+      return true;
+    }
+
+    function dragSlider() {
+      if (!dragging) return false;
+      updateKFromPointer();
+      return true;
+    }
+
+    function updateKFromPointer() {
+      const layout = sliderLayout();
+      currentK = p.map(p.constrain(p.mouseX, layout.x, layout.x + layout.w), layout.x, layout.x + layout.w, minK, maxK);
+      if (Math.abs(currentK - 1) < 0.035) currentK = 1;
+    }
+
+    function drawVector() {
+      const layout = vectorLayout();
+      const x0 = layout.x;
+      const y = layout.y;
+      const xMax = layout.x + layout.w;
+      const result = start * displayK;
+      const targetMax = Math.max(baseMax, result * 1.1, start * 1.1);
+      displayMax += (targetMax - displayMax) * 0.18;
+      const maxValue = displayMax;
+      const referenceX = p.map(start, 0, maxValue, x0, xMax);
+      const vectorX = p.map(p.constrain(result, 0, maxValue), 0, maxValue, x0, xMax);
+      const accent = relationColor(displayK);
+      const growth = ((displayK - 1) * 100);
+      const delta = result - start;
+
+      drawBadge(p.width / 2 - 154, 20, 92, 30, `k ${formatK(displayK)}`, accent);
+      drawBadge(p.width / 2 - 46, 20, 92, 30, formatNumber(result), accent);
+      drawBadge(p.width / 2 + 62, 20, 92, 30, formatPercent(growth), accent);
+
+      drawAnchorRail(x0, xMax, y, maxValue);
+
+      p.stroke(colorWithAlpha(theme.soft, 0.22));
+      p.strokeWeight(6);
+      p.strokeCap(p.ROUND);
+      p.line(x0, y, xMax, y);
+
+      drawOutputScale(x0, xMax, y, maxValue);
+
+      drawGhostArrow(x0, referenceX, y);
+
+      const compareStart = Math.min(referenceX, vectorX);
+      const compareEnd = Math.max(referenceX, vectorX);
+      const bandWidth = Math.abs(compareEnd - compareStart);
+      if (bandWidth > 1) {
+        p.noStroke();
+        p.fill(colorWithAlpha(accent, 0.18));
+        p.rect(compareStart, y - 9, bandWidth, 18, 4);
+        if (bandWidth > 28) {
+          const sign = delta > 0 ? "+" : "";
+          drawSmallLabel((compareStart + compareEnd) / 2, y + 26, `${sign}${formatNumber(delta)}`, accent);
+        }
+      }
+
+      drawArrow(x0, y, vectorX, y, accent);
+
+      drawEndpointMarker(referenceX, y);
+
+      p.noStroke();
+      p.fill(theme.soft);
+      p.circle(x0, y, 10);
+
+      if (Math.abs(delta) > 0.05) {
+        const labelX = p.constrain(vectorX, x0 + 24, xMax - 24);
+        drawSmallLabel(labelX, y - 22, formatNumber(result), accent);
+      }
+    }
+
+    function drawGhostArrow(x0, refX, y) {
+      p.stroke(colorWithAlpha(theme.teal, 0.32));
+      p.strokeWeight(5);
+      p.strokeCap(p.ROUND);
+      p.line(x0, y, refX, y);
+      p.noStroke();
+      p.fill(colorWithAlpha(theme.teal, 0.5));
+      p.triangle(refX + 7, y, refX - 5, y - 4, refX - 5, y + 4);
+    }
+
+    function drawEndpointMarker(refX, y) {
+      p.noStroke();
+      p.fill(theme.teal);
+      p.triangle(refX, y - 7, refX - 3, y - 12, refX + 3, y - 12);
+    }
+
+    function drawAnchorRail(x0, xMax, y, maxValue) {
+      const railY = y - 44;
+      anchorKs.forEach(({ k, label }) => {
+        const value = start * k;
+        if (value < -0.001) return;
+        const offScale = value > maxValue + 0.001;
+        const x = offScale ? xMax : p.map(value, 0, maxValue, x0, xMax);
+        const isRef = Math.abs(k - 1) < 0.001;
+        const tone = isRef
+          ? theme.teal
+          : colorWithAlpha(theme.teal, offScale ? 0.35 : 0.55);
+        p.stroke(tone);
+        p.strokeWeight(isRef ? 2.2 : 1.4);
+        if (offScale) {
+          p.noFill();
+          const cx = xMax - 4;
+          p.beginShape();
+          p.vertex(cx - 6, railY + 6);
+          p.vertex(cx, railY + 11);
+          p.vertex(cx - 6, railY + 16);
+          p.endShape();
+        } else {
+          p.line(x, railY + 6, x, railY + 16);
+          p.noStroke();
+          p.fill(tone);
+          p.circle(x, railY + 4, isRef ? 6 : 4);
+        }
+        const text = label || formatFactor(k);
+        const labelX = offScale ? xMax - 14 : x;
+        drawSmallLabel(labelX, railY - 6, offScale ? `${text} →` : text, tone);
+      });
+    }
+
+    function formatFactor(k) {
+      if (Math.abs(k - 1) < 0.001) return "1x";
+      if (Math.abs(k - 0.5) < 0.001) return "½x";
+      if (Math.abs(k - 1.5) < 0.001) return "1½x";
+      if (Math.abs(k - 2) < 0.001) return "2x";
+      return `${formatK(k)}x`;
+    }
+
+    function drawSlider() {
+      const layout = sliderLayout();
+      const oneX = kToX(1, layout);
+      const knobX = kToX(currentK, layout);
+      const y = layout.y;
+
+      p.strokeWeight(6);
+      p.strokeCap(p.ROUND);
+      p.stroke(colorWithAlpha(theme.blue, 0.28));
+      p.line(layout.x, y, oneX, y);
+      p.stroke(colorWithAlpha(theme.pink, 0.28));
+      p.line(oneX, y, layout.x + layout.w, y);
+
+      const midTicks = [];
+      for (let k = Math.ceil(minK * 2) / 2; k <= maxK + 0.0001; k += 0.5) {
+        if (k > minK + 0.0001 && k < maxK - 0.0001 && Math.abs(k - 1) > 0.0001) {
+          midTicks.push(k);
+        }
+      }
+      midTicks.forEach((k) => {
+        const x = kToX(k, layout);
+        p.stroke(colorWithAlpha(theme.soft, 0.45));
+        p.strokeWeight(1.2);
+        p.line(x, y - 6, x, y + 6);
+        drawSmallLabel(x, y + 18, formatK(k), colorWithAlpha(theme.soft, 0.85));
+        drawSmallLabel(x, y + 30, formatPercent((k - 1) * 100), colorWithAlpha(theme.soft, 0.6));
+      });
+
+      p.stroke(theme.teal);
+      p.strokeWeight(2.4);
+      p.line(oneX, y - 12, oneX, y + 12);
+      drawSmallLabel(layout.x + layout.w / 2, y - 22, "k", theme.soft);
+      drawSmallLabel(layout.x, y + 18, formatK(minK), theme.soft);
+      drawSmallLabel(layout.x, y + 30, formatPercent((minK - 1) * 100), colorWithAlpha(theme.soft, 0.6));
+      drawSmallLabel(oneX, y + 18, "1", theme.teal);
+      drawSmallLabel(oneX, y + 30, "0%", colorWithAlpha(theme.teal, 0.8));
+      drawSmallLabel(layout.x + layout.w, y + 18, formatK(maxK), theme.soft);
+      drawSmallLabel(layout.x + layout.w, y + 30, formatPercent((maxK - 1) * 100), colorWithAlpha(theme.soft, 0.6));
+
+      const accent = relationColor(currentK);
+      p.noStroke();
+      p.fill(colorWithAlpha(accent, 0.16));
+      p.circle(knobX, y, dragging ? 22 : 18);
+      p.stroke("#ffffff");
+      p.strokeWeight(2.5);
+      p.fill(accent);
+      p.circle(knobX, y, dragging ? 16 : 13);
+    }
+
+    function drawBadge(x, y, w, h, label, accent) {
+      p.stroke(colorWithAlpha(accent, 0.28));
+      p.strokeWeight(1.4);
+      p.fill(colorWithAlpha(accent, 0.08));
+      p.rect(x, y, w, h, 999);
+      p.noStroke();
+      p.fill(accent);
+      p.textStyle(p.BOLD);
+      p.textSize(12);
+      p.textAlign(p.CENTER, p.CENTER);
+      p.text(label, x + w / 2, y + h / 2 + 0.5);
+    }
+
+    function drawOutputScale(x0, xMax, y, maxValue) {
+      const labelStep = pickStep(maxValue);
+      const minorStep = labelStep / 5;
+      for (let value = 0; value <= maxValue + 0.001; value += minorStep) {
+        const x = p.map(value, 0, maxValue, x0, xMax);
+        const isLabel = Math.abs(value / labelStep - Math.round(value / labelStep)) < 0.01;
+        const isReference = Math.abs(value - start) < 0.001;
+        if (isReference) continue;
+        p.stroke(colorWithAlpha(theme.soft, isLabel ? 0.55 : 0.28));
+        p.strokeWeight(isLabel ? 1.4 : 0.9);
+        p.line(x, y + 10, x, y + (isLabel ? 22 : 16));
+        if (isLabel) {
+          drawSmallLabel(x, y + 38, formatNumber(value), theme.soft);
+        }
+      }
+      const refX = p.map(start, 0, maxValue, x0, xMax);
+      p.stroke(theme.teal);
+      p.strokeWeight(2.6);
+      p.line(refX, y + 10, refX, y + 30);
+      drawSmallLabel(refX, y + 42, formatNumber(start), theme.teal);
+    }
+
+    function pickStep(maxValue) {
+      if (maxValue <= 6) return 1;
+      if (maxValue <= 24) return 5;
+      if (maxValue <= 60) return 10;
+      return 20;
+    }
+
+    function drawSmallLabel(x, y, label, color) {
+      p.noStroke();
+      p.fill(color);
+      p.textStyle(p.BOLD);
+      p.textSize(12);
+      p.textAlign(p.CENTER, p.CENTER);
+      p.text(label, x, y);
+    }
+
+    function drawArrow(x1, y1, x2, y2, color) {
+      const len = Math.abs(x2 - x1);
+      p.stroke(color);
+      p.strokeWeight(7);
+      p.strokeCap(p.ROUND);
+      if (len < 14) {
+        p.noStroke();
+        p.fill(color);
+        p.circle(x1, y1, 13);
+        return;
+      }
+      p.line(x1, y1, x2, y2);
+      p.noStroke();
+      p.fill(color);
+      p.triangle(x2 + 12, y2, x2 - 12, y2 - 8, x2 - 12, y2 + 8);
+    }
+
+    function formatNumber(value) {
+      const rounded = Math.round(value * 10) / 10;
+      return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
+    }
+
+    function formatK(value) {
+      const rounded = Math.round(value * 100) / 100;
+      if (Number.isInteger(rounded)) return String(rounded);
+      const oneDecimal = Math.round(value * 10) / 10;
+      if (Math.abs(oneDecimal - rounded) < 0.001) return oneDecimal.toFixed(1);
+      return rounded.toFixed(2);
+    }
+
+    function formatPercent(value) {
+      const rounded = Math.round(value);
+      if (Math.abs(rounded) <= 1) return "0%";
+      return `${rounded > 0 ? "+" : ""}${rounded}%`;
+    }
+  });
+}
+
 function mountBinaryPlaceSketch(host, visual) {
   const theme = ctTheme();
   const places = (visual.places || [16, 8, 4, 2, 1]).slice();
   const target = typeof visual.target === "number" ? visual.target : null;
+  const hasTarget = target !== null;
+  const showTargetLabel = hasTarget && !visual.hideTargetLabel;
   const showHand = places.length === 5 && places.every((place, index) => place === [16, 8, 4, 2, 1][index]);
   const initialBits = Array.isArray(visual.initialBits)
     ? visual.initialBits.slice()
@@ -510,7 +1242,7 @@ function mountBinaryPlaceSketch(host, visual) {
       p.textSize(13);
       p.textAlign(p.LEFT, p.TOP);
       p.text("Place values", originX, 18);
-      if (target !== null) {
+      if (showTargetLabel) {
         p.fill(theme.soft);
         p.textStyle(p.NORMAL);
         p.textSize(12);
@@ -634,7 +1366,7 @@ function mountBinaryPlaceSketch(host, visual) {
     function drawTotals() {
       const sum = bits.reduce((acc, b, i) => acc + (b ? places[i] : 0), 0);
       const binary = bits.join("");
-      const targetReached = target !== null && sum === target;
+      const targetReached = hasTarget && sum === target;
       const y = originY + cellH + 28;
       p.push();
       p.noStroke();
@@ -649,7 +1381,7 @@ function mountBinaryPlaceSketch(host, visual) {
       p.text(binary, p.width / 2 - 90, y + 28);
       p.fill(targetReached ? theme.teal : theme.text);
       p.text(String(sum), p.width / 2 + 90, y + 28);
-      if (target !== null) {
+      if (showTargetLabel) {
         p.textSize(11);
         p.fill(targetReached ? theme.teal : theme.soft);
         p.text(targetReached ? "Matches the target." : `Need ${target}`, p.width / 2 + 90, y + 48);
@@ -688,6 +1420,7 @@ function mountDoublingTreeSketch(host, visual) {
   const base = visual.base || 2;
   const exponent = visual.exponent || 5;
   const labels = visual.labels || [];
+  const hideFinalValue = Boolean(visual.hideFinalValue);
 
   makeP5Sketch(host, (p) => {
     let revealed = 0;
@@ -746,6 +1479,7 @@ function mountDoublingTreeSketch(host, visual) {
         const value = Math.pow(base, i);
         const x = startX + i * (cellSize + gap);
         const visible = i < revealed;
+        const hideValue = hideFinalValue && i === exponent;
         const fillColor = visible ? p.color(theme.teal + "1A") : p.color(theme.card);
         const strokeColor = visible ? p.color(theme.teal) : p.color(theme.border);
         p.push();
@@ -762,7 +1496,7 @@ function mountDoublingTreeSketch(host, visual) {
         p.fill(visible ? theme.text : theme.soft);
         p.textSize(cellSize > 70 ? 24 : 20);
         p.textAlign(p.CENTER, p.CENTER);
-        p.text(visible ? String(value) : "?", x + cellSize / 2, y + cellSize / 2 + 4);
+        p.text(visible && !hideValue ? String(value) : "?", x + cellSize / 2, y + cellSize / 2 + 4);
         p.pop();
         if (i < total - 1) {
           p.push();
@@ -787,7 +1521,13 @@ function mountDoublingTreeSketch(host, visual) {
       p.textStyle(p.BOLD);
       p.textSize(12);
       p.textAlign(p.CENTER, p.TOP);
-      p.text(`${base} × ${base} × … (${exponent} times) = ${Math.pow(base, exponent)}`, p.width / 2, y + cellSize + 22);
+      p.text(
+        hideFinalValue
+          ? "Double once more to finish the last box."
+          : `${base} x ${base} x ... (${exponent} times) = ${Math.pow(base, exponent)}`,
+        p.width / 2,
+        y + cellSize + 22
+      );
       p.pop();
     }
   });
@@ -797,9 +1537,14 @@ function mountBinaryHolesSketch(host, visual) {
   const theme = ctTheme();
   const binary = String(visual.binary || "");
   const mapping = visual.mapping || { 0: "O", 1: "U" };
+  const hideHoleAnswers = Boolean(visual.hideHoleAnswers);
+  const shapeChoices = Array.isArray(visual.shapeChoices)
+    ? visual.shapeChoices.slice()
+    : Array.from(new Set(Object.values(mapping)));
 
   makeP5Sketch(host, (p) => {
     const digits = binary.split("");
+    const choices = digits.map(() => "");
     let highlight = -1;
     let cellSize = 68;
 
@@ -816,7 +1561,10 @@ function mountBinaryHolesSketch(host, visual) {
 
     p.mousePressed = () => {
       const idx = hitIndex();
-      if (idx >= 0) highlight = idx;
+      if (idx >= 0) {
+        highlight = idx;
+        if (hideHoleAnswers) cycleChoice(idx);
+      }
     };
     p.touchStarted = () => {
       p.mousePressed();
@@ -851,10 +1599,16 @@ function mountBinaryHolesSketch(host, visual) {
       return -1;
     }
 
+    function cycleChoice(index) {
+      const currentIndex = shapeChoices.indexOf(choices[index]);
+      choices[index] = shapeChoices[(currentIndex + 1) % shapeChoices.length] || "";
+    }
+
     function drawHoles() {
       const xs = getColumns();
       const digitY = 30;
       const holeY = digitY + cellSize + 16;
+      const patternCorrect = hideHoleAnswers && choices.every(Boolean) && choices.every((choice, index) => choice === mapping[digits[index]]);
 
       p.push();
       p.noStroke();
@@ -863,13 +1617,18 @@ function mountBinaryHolesSketch(host, visual) {
       p.textSize(11);
       p.textAlign(p.LEFT, p.TOP);
       p.text("Digit", xs[0] - 4, digitY - 18);
-      p.text("Hole", xs[0] - 4, holeY - 18);
+      p.text(hideHoleAnswers ? "Your choice" : "Hole", xs[0] - 4, holeY - 18);
       p.pop();
 
       digits.forEach((digit, i) => {
         const x = xs[i];
-        const active = i === highlight;
-        const accent = digit === "1" ? theme.pink : theme.blue;
+        const chosen = hideHoleAnswers ? choices[i] : mapping[digit];
+        const active = i === highlight || Boolean(choices[i]);
+        const accent = patternCorrect
+          ? theme.teal
+          : hideHoleAnswers
+          ? (chosen === shapeChoices[1] ? theme.pink : theme.blue)
+          : (digit === "1" ? theme.pink : theme.blue);
 
         p.push();
         p.stroke(active ? accent : theme.border);
@@ -890,7 +1649,7 @@ function mountBinaryHolesSketch(host, visual) {
         p.fill(active ? `${accent}1A` : theme.card);
         p.rect(x, holeY, cellSize, cellSize, 12);
         const glyphColor = active ? accent : theme.text;
-        drawHoleGlyph(mapping[digit], x + cellSize / 2, holeY + cellSize / 2, cellSize * 0.5, glyphColor);
+        drawHoleGlyph(chosen || "?", x + cellSize / 2, holeY + cellSize / 2, cellSize * 0.5, glyphColor);
         p.pop();
       });
     }
@@ -1079,6 +1838,8 @@ function mountNumberLineSketch(host, visual) {
   const step = visual.step || 0.1;
   const marks = visual.marks || [];
   const target = visual.target;
+  const hasTarget = target !== undefined;
+  const showTargetLabel = hasTarget && !visual.hideTargetLabel;
 
   makeP5Sketch(host, (p) => {
     let markerValue = marks.length ? marks[0] : start;
@@ -1210,7 +1971,7 @@ function mountNumberLineSketch(host, visual) {
 
     function drawMarker() {
       const m = markerPos();
-      const onTarget = target !== undefined && Math.abs(markerValue - target) < 0.001;
+      const onTarget = hasTarget && Math.abs(markerValue - target) < 0.001;
       p.push();
       p.noStroke();
       p.fill(onTarget ? theme.teal : theme.pink);
@@ -1228,11 +1989,11 @@ function mountNumberLineSketch(host, visual) {
       p.textSize(12);
       p.textAlign(p.CENTER, p.TOP);
       p.text("Marker", p.width / 2, 30);
-      const onTarget = target !== undefined && Math.abs(markerValue - target) < 0.001;
+      const onTarget = hasTarget && Math.abs(markerValue - target) < 0.001;
       p.fill(onTarget ? theme.teal : theme.text);
       p.textSize(28);
       p.text(formatValue(markerValue), p.width / 2, 48);
-      if (target !== undefined) {
+      if (showTargetLabel) {
         p.fill(onTarget ? theme.teal : theme.soft);
         p.textSize(11);
         p.textAlign(p.CENTER, p.TOP);
@@ -1253,6 +2014,8 @@ function mountDigitBalanceSketch(host, visual) {
   const theme = ctTheme();
   const splits = visual.splits || [];
   const rules = visual.rules || [];
+  const hideBalanceFeedback = Boolean(visual.hideBalanceFeedback);
+  const showRuleChecks = Boolean(visual.showRuleChecks);
 
   makeP5Sketch(host, (p) => {
     let active = 0;
@@ -1260,7 +2023,7 @@ function mountDigitBalanceSketch(host, visual) {
     let cardH = 132;
 
     p.setup = () => {
-      p.createCanvas(sketchWidth(), 260);
+      p.createCanvas(sketchWidth(), sketchHeight());
       p.textFont("Roboto, Segoe UI, Arial, sans-serif");
       layout();
     };
@@ -1269,13 +2032,17 @@ function mountDigitBalanceSketch(host, visual) {
       p.clear();
       drawTabs();
       drawScale();
-      drawRules();
+      if (showRuleChecks) {
+        drawRuleChecks();
+      } else {
+        drawRules();
+      }
     };
 
     p.mousePressed = () => {
       const xs = tabPositions();
-      const tabY = 20;
-      const tabH = 32;
+      const tabY = 16;
+      const tabH = 30;
       xs.forEach((x, i) => {
         if (p.mouseX >= x && p.mouseX <= x + tabWidth() && p.mouseY >= tabY && p.mouseY <= tabY + tabH) {
           active = i;
@@ -1288,7 +2055,7 @@ function mountDigitBalanceSketch(host, visual) {
     };
 
     p.windowResized = () => {
-      p.resizeCanvas(sketchWidth(), 260);
+      p.resizeCanvas(sketchWidth(), sketchHeight());
       layout();
     };
 
@@ -1296,9 +2063,13 @@ function mountDigitBalanceSketch(host, visual) {
       return Math.max(320, Math.floor(host.clientWidth || 720));
     }
 
+    function sketchHeight() {
+      return showRuleChecks ? 232 : 260;
+    }
+
     function layout() {
-      cardW = Math.min(190, Math.max(120, (p.width - 80) / 2));
-      cardH = 132;
+      cardW = Math.min(154, Math.max(112, (p.width - 92) / 2));
+      cardH = showRuleChecks ? 82 : 132;
     }
 
     function tabWidth() {
@@ -1323,16 +2094,16 @@ function mountDigitBalanceSketch(host, visual) {
         const x = xs[i];
         const isActive = i === active;
         p.push();
-        p.stroke(isActive ? theme.pink : theme.border);
-        p.strokeWeight(isActive ? 2.5 : 1.5);
-        p.fill(isActive ? `${theme.pink}1A` : theme.card);
-        p.rect(x, 20, w, 32, 12);
+        p.stroke(isActive ? theme.blue : theme.border);
+        p.strokeWeight(isActive ? 2.2 : 1.4);
+        p.fill(isActive ? `${theme.blue}12` : theme.card);
+        p.rect(x, 16, w, 30, 14);
         p.noStroke();
-        p.fill(isActive ? theme.pink : theme.soft);
+        p.fill(isActive ? theme.blue : theme.soft);
         p.textStyle(p.BOLD);
         p.textSize(13);
         p.textAlign(p.CENTER, p.CENTER);
-        p.text(split.label, x + w / 2, 38);
+        p.text(split.label, x + w / 2, 31);
         p.pop();
       });
     }
@@ -1342,26 +2113,26 @@ function mountDigitBalanceSketch(host, visual) {
       if (!split) return;
       const sumLeft = split.left.reduce((a, b) => a + b, 0);
       const sumRight = split.right.reduce((a, b) => a + b, 0);
-      const balanced = sumLeft === sumRight;
+      const balanced = !hideBalanceFeedback && sumLeft === sumRight;
 
-      const cy = 150;
-      const leftX = p.width / 2 - cardW / 2 - 30 - cardW / 2;
-      const rightX = p.width / 2 + cardW / 2 + 30 - cardW / 2;
-      drawPan(leftX, cy, split.left, sumLeft, "Left of point", balanced);
-      drawPan(rightX, cy, split.right, sumRight, "Right of point", balanced);
+      const cy = showRuleChecks ? 112 : 150;
+      const sideGap = showRuleChecks ? 18 : 30;
+      const leftX = p.width / 2 - cardW - sideGap;
+      const rightX = p.width / 2 + sideGap;
+      drawPan(leftX, cy, split.left, sumLeft, "Left", balanced);
+      drawPan(rightX, cy, split.right, sumRight, "Right", balanced);
       p.push();
-      p.stroke(theme.border);
-      p.strokeWeight(2);
-      p.line(p.width / 2, cy - 50, p.width / 2, cy + 60);
       p.noStroke();
-      p.fill(balanced ? theme.teal : theme.pink);
+      p.fill(hideBalanceFeedback ? theme.soft : (balanced ? theme.teal : theme.pink));
       p.textStyle(p.BOLD);
-      p.textSize(22);
+      p.textSize(showRuleChecks ? 26 : 22);
       p.textAlign(p.CENTER, p.CENTER);
-      p.text(balanced ? "=" : "≠", p.width / 2, cy);
-      p.fill(theme.soft);
-      p.textSize(11);
-      p.text(balanced ? "balanced" : "off-balance", p.width / 2, cy + 22);
+      p.text(hideBalanceFeedback ? "?" : (balanced ? "=" : "≠"), p.width / 2, cy);
+      if (!showRuleChecks) {
+        p.fill(theme.soft);
+        p.textSize(11);
+        p.text(hideBalanceFeedback ? "add both sides" : (balanced ? "balanced" : "off-balance"), p.width / 2, cy + 22);
+      }
       p.pop();
     }
 
@@ -1370,20 +2141,20 @@ function mountDigitBalanceSketch(host, visual) {
       p.stroke(theme.border);
       p.strokeWeight(1.5);
       p.fill(theme.card);
-      p.rect(x, cy - cardH / 2, cardW, cardH, 14);
+      p.rect(x, cy - cardH / 2, cardW, cardH, 12);
       p.noStroke();
       p.fill(theme.soft);
       p.textStyle(p.BOLD);
       p.textSize(11);
       p.textAlign(p.CENTER, p.TOP);
-      p.text(label, x + cardW / 2, cy - cardH / 2 + 10);
+      p.text(label, x + cardW / 2, cy - cardH / 2 + 9);
       const gap = 8;
-      const tile = Math.min(34, (cardW - 20 - gap * (digits.length - 1)) / digits.length);
+      const tile = Math.min(showRuleChecks ? 32 : 34, (cardW - 28 - gap * (digits.length - 1)) / digits.length);
       const totalW = digits.length * tile + (digits.length - 1) * gap;
       const startX = x + (cardW - totalW) / 2;
       digits.forEach((digit, i) => {
         const dx = startX + i * (tile + gap);
-        const dy = cy - 16;
+        const dy = cy - tile / 2 + 8;
         p.stroke(theme.border);
         p.strokeWeight(1.5);
         p.fill(theme.page);
@@ -1399,7 +2170,9 @@ function mountDigitBalanceSketch(host, visual) {
       p.textStyle(p.BOLD);
       p.textSize(14);
       p.textAlign(p.CENTER, p.BASELINE);
-      p.text(`sum = ${sum}`, x + cardW / 2, cy + cardH / 2 - 12);
+      if (!showRuleChecks) {
+        p.text(hideBalanceFeedback ? "add these digits" : `sum = ${sum}`, x + cardW / 2, cy + cardH / 2 - 12);
+      }
       p.pop();
     }
 
@@ -1414,519 +2187,56 @@ function mountDigitBalanceSketch(host, visual) {
       p.text(rules.join("  ·  "), 24, p.height - 22);
       p.pop();
     }
-  });
-}
 
-function sequenceHint(items, gaps, label, expected = []) {
-  const showEquation =
-    items[items.length - 1] === "?" &&
-    isNumericValue(items[items.length - 2]) &&
-    /^[+-]\d+$/.test(String(gaps[gaps.length - 1]));
+    function drawRuleChecks() {
+      const split = splits[active];
+      if (!split) return;
+      const checks = ruleChecks(split);
+      const gap = 10;
+      const chipH = 26;
+      const maxW = p.width - 56;
+      const chipW = Math.min(142, (maxW - gap * (checks.length - 1)) / checks.length);
+      const totalW = checks.length * chipW + (checks.length - 1) * gap;
+      const startX = (p.width - totalW) / 2;
+      const y = p.height - 40;
 
-  return `
-    <p class="hint-focus"><span>Step 1</span><strong>${label}</strong></p>
-    <div class="hint-scroll" aria-hidden="true">
-      <div class="hint-sequence">
-        ${items
-          .map((item, index) => {
-            const hasGap = index < gaps.length;
-            const isTarget = item === "?";
-            const isMismatch = expected[index] && expected[index] !== gaps[index];
-            return `
-              <div class="hint-sequence-item">
-                <div class="hint-tile ${isTarget ? "target" : ""}">${item}</div>
-                ${
-                  hasGap
-                    ? `<div class="hint-gap ${isMismatch ? "mismatch" : ""}">
-                        <span>${gaps[index]}</span>
-                        <b>${isMismatch ? "check" : "gap"}</b>
-                      </div>`
-                    : ""
-                }
-              </div>
-            `;
-          })
-          .join("")}
-      </div>
-    </div>
-    ${ruleRow(expected.length ? "Actual gaps" : "Gap pattern", gaps, expected)}
-    ${expected.length ? ruleRow("Expected gaps", expected) : ""}
-    ${
-      showEquation
-        ? `<div class="hint-equation"><span>Step 2</span><strong>${items[items.length - 2]} ${formatGapForEquation(gaps[gaps.length - 1])} = ?</strong></div>`
-        : ""
+      checks.forEach((check, index) => {
+        const x = startX + index * (chipW + gap);
+        p.push();
+        p.stroke(check.passed ? theme.teal : theme.border);
+        p.strokeWeight(check.passed ? 2 : 1.2);
+        p.fill(check.passed ? `${theme.teal}1A` : theme.card);
+        p.rect(x, y, chipW, chipH, 13);
+        p.noStroke();
+        p.fill(check.passed ? theme.teal : theme.soft);
+        p.textStyle(p.BOLD);
+        p.textSize(10);
+        p.textAlign(p.CENTER, p.CENTER);
+        p.text(check.passed ? `${check.label} ok` : check.label, x + chipW / 2, y + chipH / 2 + 1);
+        p.pop();
+      });
     }
-  `;
-}
 
-function pairHint(pairs, rule, label) {
-  return `
-    <p class="hint-focus"><span>Step 1</span><strong>${label}</strong></p>
-    <div class="hint-scroll" aria-hidden="true">
-      <div class="hint-sequence pair-sequence">
-        ${pairs
-          .map(
-            (pair, index) => `
-            <div class="hint-sequence-item">
-              <div class="hint-pair ${pair[1] === "?" ? "target" : ""}">
-                <strong>${pair[0]}</strong>
-                <span>${pair[1]}</span>
-              </div>
-              ${index < pairs.length - 1 ? `<div class="hint-gap"><span>${rule}</span><b>number</b></div>` : ""}
-            </div>
-          `
-          )
-          .join("")}
-      </div>
-    </div>
-    <div class="hint-equation"><span>Step 2</span><strong>${pairs.map((pair) => pair[1]).join(" -> ")}</strong></div>
-  `;
-}
-
-function splitHint(visual) {
-  return `
-    <p class="hint-focus"><span>Step 1</span><strong>Separate odd-position terms and even-position terms.</strong></p>
-    <div class="lane-board">
-      ${laneMarkup(visual.topLabel, visual.top, visual.topRule)}
-      ${laneMarkup(visual.bottomLabel, visual.bottom, visual.bottomRule, true)}
-    </div>
-  `;
-}
-
-function laneMarkup(label, items, rule, accent = false) {
-  return `
-    <div class="hint-lane ${accent ? "accent" : ""}">
-      <span>${label}</span>
-      <div>
-        ${items.map((item) => `<b class="${item === "?" ? "target" : ""}">${item}</b>`).join(`<em>${rule}</em>`)}
-      </div>
-    </div>
-  `;
-}
-
-function tableHint(visual) {
-  return `
-    <p class="hint-focus"><span>Step 1</span><strong>Fill the last row using the same rule as the first rows.</strong></p>
-    <table class="hint-table">
-      <thead><tr>${visual.columns.map((column) => `<th>${column}</th>`).join("")}</tr></thead>
-      <tbody>
-        ${visual.rows
-          .map((row) => `<tr>${row.map((cell) => `<td class="${cell === "?" ? "target" : ""}">${cell}</td>`).join("")}</tr>`)
-          .join("")}
-      </tbody>
-    </table>
-  `;
-}
-
-function stackHint(visual) {
-  return `
-    <p class="hint-focus"><span>Step 1</span><strong>The number of copies increases by one each time.</strong></p>
-    <div class="stack-hint">
-      ${visual.stacks
-        .map((stack) => {
-          const isTarget = Boolean(stack.target);
-          return `
-          <div class="${stack.target ? "target" : ""}">
-            <div class="stack-dots">${isTarget ? "<i class=\"mystery-dot\">?</i>" : Array.from({ length: stack.count }, () => "<i></i>").join("")}</div>
-            <strong>${stack.label}</strong>
-            <span>${isTarget ? "? copies" : `${stack.count} copies`}</span>
-          </div>
-        `;
-        })
-        .join("")}
-    </div>
-  `;
-}
-
-function linearHint(visual) {
-  return `
-    <p class="hint-focus"><span>Step 1</span><strong>Every new term adds 3 chairs. Count how many jumps are needed.</strong></p>
-    <div class="linear-hint">
-      ${visual.terms
-        .map(
-          ([term, value]) => `
-          <div class="${value === "?" ? "target" : ""}">
-            <span>Term ${term}</span>
-            <strong>${value}</strong>
-          </div>
-        `
-        )
-        .join("")}
-    </div>
-    <div class="hint-equation"><span>Step 2</span><strong>4 + 14 jumps of 3 = ?</strong></div>
-  `;
-}
-
-function cycleHint(visual) {
-  const colors = { red: "#f95877", blue: "#118ab2", green: "#06d6a0", yellow: "#ffd166" };
-  return `
-    <p class="hint-focus"><span>Step 1</span><strong>One full cycle has 4 colours. Count complete cycles, then the leftover spot.</strong></p>
-    <div class="cycle-key">
-      ${visual.colors.map((color, index) => `<span style="--dot:${colors[color]}"><b>${index + 1}</b>${color}</span>`).join("")}
-    </div>
-    <div class="cycle-hint">
-      ${Array.from({ length: visual.target }, (_, index) => {
-        const number = index + 1;
-        const colorName = visual.colors[index % visual.colors.length];
-        const isTarget = number === visual.target;
-        return `<span class="${isTarget ? "target mystery-cycle" : ""}" style="--dot:${isTarget ? "#f95877" : colors[colorName]}">${number}</span>`;
-      }).join("")}
-    </div>
-  `;
-}
-
-function stairHint(visual) {
-  return `
-    <p class="hint-focus"><span>Step 1</span><strong>Each row has one more block than the row above it.</strong></p>
-    <div class="stair-hint">
-      ${Array.from({ length: visual.rows }, (_, rowIndex) => {
-        const blocks = rowIndex + 1;
-        return `<div>${Array.from({ length: blocks }, () => "<span></span>").join("")}<b>${blocks}</b></div>`;
-      }).join("")}
-    </div>
-    <div class="hint-equation"><span>Step 2</span><strong>1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 = ?</strong></div>
-  `;
-}
-
-function ruleRow(label, values, expected = []) {
-  return `
-    <div class="hint-rule-row">
-      <span>${label}</span>
-      ${values
-        .map((value, index) => `<b class="${expected[index] && expected[index] !== value ? "mismatch" : ""}">${value}</b>`)
-        .join("")}
-    </div>
-  `;
-}
-
-function isNumericValue(value) {
-  return /^-?\d+$/.test(String(value));
-}
-
-function formatGapForEquation(gap) {
-  return String(gap).replace("+", "+ ").replace("-", "- ");
-}
-
-function drawPatternVisual(ctx, visual, width, height, frame = 0) {
-  ctx.clearRect(0, 0, width, height);
-  drawRoundedRect(ctx, 0, 0, width, height, 8, "#ffffff", "rgba(23, 32, 52, 0.1)");
-  drawRoundedRect(ctx, 14, 14, width - 28, 40, 8, "#f5f9ff", "rgba(17, 138, 178, 0.16)");
-  drawLabel(ctx, "Visual hint", 28, 39, 12, "#118ab2", 900);
-  drawLabel(ctx, visual.title, 112, 40, 16, "#172034", 900);
-  ctx.__noteY = height - 30;
-  ctx.__noteWidth = width - 64;
-
-  switch (visual.type) {
-    case "differences":
-      drawDifferenceVisual(ctx, visual, width, frame);
-      break;
-    case "stacks":
-      drawStackVisual(ctx, visual, width, frame);
-      break;
-    case "doubling":
-      drawDoublingVisual(ctx, visual, width, frame);
-      break;
-    case "split":
-      drawSplitVisual(ctx, visual, width, frame);
-      break;
-    case "table":
-      drawTableVisual(ctx, visual, width, frame);
-      break;
-    case "wrongDiff":
-      drawWrongDifferenceVisual(ctx, visual, width);
-      break;
-    case "linear":
-      drawLinearVisual(ctx, visual, width, frame);
-      break;
-    case "cycle":
-      drawCycleVisual(ctx, visual, width, frame);
-      break;
-    case "stair":
-      drawStairVisual(ctx, visual, width);
-      break;
-    case "alphabet":
-      drawAlphabetVisual(ctx, visual, width, frame);
-      break;
-  }
-}
-
-function drawDifferenceVisual(ctx, visual, width, frame) {
-  const cards = layoutCards(width, visual.values.length, 62, 18, 34);
-  visual.values.forEach((value, index) => {
-    drawCard(ctx, { ...cards[index], h: 54 }, 86, String(value), index === visual.values.length - 1, frame);
-    if (index < visual.diffs.length) {
-      drawArrow(ctx, cards[index].x + cards[index].w + 4, 113, cards[index + 1].x - 4, 113, "", index === visual.diffs.length - 1, frame);
-      const chipX = (cards[index].x + cards[index].w + cards[index + 1].x) / 2;
-      drawGapChip(ctx, chipX, 158, visual.diffs[index], index === visual.diffs.length - 1, frame);
+    function ruleChecks(split) {
+      const sumLeft = split.left.reduce((a, b) => a + b, 0);
+      const sumRight = split.right.reduce((a, b) => a + b, 0);
+      return [
+        { label: "Left", passed: isStrictDescending(split.left) },
+        { label: "Right", passed: isStrictAscending(split.right) },
+        { label: "Sum", passed: sumLeft === sumRight }
+      ];
     }
-  });
-  drawLabel(ctx, "Numbers", 34, 78, 12, "#647086", 900);
-  drawLabel(ctx, "Gaps", 34, 164, 12, "#647086", 900);
-  drawNote(ctx, "The gaps grow by 3 each time: +3, +6, +9, +12, then +15.");
-}
 
-function drawStackVisual(ctx, visual, width, frame) {
-  const cards = layoutCards(width, visual.stacks.length, 70, 24);
-  visual.stacks.forEach((stack, index) => {
-    const x = cards[index].x + cards[index].w / 2;
-    const pulse = stack.target ? 1 + Math.sin(frame / 18) * 0.08 : 1;
-    for (let dot = 0; dot < stack.count; dot += 1) {
-      drawCircle(ctx, x, 150 - dot * 18, 7 * pulse, stack.target ? "#f95877" : "#06d6a0");
+    function isStrictDescending(digits) {
+      return digits.every((digit, index) => index === 0 || digits[index - 1] > digit);
     }
-    drawCard(ctx, { x: cards[index].x, y: 166, w: cards[index].w, h: 42 }, stack.label, stack.target, frame);
-    drawLabel(ctx, `${stack.count} copies`, cards[index].x + cards[index].w / 2, 218, 12, "#506070", 800, "center");
-  });
-}
 
-function drawDoublingVisual(ctx, visual, width, frame) {
-  const cards = layoutCards(width, visual.pairs.length, 64, 22);
-  visual.pairs.forEach((pair, index) => {
-    drawCard(ctx, { x: cards[index].x, y: 76, w: cards[index].w, h: 92 }, `${pair[0]}\n${pair[1]}`, index === visual.pairs.length - 1, frame);
-    if (index < visual.pairs.length - 1) {
-      drawArrow(ctx, cards[index].x + cards[index].w, 122, cards[index + 1].x, 122, "x2", false, frame);
-    }
-  });
-  drawNote(ctx, "Letters move one step; numbers double.", 18, 210);
-}
-
-function drawSplitVisual(ctx, visual, width, frame) {
-  drawLane(ctx, visual.topLabel, visual.top, 64, visual.topRule, width, "#118ab2", frame);
-  drawLane(ctx, visual.bottomLabel, visual.bottom, 145, visual.bottomRule, width, "#f95877", frame);
-}
-
-function drawTableVisual(ctx, visual, width, frame) {
-  const tableWidth = Math.min(width - 36, 560);
-  const startX = (width - tableWidth) / 2;
-  const rowH = 32;
-  const colW = tableWidth / visual.columns.length;
-  const startY = 58;
-
-  visual.columns.forEach((column, index) => {
-    drawRoundedRect(ctx, startX + index * colW, startY, colW - 3, rowH, 8, "#172034");
-    drawLabel(ctx, column, startX + index * colW + colW / 2, startY + 21, 12, "white", 900, "center");
-  });
-
-  visual.rows.forEach((row, rowIndex) => {
-    row.forEach((cell, colIndex) => {
-      const target = rowIndex === visual.rows.length - 1;
-      drawRoundedRect(ctx, startX + colIndex * colW, startY + 38 + rowIndex * rowH, colW - 3, rowH - 3, 8, target ? pulseColor(frame) : "white", "rgba(23, 32, 52, 0.08)");
-      drawLabel(ctx, cell, startX + colIndex * colW + colW / 2, startY + 59 + rowIndex * rowH, 14, "#172034", 900, "center");
-    });
-  });
-  drawNote(ctx, "Total = black squares + white squares.", 18, 218);
-}
-
-function drawWrongDifferenceVisual(ctx, visual, width) {
-  const cards = layoutCards(width, visual.values.length, 46, 14);
-  visual.values.forEach((value, index) => {
-    drawCard(ctx, cards[index], 88, String(value), false, 0);
-    if (index < visual.diffs.length) {
-      const mismatch = visual.diffs[index] !== visual.expected[index];
-      drawArrow(ctx, cards[index].x + cards[index].w + 1, 120, cards[index + 1].x - 1, 120, visual.diffs[index], mismatch, 0);
-      if (mismatch) {
-        drawLabel(ctx, "check", (cards[index].x + cards[index + 1].x + cards[index].w) / 2, 150, 11, "#f95877", 900, "center");
-      }
-    }
-  });
-  drawNote(ctx, "Expected gaps: +2, +4, +6, +8, +10, +12.", 18, 210);
-}
-
-function drawLinearVisual(ctx, visual, width, frame) {
-  const cards = layoutCards(width, visual.terms.length, 74, 18);
-  visual.terms.forEach((term, index) => {
-    drawRoundedRect(ctx, cards[index].x, 78, cards[index].w, 82, 14, index === visual.terms.length - 1 ? pulseColor(frame) : "white", "rgba(23, 32, 52, 0.08)");
-    drawLabel(ctx, `Term ${term[0]}`, cards[index].x + cards[index].w / 2, 104, 12, "#506070", 900, "center");
-    drawLabel(ctx, term[1], cards[index].x + cards[index].w / 2, 140, 24, "#172034", 900, "center");
-    if (index < visual.terms.length - 2) {
-      drawArrow(ctx, cards[index].x + cards[index].w + 2, 119, cards[index + 1].x - 2, 119, "+3", false, frame);
-    }
-  });
-  drawNote(ctx, "From term 1 to term 15, there are 14 jumps of +3.", 18, 214);
-}
-
-function drawCycleVisual(ctx, visual, width, frame) {
-  const colors = { red: "#f95877", blue: "#118ab2", green: "#06d6a0", yellow: "#ffd166" };
-  const startX = 28;
-  const gap = Math.min(34, (width - 56) / 10);
-  for (let index = 1; index <= visual.target; index += 1) {
-    const row = index > 9 ? 1 : 0;
-    const col = (index - 1) % 9;
-    const colourName = visual.colors[(index - 1) % visual.colors.length];
-    const x = startX + col * gap;
-    const y = 76 + row * 70;
-    const target = index === visual.target;
-    drawCircle(ctx, x, y, target ? 15 + Math.sin(frame / 16) * 2 : 13, colors[colourName], target ? "#172034" : "white");
-    drawLabel(ctx, String(index), x, y + 36, 11, "#506070", 800, "center");
-  }
-  drawNote(ctx, "Count in groups of 4: red, blue, green, yellow.", 18, 214);
-}
-
-function drawStairVisual(ctx, visual, width) {
-  const size = Math.min(20, (width - 80) / visual.rows);
-  const baseX = Math.max(22, width / 2 - (visual.rows * size) / 2);
-  const baseY = 184;
-  let total = 0;
-  for (let row = 1; row <= visual.rows; row += 1) {
-    total += row;
-    for (let col = 0; col < row; col += 1) {
-      drawRoundedRect(ctx, baseX + col * size, baseY - row * size, size - 2, size - 2, 4, row % 2 ? "#06d6a0" : "#118ab2");
-    }
-    drawLabel(ctx, String(row), baseX - 16, baseY - row * size + size / 2 + 4, 11, "#506070", 800, "center");
-  }
-  drawNote(ctx, `Rows 1 to 8 make ${total} blocks in all.`, 18, 218);
-}
-
-function drawAlphabetVisual(ctx, visual, width, frame) {
-  const cards = layoutCards(width, visual.letters.length, 52, 18);
-  visual.letters.forEach((letter, index) => {
-    drawCard(ctx, cards[index], 88, letter, index === visual.letters.length - 1, frame);
-    if (index < visual.jumps.length) {
-      drawArrow(ctx, cards[index].x + cards[index].w + 3, 120, cards[index + 1].x - 3, 120, visual.jumps[index], index === visual.jumps.length - 1, frame);
-    }
-  });
-  drawNote(ctx, "Use alphabet positions: A=1, C=3, F=6, J=10, O=15.", 18, 210);
-}
-
-function drawLane(ctx, label, items, y, rule, width, colour, frame) {
-  drawLabel(ctx, label, 18, y + 6, 12, "#506070", 900);
-  const cards = layoutCards(width - 104, items.length, 52, 18, 104);
-  items.forEach((item, index) => {
-    drawCard(ctx, { x: cards[index].x, y: y + 22, w: cards[index].w, h: 46 }, item, item === "?", frame);
-    if (index < items.length - 1) {
-      drawArrow(ctx, cards[index].x + cards[index].w + 4, y + 45, cards[index + 1].x - 4, y + 45, rule, item === "?", frame, colour);
+    function isStrictAscending(digits) {
+      return digits.every((digit, index) => index === 0 || digits[index - 1] < digit);
     }
   });
 }
 
-function layoutCards(width, count, cardWidth, gap, offset = 18) {
-  const available = width - offset * 2;
-  const actualGap = count > 1 ? Math.min(gap, Math.max(8, (available - count * cardWidth) / (count - 1))) : 0;
-  const actualWidth = Math.min(cardWidth, (available - actualGap * (count - 1)) / count);
-  const total = count * actualWidth + (count - 1) * actualGap;
-  const start = offset + (available - total) / 2;
-  return Array.from({ length: count }, (_, index) => ({ x: start + index * (actualWidth + actualGap), y: 0, w: actualWidth, h: 52 }));
-}
-
-function drawCard(ctx, rect, yOrText, maybeText, maybeHighlight, frame = 0) {
-  const rectWithY = typeof yOrText === "number" ? { ...rect, y: yOrText } : rect;
-  const text = typeof yOrText === "number" ? maybeText : yOrText;
-  const highlight = typeof yOrText === "number" ? maybeHighlight : maybeText;
-  const fill = highlight ? pulseColor(frame) : "white";
-  drawRoundedRect(ctx, rectWithY.x, rectWithY.y, rectWithY.w, rectWithY.h, 10, fill, "rgba(23, 32, 52, 0.12)");
-  String(text)
-    .split("\n")
-    .forEach((line, index, lines) => {
-      const y = rectWithY.y + rectWithY.h / 2 + (index - (lines.length - 1) / 2) * 24 + 8;
-      drawLabel(ctx, line, rectWithY.x + rectWithY.w / 2, y, lines.length > 1 ? 20 : 23, "#172034", 900, "center");
-    });
-}
-
-function drawArrow(ctx, x1, y1, x2, y2, label, highlight = false, frame = 0, colour = "#118ab2") {
-  const stroke = highlight ? "#f95877" : colour;
-  ctx.save();
-  ctx.strokeStyle = stroke;
-  ctx.fillStyle = stroke;
-  ctx.lineWidth = highlight ? 3 : 2;
-  ctx.beginPath();
-  ctx.moveTo(x1, y1);
-  ctx.lineTo(x2, y2);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.moveTo(x2, y2);
-  ctx.lineTo(x2 - 7, y2 - 5);
-  ctx.lineTo(x2 - 7, y2 + 5);
-  ctx.closePath();
-  ctx.fill();
-  if (label) {
-    const midX = (x1 + x2) / 2;
-    drawRoundedRect(ctx, midX - 18, y1 - 25, 36, 20, 10, highlight ? pulseColor(frame) : "#eff7ff");
-    drawLabel(ctx, label, midX, y1 - 10, 11, stroke, 900, "center");
-  }
-  ctx.restore();
-}
-
-function drawGapChip(ctx, x, y, label, highlight = false, frame = 0) {
-  const fill = highlight ? pulseColor(frame) : "#eef7ff";
-  const color = highlight ? "#f95877" : "#118ab2";
-  drawRoundedRect(ctx, x - 21, y - 15, 42, 28, 14, fill, highlight ? "rgba(249, 88, 119, 0.24)" : "rgba(17, 138, 178, 0.16)");
-  drawLabel(ctx, label, x, y + 5, 13, color, 900, "center");
-}
-
-function drawNote(ctx, text) {
-  const x = 18;
-  const y = ctx.__noteY || 226;
-  const maxWidth = ctx.__noteWidth || 390;
-  drawRoundedRect(ctx, 14, y - 24, maxWidth + 28, 38, 8, "#f8fafc", "rgba(23, 32, 52, 0.08)");
-  const words = text.split(" ");
-  let line = "";
-  let lineY = y;
-  ctx.save();
-  ctx.font = "800 12px Inter, Arial, sans-serif";
-  words.forEach((word) => {
-    const testLine = line ? `${line} ${word}` : word;
-    if (ctx.measureText(testLine).width > maxWidth && line) {
-      drawLabel(ctx, line, x, lineY, 12, "#506070", 800);
-      line = word;
-      lineY += 16;
-    } else {
-      line = testLine;
-    }
-  });
-  if (line) {
-    drawLabel(ctx, line, x, lineY, 12, "#506070", 800);
-  }
-  ctx.restore();
-}
-
-function drawLabel(ctx, text, x, y, size, color, weight = 700, align = "left") {
-  ctx.save();
-  ctx.fillStyle = color;
-  ctx.font = `${weight} ${size}px Inter, Arial, sans-serif`;
-  ctx.textAlign = align;
-  ctx.textBaseline = "alphabetic";
-  ctx.fillText(text, x, y);
-  ctx.restore();
-}
-
-function drawCircle(ctx, x, y, radius, fill, stroke = "white") {
-  ctx.save();
-  ctx.beginPath();
-  ctx.arc(x, y, radius, 0, Math.PI * 2);
-  ctx.fillStyle = fill;
-  ctx.fill();
-  ctx.lineWidth = 3;
-  ctx.strokeStyle = stroke;
-  ctx.stroke();
-  ctx.restore();
-}
-
-function drawRoundedRect(ctx, x, y, width, height, radius, fill, stroke = "") {
-  const r = Math.min(radius, width / 2, height / 2);
-  ctx.save();
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.lineTo(x + width - r, y);
-  ctx.quadraticCurveTo(x + width, y, x + width, y + r);
-  ctx.lineTo(x + width, y + height - r);
-  ctx.quadraticCurveTo(x + width, y + height, x + width - r, y + height);
-  ctx.lineTo(x + r, y + height);
-  ctx.quadraticCurveTo(x, y + height, x, y + height - r);
-  ctx.lineTo(x, y + r);
-  ctx.quadraticCurveTo(x, y, x + r, y);
-  ctx.closePath();
-  ctx.fillStyle = fill;
-  ctx.fill();
-  if (stroke) {
-    ctx.strokeStyle = stroke;
-    ctx.stroke();
-  }
-  ctx.restore();
-}
-
-function pulseColor(frame) {
-  const opacity = 0.22 + Math.sin(frame / 18) * 0.08;
-  return `rgba(249, 88, 119, ${opacity})`;
-}
 
 window.CT7PatternHints = {
   destroyPatternVisual,

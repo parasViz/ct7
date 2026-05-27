@@ -6,42 +6,25 @@ window.CT7_MODULES = [
     "skill": "place value and constraints",
     "theme": "teal",
     "visual": "numberline",
-    "intro": "Large-number puzzles become easier when you separate place value, digit counts, repeated digits, and hidden constraints before trying options.",
+    "intro": "Practice place value, digit counts, and constraints.",
     "lessons": [
       {
-        "title": "Digit Counts",
-        "text": "A number can be described by how many times each digit appears. Count first, arrange later."
+        "title": "Build by Place",
+        "text": "Break a large number into lakhs, thousands, hundreds, tens, and ones before combining it."
       },
       {
-        "title": "Place Value Bundles",
-        "text": "Tens, hundreds, thousands, lakhs, and ten lakhs can be added like building blocks."
+        "title": "Beyond Any Number",
+        "text": "No matter how large a number is, the number line keeps going toward bigger values and smaller values."
       },
       {
-        "title": "Constraint Filtering",
-        "text": "Clues such as descending order, repeated digits, or missing positions remove impossible answers."
+        "title": "Filter Options",
+        "text": "Use clues such as digit repeats, range, odd or even endings, and units digits to remove wrong choices."
       }
     ],
-    "activity": {
-      "title": "Password From Clues",
-      "prompt": "Read each clue as a filter. Keep a small candidate list instead of guessing the whole number.",
-      "chips": [
-        {
-          "title": "Digit count",
-          "text": "If one digit appears three times, mark those three positions before arranging the rest."
-        },
-        {
-          "title": "Place value",
-          "text": "31 thousands and 42 hundreds must be converted before combining the number."
-        },
-        {
-          "title": "Largest number",
-          "text": "Put the largest allowed digit as far left as the constraints permit."
-        },
-        {
-          "title": "Check range",
-          "text": "A six-digit answer between two lakhs and eight lakhs must begin with 2, 3, 4, 5, 6, or 7."
-        }
-      ]
+    "interactive": {
+      "type": "infinityNumberLine",
+      "title": "Endless Number Line",
+      "prompt": "Slide left to move toward negative infinity, or slide right to move toward positive infinity."
     },
     "checks": [
       {
@@ -79,28 +62,6 @@ window.CT7_MODULES = [
         }
       },
       {
-        "text": "What number is represented by 3 lakhs, 45 thousands, 27 hundreds, 8 tens, and 9 ones?",
-        "options": [
-          "345789",
-          "347789",
-          "374789",
-          "347098"
-        ],
-        "answer": 1,
-        "clue": "Add 300000 + 45000 + 2700 + 80 + 9."
-      },
-      {
-        "text": "A six-digit number has odd digits in all places except the units place, where it has an even digit. What is the digit sum of the largest such number?",
-        "options": [
-          "52",
-          "53",
-          "54",
-          "55"
-        ],
-        "answer": 1,
-        "clue": "The largest number is 999998."
-      },
-      {
         "text": "A special digital safe uses a 4×4 grid of buttons containing the first 16 prime numbers arranged randomly. A hacker overrides the system by multiplying all the numbers on the keypad together. What is the units digit of the final product?",
         "image": {
           "src": "assets/prime-safe-keypad.svg",
@@ -114,6 +75,106 @@ window.CT7_MODULES = [
         ],
         "answer": 0,
         "clue": "The primes include 2 and 5, so the full product is a multiple of 10."
+      },
+      {
+        "text": "Imagine two number universes that both go on forever. Universe 1 has only counting numbers like 1, 2, 3, and 4. Universe 2 has counting numbers and decimal numbers like 1.1, 1.01, and 2.5. Which universe has the bigger infinity?",
+        "brief": {
+          "title": "Infinity comparison",
+          "items": [
+            {
+              "label": "Universe 1",
+              "value": "Counting numbers",
+              "detail": "1, 2, 3, 4, ..."
+            },
+            {
+              "label": "Universe 2",
+              "value": "Counting numbers and decimals",
+              "detail": "1.1, 1.01, 2.5, ..."
+            }
+          ],
+          "note": "Both continue forever. Think about how many numbers can fit between two counting numbers."
+        },
+        "visual": {
+          "type": "densityCompare",
+          "title": "Zoom Into One Gap",
+          "instruction": "Compare a counting step with what can fit inside that same step.",
+          "hint": "Focus on the spaces between two neighbours. Can you keep placing more numbers inside one gap?"
+        },
+        "optionsLayout": "stacked",
+        "options": [
+          "Universe 1: whole numbers grow faster.",
+          "Both are equal: infinity is just infinity.",
+          "Universe 2: decimals are packed between whole numbers.",
+          "Universe 1: decimals are only parts of numbers."
+        ],
+        "answer": 2,
+        "clue": "Between any two whole numbers there are infinitely many decimals, so Universe 2 is a denser infinity."
+      },
+      {
+        "text": "Imagine two never-ending number worlds. Universe 1 keeps counting 1, 2, 3, 4, and so on. Universe 2 has all the decimals between 0 and 1, like 0.1, 0.01, and 0.25. Which universe has the bigger infinity?",
+        "brief": {
+          "title": "Two infinite universes",
+          "items": [
+            {
+              "label": "Universe 1",
+              "value": "Whole-Number Universe",
+              "detail": "Regular counting numbers: 1, 2, 3, 4, 5, ..."
+            },
+            {
+              "label": "Universe 2",
+              "value": "Decimal Universe",
+              "detail": "Every decimal between 0 and 1: 0.1, 0.01, 0.25, ..."
+            }
+          ],
+          "note": "Both go on forever. Notice how tightly decimals fill even the small space between 0 and 1."
+        },
+        "visual": {
+          "type": "densityCompare",
+          "title": "Counting List vs 0 to 1",
+          "instruction": "Compare the whole counting list with only the decimal space from 0 to 1.",
+          "countingTitle": "Counting list: 1, 2, 3, 4, ... infinity",
+          "countTail": "...",
+          "countNote": "The counting side keeps going toward infinity: 5, 6, 7, ...",
+          "focusedGap": null,
+          "startLabel": "0",
+          "endLabel": "1",
+          "insideLabel": "Universe 2: only 0 to 1",
+          "zoomLabel": "compare with just 0 to 1",
+          "decimalTitle": "This small interval can still hold more and more decimals",
+          "decimalTicks": ["0.1", "0.2", "0.25", "0.5", "0.75", "0.9"],
+          "hint": "Look between 0 and 1, then choose any two marked decimals. Could another decimal still go between them?"
+        },
+        "optionsLayout": "stacked",
+        "options": [
+          "Universe 1: counting numbers are enough to match every decimal.",
+          "Both are equal: any two infinities always have the same size.",
+          "Universe 2: it has every decimal between 0 and 1.",
+          "Universe 1: decimals are only smaller pieces of whole numbers."
+        ],
+        "answer": 2,
+        "clue": "There are infinitely many decimals packed between 0 and 1."
+      },
+      {
+        "text": "A six-digit number has odd digits in all places except the units place, where it has an even digit. What is the digit sum of the largest such number?",
+        "options": [
+          "52",
+          "53",
+          "54",
+          "55"
+        ],
+        "answer": 1,
+        "clue": "The largest number is 999998."
+      },
+      {
+        "text": "What number is represented by 3 lakhs, 45 thousands, 27 hundreds, 8 tens, and 9 ones?",
+        "options": [
+          "345789",
+          "347789",
+          "374789",
+          "347098"
+        ],
+        "answer": 1,
+        "clue": "Add 300000 + 45000 + 2700 + 80 + 9."
       },
       {
         "text": "A computer encryption program removes the given pattern from the plaintext, then prints one 0 for each character left. What code should replace the question mark?",
@@ -148,62 +209,6 @@ window.CT7_MODULES = [
         "clue": "C is 10000, A is 100, D is 100000, and B is 1000."
       },
       {
-        "text": "Both universes go on forever. Which infinity is bigger?",
-        "brief": {
-          "title": "Infinity comparison",
-          "items": [
-            {
-              "label": "Universe 1",
-              "value": "Counting numbers",
-              "detail": "1, 2, 3, 4, ..."
-            },
-            {
-              "label": "Universe 2",
-              "value": "Counting numbers and decimals",
-              "detail": "1.1, 1.01, 2.5, ..."
-            }
-          ],
-          "note": "Both continue forever. Compare how densely the numbers are packed."
-        },
-        "optionsLayout": "stacked",
-        "options": [
-          "Universe 1: whole numbers grow faster.",
-          "Both are equal: infinity is just infinity.",
-          "Universe 2: decimals are packed between whole numbers.",
-          "Universe 1: decimals are only parts of numbers."
-        ],
-        "answer": 2,
-        "clue": "Between any two whole numbers there are infinitely many decimals, so Universe 2 is a denser infinity."
-      },
-      {
-        "text": "Now imagine two different infinite math universes. Which infinity is bigger?",
-        "brief": {
-          "title": "Two infinite universes",
-          "items": [
-            {
-              "label": "Universe 1",
-              "value": "Whole-Number Universe",
-              "detail": "Regular counting numbers: 1, 2, 3, 4, 5, ..."
-            },
-            {
-              "label": "Universe 2",
-              "value": "Decimal Universe",
-              "detail": "Contains books labeled with every single decimal stuck just between 0 and 1."
-            }
-          ],
-          "note": "Both go on forever. Look at how many numbers fit between whole-number steps."
-        },
-        "optionsLayout": "stacked",
-        "options": [
-          "Universe 1: counting numbers are enough to match every decimal.",
-          "Both are equal: any two infinities always have the same size.",
-          "Universe 2: it has every decimal between 0 and 1.",
-          "Universe 1: decimals are only smaller pieces of whole numbers."
-        ],
-        "answer": 2,
-        "clue": "There are infinitely many decimals packed between 0 and 1."
-      },
-      {
         "text": "Using digits 0, 2, 4, 7, and 9 once, what is the smallest odd number greater than 90000?",
         "options": [
           "90247",
@@ -234,7 +239,7 @@ window.CT7_MODULES = [
     "skill": "operators and order",
     "theme": "yellow",
     "visual": "data",
-    "intro": "Arithmetic expression puzzles ask you to follow operations exactly, test swaps, compare values, and work backward from a result.",
+    "intro": "Follow operations, test swaps, and work backward.",
     "lessons": [
       {
         "title": "Order Matters",
@@ -249,27 +254,10 @@ window.CT7_MODULES = [
         "text": "Passenger, seminar, and machine questions often reveal the starting value by reversing the operations."
       }
     ],
-    "activity": {
-      "title": "Expression Debugger",
-      "prompt": "Treat every operator as an instruction. Change one instruction at a time and compare the output.",
-      "chips": [
-        {
-          "title": "Precedence",
-          "text": "In 18 + 6 x 3 - 4, do 6 x 3 first."
-        },
-        {
-          "title": "Swap",
-          "text": "Swapping + and x means every old + becomes x and every old x becomes +."
-        },
-        {
-          "title": "Inequality",
-          "text": "Test each possible operator and reject the one that breaks the condition."
-        },
-        {
-          "title": "Reverse",
-          "text": "If half the bus is occupied at the end, double that count before undoing earlier stops."
-        }
-      ]
+    "interactive": {
+      "type": "expressionDebugger",
+      "title": "Operation Playground",
+      "prompt": "Change the two numbers, then switch between +, -, x, and / to compare how the same pair gives very different answers."
     },
     "checks": [
       {
@@ -283,37 +271,29 @@ window.CT7_MODULES = [
     ],
     "quiz": [
       {
-        "text": "A positive number is multiplied by a factor k. How does k decide whether the number grows, stays the same, or shrinks?",
-        "brief": {
-          "title": "Multiplier lab",
-          "items": [
-            {
-              "label": "Start",
-              "value": "Positive number",
-              "detail": "Use any value greater than 0."
-            },
-            {
-              "label": "Action",
-              "value": "Multiply by k",
-              "detail": "Try different values of k."
-            },
-            {
-              "label": "Check",
-              "value": "Compare final value",
-              "detail": "Is it bigger, same, or smaller?"
-            }
-          ],
-          "note": "Test the options with simple values of k, such as 2, 1, and 1/2."
+        "text": "Start with any positive number, like 10. You multiply it by a positive number k. How does k decide whether the answer is bigger than your starting number, equal to it, or smaller?",
+        "visual": {
+          "type": "multiplierCompare",
+          "title": "Multiplier k",
+          "start": 10,
+          "minK": 0,
+          "maxK": 2,
+          "initialK": 1,
+          "cases": [
+            { "k": 1, "label": "same" },
+            { "k": 2, "label": "grows" },
+            { "k": 0.5, "label": "shrinks" }
+          ]
         },
         "optionsLayout": "stacked",
         "options": [
-          "It always gets bigger, no matter what k is.",
-          "It gets bigger if k > 1, stays the same if k = 1, and gets smaller if 0 < k < 1.",
-          "It gets smaller if k > 1, and gets bigger if 0 < k < 1.",
-          "It only gets bigger when k is a whole number."
+          "The answer is always bigger.",
+          "If k is greater than 1, it grows. If k is 1, it stays the same. If k is between 0 and 1, it shrinks.",
+          "If k is greater than 1, it shrinks. If k is between 0 and 1, it grows.",
+          "The answer grows only when k is a whole number."
         ],
         "answer": 1,
-        "clue": "Multiplying by more than 1 increases a positive number. Multiplying by 1 keeps it the same. Multiplying by a positive factor less than 1 makes it smaller."
+        "clue": "Try 10 x 2, 10 x 1, and 10 x 1/2. Compare each answer with 10."
       },
       {
         "text": "In 5 + 4 x 3, interchange + and x. What is NEW value minus ORIGINAL value?",
@@ -327,60 +307,35 @@ window.CT7_MODULES = [
         "clue": "Original is 17. New expression is 5 x 4 + 3."
       },
       {
-        "text": "In the expression below, which operator CANNOT replace @ if the inequality must remain true?",
+        "text": "Mira's bakery van can pass the weigh-station only when a batch weighs from 25 kg to 50 kg. One batch weighs 15 @ 3 + 24 / 6 x 2 kg. Replace @ with +, -, x, or /. Which operator lets the batch pass?",
         "brief": {
-          "title": "Inequality trap",
+          "title": "Mira's batch check",
           "items": [
             {
-              "label": "Expression",
-              "value": "8 @ 7 - 15 < 4 x 2 x 5",
-              "detail": "Only one option breaks the condition."
+              "label": "Batch formula",
+              "value": "15 @ 3 + 24 / 6 x 2 kg",
+              "detail": "Try one operator in place of @."
             },
             {
-              "label": "Right side",
-              "value": "40",
-              "detail": "Calculate 4 x 2 x 5 first."
-            },
-            {
-              "label": "CT move",
-              "value": "Eliminate",
-              "detail": "Keep the operators that make the statement true."
+              "label": "Allowed weight",
+              "value": "25 kg to 50 kg",
+              "detail": "Both 25 kg and 50 kg are allowed."
             }
           ],
-          "note": "Try each operator in the same expression. The answer is the one that makes the inequality false."
+          "note": "Check the four possible results, then keep the one that lands in the range."
         },
+        "optionsLayout": "operator-grid",
         "options": [
           "-",
-          "/",
           "+",
+          "/",
           "x"
         ],
-        "answer": 3,
-        "clue": "With x, the left side is 8 x 7 - 15 = 41, and 41 < 40 is false."
+        "answer": 1,
+        "clue": "The tail 24 / 6 x 2 evaluates to 8. The four results are: - gives 20, + gives 26, / gives 13, x gives 53. Only 26 sits in [25, 50]."
       },
       {
-        "text": "A 40-seat bus finishes with exactly half its seats occupied. Which expression gives the number of passengers at the beginning?",
-        "brief": {
-          "title": "Reverse the bus story",
-          "items": [
-            {
-              "label": "Stop 1",
-              "value": "-5, +8",
-              "detail": "5 get off and 8 get in."
-            },
-            {
-              "label": "Stop 2",
-              "value": "-2, +4",
-              "detail": "2 get off and 4 get in."
-            },
-            {
-              "label": "Stop 3",
-              "value": "Half leave",
-              "detail": "Then 20 passengers remain."
-            }
-          ],
-          "note": "Work backward from 20 passengers after the third stop."
-        },
+        "text": "A bus makes three stops. At the first stop, 5 passengers get off and 8 get in. At the second stop, 2 passengers get off and 4 get in. At the third stop, half of the passengers leave. The bus then has 20 passengers, exactly half of its 40 seats occupied. Which expression gives the number of passengers at the beginning?",
         "options": [
           "5 x 5 + 5",
           "6 x 6 - 4",
@@ -388,7 +343,7 @@ window.CT7_MODULES = [
           "6 x 6 - 5"
         ],
         "answer": 2,
-        "clue": "Before half left there were 40 passengers. Before the first two stops, there were 40 - 5 = 35 passengers."
+        "clue": "Before half left there were 40 passengers. The first two stops add 5 passengers in all, so the beginning count was 40 - 5 = 35."
       },
       {
         "text": "A bus starts with n passengers. Then 6 get in, 3 get off, and 9 get in. Finally, half of the passengers leave, leaving 21. What was n?",
@@ -402,27 +357,27 @@ window.CT7_MODULES = [
         "clue": "Before half left there were 42 passengers, so n + 12 = 42."
       },
       {
-        "text": "A three-slot machine must finish at 96. Each empty slot can be either x4 or -12. What is the least possible whole-number input n?",
-        "brief": {
-          "title": "Operation slots",
+        "text": "A number goes through a three-step process. At each step, you can choose either to multiply the current number by 4 or subtract 12. After all three steps, the final result is 96. What is the smallest whole number you could have started with?",
+        "hintBrief": {
+          "title": "Board hint",
           "items": [
             {
               "label": "Start",
-              "value": "n",
-              "detail": "n must be a whole number."
+              "value": "A whole number",
+              "detail": "This is the number you are trying to find."
             },
             {
-              "label": "Each slot",
-              "value": "x4 or -12",
-              "detail": "Choose one operation per slot."
+              "label": "Each step",
+              "value": "Multiply by 4 or subtract 12",
+              "detail": "Choose one action for each of the three steps."
             },
             {
-              "label": "Target",
+              "label": "Finish",
               "value": "96",
-              "detail": "Find the smallest input that can reach it."
+              "detail": "The third step must land on this number."
             }
           ],
-          "note": "Think like an algorithm: choose a sequence of three operations, then test the input."
+          "note": "[Start] -> Slot 1 -> Slot 2 -> Slot 3 -> 96"
         },
         "options": [
           "9",
@@ -431,41 +386,34 @@ window.CT7_MODULES = [
           "72"
         ],
         "answer": 0,
-        "clue": "The sequence x4, -12, x4 works: 9 becomes 36, then 24, then 96."
+        "clue": "One working path is: start with 9, multiply by 4 to get 36, subtract 12 to get 24, then multiply by 4 to get 96."
       },
       {
-        "text": "A code follows n -> n squared + 1. If 2 becomes 5 and 4 becomes 17, what does 6 become?",
+        "text": "Each fruit has a secret value. Use the clues in the picture. What is pear + pear - strawberry?",
+        "image": {
+          "src": "assets/fruit-equation-challenge.svg",
+          "alt": "Orange plus pear equals 17. Pear plus strawberry equals 14. Orange plus strawberry equals 13. Find pear plus pear minus strawberry."
+        },
         "options": [
-          "35",
-          "36",
-          "37",
-          "49"
+          "11",
+          "12",
+          "13",
+          "14"
         ],
         "answer": 2,
-        "clue": "6 squared is 36, then add 1."
+        "clue": "Add the first two equations and subtract the third: 2 pears = 18, so pear = 9. Then strawberry = 5, and 9 + 9 - 5 = 13."
       },
       {
-        "text": "You may interchange exactly one pair of operators in the expression. Which swap gives the minimum value?",
+        "text": "Look at the expression 8 x 4 + 2 - 1. You may swap one pair of operation signs, or leave the expression unchanged. After using the normal order of operations, which choice gives the smallest value?",
         "brief": {
           "title": "Operator swap challenge",
           "items": [
             {
-              "label": "Original",
+              "label": "Expression to test",
               "value": "8 x 4 + 2 - 1",
-              "detail": "Swap one pair of operators, or choose no change."
-            },
-            {
-              "label": "Goal",
-              "value": "Minimum value",
-              "detail": "Calculate each possible result carefully."
-            },
-            {
-              "label": "CT move",
-              "value": "Compare cases",
-              "detail": "Do not stop at the first smaller value."
+              "detail": "Try each option, calculate the result carefully, and choose the one that gives the smallest answer."
             }
-          ],
-          "note": "After a swap, use normal order of operations."
+          ]
         },
         "options": [
           "x and +",
@@ -474,7 +422,7 @@ window.CT7_MODULES = [
           "No change"
         ],
         "answer": 2,
-        "clue": "Swapping - and x gives 8 - 4 + 2 x 1 = 6, which is the smallest option."
+        "clue": "Swapping - and x gives 8 - 4 + 2 x 1 = 6, which is the smallest result."
       },
       {
         "text": "Using + and x exactly once, which expression gives the maximum value?",
@@ -491,7 +439,8 @@ window.CT7_MODULES = [
         "text": "Each arrow carries an operator. If an arrow is chosen, its operator replaces @ in that arrow's equation. Which arrow makes a true equation?",
         "image": {
           "src": "assets/operator-arrow-puzzle.svg",
-          "alt": "Four arrows labeled P, Q, R, and S point to a centre operator box. Each arrow has its own operator and equation to test."
+          "alt": "Four arrows labeled P, Q, R, and S point to a centre operator box. Each arrow has its own operator and equation to test.",
+          "size": "wide"
         },
         "options": [
           "Arrow P",
@@ -512,7 +461,7 @@ window.CT7_MODULES = [
     "theme": "blue",
     "visual": "data",
     "hideActivity": true,
-    "intro": "Decimals and binary both use place value. One uses powers of ten; the other uses powers of two and only the digits 0 and 1.",
+    "intro": "Compare decimal place value with binary powers.",
     "extraPages": [
       {
         "type": "binaryFingers",
@@ -592,11 +541,12 @@ window.CT7_MODULES = [
         "clue": "13 = 8 + 4 + 1.",
         "visual": {
           "type": "binaryPlace",
-          "title": "Build 13 from place values",
-          "instruction": "Tap each place to switch its bit on or off. The total updates live.",
+          "title": "Build with place values",
+          "instruction": "Tap place values on or off and watch the binary and decimal totals change.",
           "places": [16, 8, 4, 2, 1],
           "target": 13,
-          "hint": "Pick the smallest set of places that sum to 13."
+          "hideTargetLabel": true,
+          "hint": "Work from the largest place value down. Use a place only if it helps without going past the number."
         }
       },
       {
@@ -612,10 +562,9 @@ window.CT7_MODULES = [
         "visual": {
           "type": "binaryPlace",
           "title": "Read the binary as a sum",
-          "instruction": "The bits 1 0 1 1 0 are already set. Read off the lit place values and add them.",
+          "instruction": "Tap boxes to copy the 1s and 0s from the question, then use the total to reason it out.",
           "places": [16, 8, 4, 2, 1],
-          "initialBits": [1, 0, 1, 1, 0],
-          "hint": "Only the places under a 1 count. Add those values."
+          "hint": "Treat each 1 as switched on and each 0 as switched off."
         }
       },
       {
@@ -631,11 +580,12 @@ window.CT7_MODULES = [
         "visual": {
           "type": "doublingTree",
           "title": "Each hole doubles the choices",
-          "instruction": "Watch how the count doubles for every hole added.",
+          "instruction": "Tap the row to reveal the doubling pattern. The final box stays hidden for you to finish.",
           "base": 2,
           "exponent": 5,
-          "labels": ["1 hole", "2 holes", "3 holes", "4 holes", "5 holes"],
-          "hint": "2 × 2 × 2 × 2 × 2 — keep doubling five times."
+          "labels": ["0 holes", "1 hole", "2 holes", "3 holes", "4 holes", "5 holes"],
+          "hideFinalValue": true,
+          "hint": "Start small: think about 1 hole, then 2 holes, then keep the same doubling rule."
         }
       },
       {
@@ -650,11 +600,12 @@ window.CT7_MODULES = [
         "clue": "Translate each binary digit in order.",
         "visual": {
           "type": "binaryHoles",
-          "title": "Translate each digit",
-          "instruction": "0 punches an O hole. 1 punches a U hole. Read left to right.",
+          "title": "Translate in order",
+          "instruction": "Tap each hole box to choose a shape. Use the rule from the question and keep the order.",
           "binary": "01101",
           "mapping": { "0": "O", "1": "U" },
-          "hint": "Tap any digit to see its hole shape highlighted."
+          "hideHoleAnswers": true,
+          "hint": "Check one digit at a time, then compare the full pattern with the options."
         }
       },
       {
@@ -690,13 +641,14 @@ window.CT7_MODULES = [
         "visual": {
           "type": "numberLine",
           "title": "Steady jumps of 0.50",
-          "instruction": "Drag the marker to find the next jump.",
+          "instruction": "Use the same jump size to place the next marker.",
           "start": 6,
           "end": 9,
           "step": 0.25,
           "marks": [6.25, 6.75, 7.25, 7.75],
           "target": 8.25,
-          "hint": "Each marker is +0.50 from the previous."
+          "hideTargetLabel": true,
+          "hint": "Compare two neighbouring terms to find the jump size, then make one more jump."
         }
       },
       {
@@ -718,7 +670,8 @@ window.CT7_MODULES = [
           "step": 0.1,
           "marks": [],
           "target": 0.7,
-          "hint": "Each tick is +0.1. Count seven of them."
+          "hideTargetLabel": true,
+          "hint": "Each tick is one tenth. Count the tick number, then write it as a decimal."
         }
       },
       {
@@ -733,12 +686,12 @@ window.CT7_MODULES = [
         "clue": "The faulty values are 10 times greater and 10 times smaller.",
         "visual": {
           "type": "decimalShift",
-          "title": "Faulty shifts of 3.2",
-          "instruction": "Slide the decimal to see how 3.2 turns into 32 or 0.32.",
+          "title": "Explore place-value changes",
+          "instruction": "Use the arrows to explore how the same digits can change value.",
           "value": "3.2",
           "direction": "either",
           "places": 1,
-          "hint": "Right shift → ×10. Left shift → ÷10."
+          "hint": "Focus on what happened to the place value of the digits, not on adding or rounding."
         }
       },
       {
@@ -753,8 +706,8 @@ window.CT7_MODULES = [
         "clue": "3 + 0 equals 1 + 2.",
         "visual": {
           "type": "digitBalance",
-          "title": "Match the digit sums",
-          "instruction": "Each side must total the same. Tap a split to compare.",
+          "title": "Find the one option",
+          "instruction": "Tap an option. The rule chips turn green when that rule passes.",
           "splits": [
             { "label": "30.12", "left": [3, 0], "right": [1, 2] },
             { "label": "31.02", "left": [3, 1], "right": [0, 2] },
@@ -762,7 +715,9 @@ window.CT7_MODULES = [
             { "label": "21.30", "left": [2, 1], "right": [3, 0] }
           ],
           "rules": ["Left side descending", "Right side ascending", "Equal digit sums"],
-          "hint": "Only one option has matching sums AND the order rules."
+          "hideBalanceFeedback": true,
+          "showRuleChecks": true,
+          "hint": "Use the chips as filters: left order, right order, and equal sums must all pass."
         }
       },
       {
@@ -785,11 +740,12 @@ window.CT7_MODULES = [
         "clue": "Read the finger labels as 16, 8, 4, 2, and 1. Add only the raised fingers.",
         "visual": {
           "type": "binaryPlace",
-          "title": "Raise the fingers for 19",
-          "instruction": "Think of one hand as five binary places: 16, 8, 4, 2, and 1. Which fingers should be up?",
+          "title": "Use binary finger values",
+          "instruction": "Think of one hand as five binary places: 16, 8, 4, 2, and 1.",
           "places": [16, 8, 4, 2, 1],
           "target": 19,
-          "hint": "Start with the 16 finger, then use the smaller fingers to make the remaining 3."
+          "hideTargetLabel": true,
+          "hint": "Begin with the largest place value that does not go past the number, then check the smaller places."
         }
       }
     ]
@@ -801,7 +757,7 @@ window.CT7_MODULES = [
     "skill": "variables and symbolic rules",
     "theme": "teal",
     "visual": "data",
-    "intro": "Letters can stand for numbers, relationships, or operations. Good reasoning keeps track of what each symbol is allowed to mean.",
+    "intro": "Track what each symbol is allowed to mean.",
     "lessons": [
       {
         "title": "Variables",
@@ -816,27 +772,11 @@ window.CT7_MODULES = [
         "text": "Combine like terms and cancel matching parts to reveal a simpler rule."
       }
     ],
-    "activity": {
-      "title": "Letter Machine",
-      "prompt": "Assign values only when the clues force them. If not, keep the expression symbolic.",
-      "chips": [
-        {
-          "title": "A + B = Z",
-          "text": "If B is twice A, then Z is three times A."
-        },
-        {
-          "title": "Pyramid",
-          "text": "When each block is the sum of two below it, work upward one row at a time."
-        },
-        {
-          "title": "Translate",
-          "text": "If # means greater than, write > before comparing options."
-        },
-        {
-          "title": "Simplify",
-          "text": "Remove terms that add and subtract the same amount."
-        }
-      ]
+    "interactive": {
+      "type": "quoteCard",
+      "title": "A Thought About Variables",
+      "quote": "Math is not only about solving for x — it’s also about finding y.",
+      "note": "Letters help us describe changing values, not just one missing answer."
     },
     "checks": [
       {
@@ -968,7 +908,7 @@ window.CT7_MODULES = [
     "skill": "angle relationships",
     "theme": "yellow",
     "visual": "geometry",
-    "intro": "Line puzzles use exact relationships: parallel lines stay apart, intersecting lines create equal opposite angles, and straight lines make 180 degrees.",
+    "intro": "Use line and angle relationships precisely.",
     "lessons": [
       {
         "title": "Parallel Lines",
@@ -983,27 +923,10 @@ window.CT7_MODULES = [
         "text": "A line cutting parallel lines creates matching angle relationships."
       }
     ],
-    "activity": {
+    "interactive": {
+      "type": "angleInspector",
       "title": "Angle Inspector",
-      "prompt": "Name the relationship first, then calculate. The relationship is the rule your answer follows.",
-      "chips": [
-        {
-          "title": "Opposite",
-          "text": "Vertically opposite angles are equal."
-        },
-        {
-          "title": "Straight",
-          "text": "Angles on a straight line add to 180 degrees."
-        },
-        {
-          "title": "Perpendicular",
-          "text": "Perpendicular lines meet at 90 degrees."
-        },
-        {
-          "title": "Parallel",
-          "text": "Corresponding angles are equal when a transversal cuts parallel lines."
-        }
-      ]
+      "prompt": "Drag the dark handle to tilt the transversal, then pull the blue grip to move the lines apart. Close together they just intersect; far apart they become parallel lines with equal corresponding angles."
     },
     "checks": [
       {
@@ -1135,7 +1058,7 @@ window.CT7_MODULES = [
     "skill": "binary logic and filtering",
     "theme": "blue",
     "visual": "ai",
-    "intro": "The number-play chapter models logic with ON/OFF cards, grids, digits, and filters. Complex puzzles shrink when every clue removes cases.",
+    "intro": "Use clues to filter cases step by step.",
     "lessons": [
       {
         "title": "Binary States",
@@ -1150,27 +1073,10 @@ window.CT7_MODULES = [
         "text": "When a clue says either-or, split the cases and test each one."
       }
     ],
-    "activity": {
+    "interactive": {
+      "type": "lightFilter",
       "title": "Light Card Filter",
-      "prompt": "Track U as ON and O as OFF. Each clue should cut down the remaining cards.",
-      "chips": [
-        {
-          "title": "3 lights",
-          "text": "Three lights create 2 x 2 x 2 = 8 possible cards."
-        },
-        {
-          "title": "R is ON",
-          "text": "Keep only cards with U in the R position."
-        },
-        {
-          "title": "B is OFF",
-          "text": "Keep only cards with O in the B position."
-        },
-        {
-          "title": "Neighbour rule",
-          "text": "An ON light can be accepted only if its neighbour is OFF."
-        }
-      ]
+      "prompt": "Tap each light to set a clue (Any, ON, or OFF) and watch the eight possible cards shrink to the ones that still match."
     },
     "checks": [
       {
@@ -1185,6 +1091,14 @@ window.CT7_MODULES = [
     "quiz": [
       {
         "text": "How many ON/OFF cards are possible for 5 lights?",
+        "visual": {
+          "type": "binaryCount",
+          "title": "Build ON/OFF Cards",
+          "instruction": "Use + and - to explore 1 to 4 lights. Watch what happens each time one more ON/OFF choice is added.",
+          "lights": 5,
+          "practiceMax": 4,
+          "hint": "Look for the doubling pattern before deciding what happens with the fifth light."
+        },
         "options": [
           "10",
           "16",
@@ -1206,7 +1120,14 @@ window.CT7_MODULES = [
         "clue": "Read the second position for Green."
       },
       {
-        "text": "For 3 lights, how many cards remain after the clue Red is ON?",
+        "text": "There are 8 RGB cards formed by all possible ON/OFF combinations of Red, Green, and Blue. If the clue says Red is ON, how many cards remain?",
+        "visual": {
+          "type": "rgbFilter",
+          "title": "Filter the RGB Cards",
+          "instruction": "Start with all three clues OFF. Tap Red once to set it ON, then count the bright cards.",
+          "startState": "off",
+          "hint": "For the question, change Red to ON. You can also change the other colours to see how filters remove cards."
+        },
         "options": [
           "8",
           "4",
@@ -1218,6 +1139,13 @@ window.CT7_MODULES = [
       },
       {
         "text": "For RGB cards, after keeping Red ON and Blue OFF, how many cards remain?",
+        "visual": {
+          "type": "rgbFilter",
+          "title": "Apply Two Clues",
+          "instruction": "Start with all three clues OFF. Tap Red once to set it ON, leave Blue OFF, and try Green both ways.",
+          "startState": "off",
+          "hint": "For the question, use Red ON and Blue OFF. Then notice which colour is still free."
+        },
         "options": [
           "1",
           "2",
@@ -1228,7 +1156,14 @@ window.CT7_MODULES = [
         "clue": "Only Green is still free to be ON or OFF."
       },
       {
-        "text": "If Red is ON, Blue is OFF, and every ON light must have an OFF neighbour, which RGB pattern works?",
+        "text": "In RGB order, the positions are Red, Green, Blue. Red is ON, Blue is OFF, and every ON light must have an OFF neighbour. Which RGB pattern works?",
+        "visual": {
+          "type": "rgbNeighbour",
+          "title": "Neighbour Rule Check",
+          "instruction": "Start with all lights OFF. Tap the Red, Green, and Blue lights to test different RGB patterns.",
+          "startState": "off",
+          "hint": "For the question, build a pattern that keeps Red ON, Blue OFF, and every ON light next to an OFF light."
+        },
         "options": [
           "U U O",
           "U O O",
@@ -1262,6 +1197,18 @@ window.CT7_MODULES = [
       },
       {
         "text": "A rectangle pattern has dimensions 3 x 5, 5 x 8, 8 x 13, 13 x 21. What is the area of the next rectangle?",
+        "visual": {
+          "type": "rectanglePattern",
+          "title": "Rectangle Side Pattern",
+          "instruction": "Tap a rectangle to see how each pair of side lengths uses neighbouring numbers in the same sequence.",
+          "dimensions": [
+            [3, 5],
+            [5, 8],
+            [8, 13],
+            [13, 21]
+          ],
+          "hint": "Find the next pair of side lengths first, then multiply them for the area."
+        },
         "options": [
           "612",
           "693",
@@ -1283,15 +1230,15 @@ window.CT7_MODULES = [
         "clue": "Two odd digits add to an even number, and two even digits also add to an even number."
       },
       {
-        "text": "A known OFF light in a punch-card puzzle means you should keep cards with which symbol in that light's position?",
+        "text": "A number filter keeps only three-digit numbers whose hundreds digit is odd, whose tens digit is greater than the units digit, and whose digit sum is a multiple of 5. Which number passes all filters?",
         "options": [
-          "U",
-          "O",
-          "X only",
-          "no symbol"
+          "742",
+          "581",
+          "963",
+          "735"
         ],
         "answer": 1,
-        "clue": "O represents OFF."
+        "clue": "Apply the filters one at a time: odd hundreds digit, tens digit greater than units digit, then digit sum divisible by 5."
       }
     ]
   },
@@ -1302,7 +1249,7 @@ window.CT7_MODULES = [
     "skill": "triangles and proof",
     "theme": "yellow",
     "visual": "geometry",
-    "intro": "Triangle puzzles combine shape properties, similarity, folds, angle sums, and sufficiency of information.",
+    "intro": "Reason with triangles, folds, and angle sums.",
     "lessons": [
       {
         "title": "Classify",
@@ -1317,27 +1264,10 @@ window.CT7_MODULES = [
         "text": "Some clues are enough alone, while others need to be combined."
       }
     ],
-    "activity": {
+    "interactive": {
+      "type": "triangleLab",
       "title": "Triangle Case Lab",
-      "prompt": "Before calculating, ask which type of triangle the clues force.",
-      "chips": [
-        {
-          "title": "Equilateral",
-          "text": "All sides equal and each angle is 60 degrees."
-        },
-        {
-          "title": "Isosceles",
-          "text": "At least two sides are equal."
-        },
-        {
-          "title": "Right",
-          "text": "One angle is 90 degrees."
-        },
-        {
-          "title": "Similar",
-          "text": "Matching angles are equal and side ratios match."
-        }
-      ]
+      "prompt": "Tap a preset triangle, or drag any corner to reshape it. The three angles always add to 180°, and the label names the type."
     },
     "checks": [
       {
@@ -1351,18 +1281,29 @@ window.CT7_MODULES = [
     ],
     "quiz": [
       {
-        "text": "A square and an equilateral triangle have the same side length. Which has the greater area?",
+        "text": "What is the sum of the three interior angles of a triangle?",
+        "visual": {
+          "type": "triangleAngles",
+          "title": "Triangle Angle Sum",
+          "instruction": "Drag any corner. The dashed line through C is parallel to base AB, so matching Z-angles use the same colour.",
+          "hint": "Use the parallel line to move the base angles up to C. The three coloured angles sit on one straight line."
+        },
         "options": [
-          "square",
-          "triangle",
-          "both equal",
-          "cannot be compared"
+          "90 degrees",
+          "120 degrees",
+          "180 degrees",
+          "360 degrees"
         ],
-        "answer": 0,
-        "clue": "A square of side s has area s squared, which is greater than an equilateral triangle with side s."
+        "answer": 2,
+        "clue": "For any triangle, the three interior angles add to 180 degrees."
       },
       {
         "text": "Three identical equilateral triangles are joined edge to edge with no overlap. Which shape can be formed?",
+        "visual": {
+          "type": "threeTriangleBuild",
+          "title": "Build With Three Triangles",
+          "instruction": "Watch three triangles join into a trapezium."
+        },
         "options": [
           "trapezium",
           "circle",
@@ -1385,6 +1326,10 @@ window.CT7_MODULES = [
       },
       {
         "text": "An isosceles triangle has perimeter 25 cm, and its equal sides are multiples of 4. How many possible third-side lengths are there?",
+        "visual": {
+          "type": "isoscelesCases",
+          "title": "Try Equal-Side Cases"
+        },
         "options": [
           "1",
           "2",
@@ -1406,26 +1351,38 @@ window.CT7_MODULES = [
         "clue": "Similarity preserves angle measures."
       },
       {
-        "text": "The angles of a triangle add to:",
+        "text": "How many triangles are there in the given figure?",
+        "image": {
+          "src": "assets/triangle-count-two-rectangles.svg",
+          "alt": "A rectangle split into two equal rectangles with diagonals drawn across the parts."
+        },
+        "visual": {
+          "type": "triangleCountTrace",
+          "title": "Trace Triangle Sizes"
+        },
         "options": [
-          "90 degrees",
-          "120 degrees",
-          "180 degrees",
-          "360 degrees"
+          "10",
+          "14",
+          "12",
+          "16"
         ],
-        "answer": 2,
-        "clue": "This is the angle-sum property of triangles."
+        "answer": 3,
+        "clue": "Count the smallest triangles first, then look for larger triangles made by combining them."
       },
       {
-        "text": "Each angle of an equilateral triangle is:",
+        "text": "If you join 6 identical equilateral triangles edge to edge around one point, what shape can they make, and why?",
+        "visual": {
+          "type": "equilateralRing",
+          "title": "Build Around One Point"
+        },
         "options": [
-          "30 degrees",
-          "45 degrees",
-          "60 degrees",
-          "90 degrees"
+          "a regular hexagon, because six 60-degree angles fit around one point",
+          "a square, because all sides are equal",
+          "a pentagon, because five outside edges are visible",
+          "a circle, because the triangles go around a centre"
         ],
-        "answer": 2,
-        "clue": "Divide 180 degrees equally among three angles."
+        "answer": 0,
+        "clue": "Each equilateral triangle has a 60-degree angle. Six of those angles fill 360 degrees around a point."
       },
       {
         "text": "A scalene triangle has:",
@@ -1439,7 +1396,7 @@ window.CT7_MODULES = [
         "clue": "Scalene means unequal side lengths."
       },
       {
-        "text": "In a right triangle, the angle opposite the hypotenuse is:",
+        "text": "In a right-angled triangle, one angle is 90 degrees. What is the sum of the other two angles?",
         "options": [
           "30 degrees",
           "60 degrees",
@@ -1447,10 +1404,14 @@ window.CT7_MODULES = [
           "180 degrees"
         ],
         "answer": 2,
-        "clue": "The hypotenuse is opposite the right angle."
+        "clue": "All three angles of a triangle add to 180 degrees. Subtract the right angle."
       },
       {
       "text": "In a 3 by 3 grid, what is the maximum number of circles you can place without making three in any row, column, or diagonal?",
+        "visual": {
+          "type": "gridNoThree",
+          "title": "No Three In A Line"
+        },
         "options": [
           "4",
           "5",
@@ -1469,7 +1430,7 @@ window.CT7_MODULES = [
     "skill": "parts and proportions",
     "theme": "blue",
     "visual": "geometry",
-    "intro": "Fraction problems often ask you to track what remains after each step, compare parts, and model areas or repeated changes.",
+    "intro": "Track remaining parts and compare proportions.",
     "lessons": [
       {
         "title": "Remaining Amounts",
@@ -1484,27 +1445,10 @@ window.CT7_MODULES = [
         "text": "Grid regions and shaded parts make fractions visible."
       }
     ],
-    "activity": {
-      "title": "Share and Track",
-      "prompt": "Keep a running whole. Fractions are easy to lose if you keep using the original amount by mistake.",
-      "chips": [
-        {
-          "title": "Share",
-          "text": "If 1/4 is kept, 3/4 remains for the next step."
-        },
-        {
-          "title": "Compare",
-          "text": "Use a common denominator before deciding which fraction is larger."
-        },
-        {
-          "title": "Area",
-          "text": "A 4 by 4 grid has 16 equal parts."
-        },
-        {
-          "title": "Change",
-          "text": "Increasing one side and decreasing another can keep perimeter steady while changing area."
-        }
-      ]
+    "interactive": {
+      "type": "fractionModel",
+      "title": "Fraction Area Model",
+      "prompt": "Slide the numerator and denominator to shade the bar, and read the fraction as a decimal, a percentage, and its simplest form."
     },
     "checks": [
       {

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" role="img" aria-labelledby="title desc">
+  <title id="title">Triangle counting figure</title>
+  <desc id="desc">A rectangle divided into two equal rectangles with a vertical middle line, two short diagonals, and one long diagonal from bottom left to top right.</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#172034" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  <rect width="720" height="360" rx="24" fill="#f8fbff"/>
+  <rect x="34" y="30" width="652" height="300" rx="22" fill="#ffffff" stroke="#dfe7f3" filter="url(#shadow)"/>
+  <g transform="translate(86 82)">
+    <rect x="0" y="0" width="548" height="196" fill="#d7d9f2" stroke="#172034" stroke-width="6" stroke-linejoin="round"/>
+    <line x1="274" y1="0" x2="274" y2="196" stroke="#172034" stroke-width="6"/>
+    <line x1="0" y1="0" x2="274" y2="196" stroke="#172034" stroke-width="6" stroke-linecap="round"/>
+    <line x1="274" y1="0" x2="548" y2="196" stroke="#172034" stroke-width="6" stroke-linecap="round"/>
+    <line x1="0" y1="196" x2="548" y2="0" stroke="#172034" stroke-width="6" stroke-linecap="round"/>
+  </g>
+</svg>
