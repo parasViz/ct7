@@ -297,6 +297,11 @@ window.CT7_MODULES = [
       },
       {
         "text": "In 5 + 4 x 3, interchange + and x. What is NEW value minus ORIGINAL value?",
+        "brief": {
+          "title": "Swap focus",
+          "compact": true,
+          "text": "Find the original value first, then swap the signs and compare the new value."
+        },
         "options": [
           "4",
           "5",
@@ -309,20 +314,9 @@ window.CT7_MODULES = [
       {
         "text": "Mira's bakery van can pass the weigh-station only when a batch weighs from 25 kg to 50 kg. One batch weighs 15 @ 3 + 24 / 6 x 2 kg. Replace @ with +, -, x, or /. Which operator lets the batch pass?",
         "brief": {
-          "title": "Mira's batch check",
-          "items": [
-            {
-              "label": "Batch formula",
-              "value": "15 @ 3 + 24 / 6 x 2 kg",
-              "detail": "Try one operator in place of @."
-            },
-            {
-              "label": "Allowed weight",
-              "value": "25 kg to 50 kg",
-              "detail": "Both 25 kg and 50 kg are allowed."
-            }
-          ],
-          "note": "Check the four possible results, then keep the one that lands in the range."
+          "title": "Range check",
+          "compact": true,
+          "text": "Test each operator and keep only the result that lands between 25 kg and 50 kg."
         },
         "optionsLayout": "operator-grid",
         "options": [
@@ -336,6 +330,28 @@ window.CT7_MODULES = [
       },
       {
         "text": "A bus makes three stops. At the first stop, 5 passengers get off and 8 get in. At the second stop, 2 passengers get off and 4 get in. At the third stop, half of the passengers leave. The bus then has 20 passengers, exactly half of its 40 seats occupied. Which expression gives the number of passengers at the beginning?",
+        "brief": {
+          "title": "Track changes",
+          "compact": true,
+          "text": "Let the starting number be x; each stop changes that same running total."
+        },
+        "hintBrief": {
+          "title": "Track the first two stops",
+          "layout": "vertical",
+          "items": [
+            {
+              "label": "First stop",
+              "value": "x - 5 + 8 = x + 3",
+              "detail": "Let the starting number be x. First 5 get off, then 8 get in."
+            },
+            {
+              "label": "Second stop",
+              "value": "x + 3 - 2 + 4 = x + 5",
+              "detail": "Start from the first-stop result. Then 2 get off and 4 get in."
+            }
+          ],
+          "note": "Now continue from x + 5 using the next sentence in the question."
+        },
         "options": [
           "5 x 5 + 5",
           "6 x 6 - 4",
@@ -346,7 +362,12 @@ window.CT7_MODULES = [
         "clue": "Before half left there were 40 passengers. The first two stops add 5 passengers in all, so the beginning count was 40 - 5 = 35."
       },
       {
-        "text": "A bus starts with n passengers. Then 6 get in, 3 get off, and 9 get in. Finally, half of the passengers leave, leaving 21. What was n?",
+        "text": "A bus starts with some passengers. Then 6 passengers get in, 3 passengers get off, and 9 more passengers get in. Finally, half of the passengers leave the bus, and 21 passengers remain. Use reverse logic to find the number of passengers at the beginning.",
+        "brief": {
+          "title": "Reverse logic",
+          "compact": true,
+          "text": "Reverse logic means starting from the final number and working backward step by step."
+        },
         "options": [
           "24",
           "28",
@@ -358,6 +379,11 @@ window.CT7_MODULES = [
       },
       {
         "text": "A number goes through a three-step process. At each step, you can choose either to multiply the current number by 4 or subtract 12. After all three steps, the final result is 96. What is the smallest whole number you could have started with?",
+        "brief": {
+          "title": "Backward path",
+          "compact": true,
+          "text": "Think from the finish first; each earlier step must be possible for a whole-number start."
+        },
         "hintBrief": {
           "title": "Board hint",
           "items": [
@@ -404,16 +430,18 @@ window.CT7_MODULES = [
         "clue": "Add the first two equations and subtract the third: 2 pears = 18, so pear = 9. Then strawberry = 5, and 9 + 9 - 5 = 13."
       },
       {
-        "text": "Look at the expression 8 x 4 + 2 - 1. You may swap one pair of operation signs, or leave the expression unchanged. After using the normal order of operations, which choice gives the smallest value?",
+        "text": "Look at the expression below. You may swap one pair of operation signs, or leave the expression unchanged. After using the normal order of operations, which choice gives the smallest value?",
         "brief": {
-          "title": "Operator swap challenge",
-          "items": [
-            {
-              "label": "Expression to test",
-              "value": "8 x 4 + 2 - 1",
-              "detail": "Try each option, calculate the result carefully, and choose the one that gives the smallest answer."
-            }
-          ]
+          "title": "Expression",
+          "compact": true,
+          "variant": "expression",
+          "text": "8 x 4 + 2 - 1"
+        },
+        "visual": {
+          "type": "operatorSwapCircles",
+          "title": "Circle Swap Hint",
+          "numbers": [8, 4, 2, 1],
+          "operators": ["x", "+", "-"]
         },
         "options": [
           "x and +",
@@ -425,31 +453,46 @@ window.CT7_MODULES = [
         "clue": "Swapping - and x gives 8 - 4 + 2 x 1 = 6, which is the smallest result."
       },
       {
-        "text": "Using + and x exactly once, which expression gives the maximum value?",
-        "options": [
-          "7 + 2 x 5",
-          "7 x 2 + 5",
-          "2 + 5 x 7",
-          "5 + 7 x 2"
-        ],
-        "answer": 2,
-        "clue": "Multiplying 5 by 7 gives the largest product before adding 2."
-      },
-      {
-        "text": "Each arrow carries an operator. If an arrow is chosen, its operator replaces @ in that arrow's equation. Which arrow makes a true equation?",
-        "image": {
-          "src": "assets/operator-arrow-puzzle.svg",
-          "alt": "Four arrows labeled P, Q, R, and S point to a centre operator box. Each arrow has its own operator and equation to test.",
-          "size": "wide"
+        "text": "Use the pattern in the equations below. What should replace the question mark?",
+        "table": {
+          "columns": ["If", "Result"],
+          "rows": [
+            ["3 + 4", "19"],
+            ["4 + 5", "29"],
+            ["5 + 6", "41"],
+            ["1 + 9", "19"],
+            ["1 + 3", "?"]
+          ]
         },
         "options": [
-          "Arrow P",
-          "Arrow Q",
-          "Arrow R",
-          "Arrow S"
+          "4",
+          "7",
+          "13",
+          "31"
         ],
         "answer": 1,
-        "clue": "Arrow Q uses division: 24 / 6 = 4, so its equation is true."
+        "clue": "Each result is made by multiplying the two numbers, then adding both numbers: 3 x 4 + 3 + 4 = 19. So 1 x 3 + 1 + 3 = 7."
+      },
+      {
+        "text": "Look at the number wheel. What value should replace the question mark?",
+        "hintBrief": {
+          "title": "Wheel clue",
+          "compact": true,
+          "text": "Look for the same relationship repeating around the circle."
+        },
+        "image": {
+          "src": "assets/number-wheel-puzzle.svg",
+          "alt": "A number wheel with inner sector numbers and outer circle numbers. The top-right outer circle has a question mark.",
+          "size": "small"
+        },
+        "options": [
+          "15",
+          "16",
+          "17",
+          "18"
+        ],
+        "answer": 2,
+        "clue": "Each outside number is the sum of the two inner sector numbers directly opposite it. Opposite the question mark are 9 and 8, so the missing value is 17."
       }
     ]
   },
@@ -790,37 +833,55 @@ window.CT7_MODULES = [
     ],
     "quiz": [
       {
-        "text": "If A = 3, B = 2, and C = A + 2B, what is C?",
+        "text": "Two rule cards use the same number n.",
+        "brief": {
+          "title": "Rule cards",
+          "variant": "rule-cards",
+          "items": [
+            {
+              "sentence": "Card A: double n, then add 9."
+            },
+            {
+              "sentence": "Card B: add 9 to n, then double the result."
+            }
+          ],
+          "note": "Which statement is always true?"
+        },
         "options": [
-          "5",
-          "6",
-          "7",
-          "8"
+          "Card A is always bigger",
+          "Card B is always bigger",
+          "Both cards are always equal",
+          "The bigger card changes with n"
         ],
-        "answer": 2,
-        "clue": "C = 3 + 2 x 2."
+        "answer": 1,
+        "clue": "Card A gives 2n + 9. Card B gives 2(n + 9) = 2n + 18, so Card B is always 9 bigger."
       },
       {
-        "text": "If # means greater than and @ means less than, what does a # b @ c mean?",
+        "text": "In a number pyramid, the bottom row is 4, 7, 2. Each block is the sum of the two below it. What is the top block?",
+        "image": {
+          "src": "assets/number-pyramid-4-7-2.svg",
+          "alt": "A number pyramid with bottom row 4, 7, and 2. The two middle blocks and top block are question marks.",
+          "size": "small"
+        },
         "options": [
-          "a > b and b < c",
-          "a < b and b > c",
-          "a = b and b < c",
-          "a > c only"
+          "18",
+          "20",
+          "22",
+          "24"
         ],
-        "answer": 0,
-        "clue": "Translate each symbol separately."
+        "answer": 1,
+        "clue": "The middle row is 4 + 7 = 11 and 7 + 2 = 9. The top block is 11 + 9 = 20."
       },
       {
-        "text": "A + B = Z, B = 3A, B > 9, and Z < 20. Which value can A have?",
+        "text": "Different letters A, B, and C stand for different whole numbers from 1 to 6. If 2A + B = 11 and A + B = C + 3, what must C be?",
         "options": [
+          "1",
           "2",
           "3",
-          "4",
-          "5"
+          "4"
         ],
         "answer": 2,
-        "clue": "Try values that make B greater than 9 but keep A + B below 20."
+        "clue": "The possible A, B pairs from 2A + B = 11 are (3, 5), (4, 3), and (5, 1). Only (5, 1) gives C = 3 while keeping all letters different."
       },
       {
         "text": "The sum of four ages is 48. Each person is at least 10 years old. What is the maximum possible age of the oldest person?",
@@ -845,37 +906,54 @@ window.CT7_MODULES = [
         "clue": "Not less than means greater than or equal to."
       },
       {
-        "text": "In a number pyramid, the bottom row is 4, 7, 2. Each block is the sum of the two below it. What is the top block?",
+        "text": "Which number will replace the question mark?",
+        "image": {
+          "src": "assets/number-pyramid-missing-block.svg",
+          "alt": "A number pyramid with 7 at the top, 3 and 4 in the middle row, and 1, 2, and a question mark in the bottom row.",
+          "size": "small"
+        },
         "options": [
-          "18",
-          "20",
-          "22",
-          "24"
-        ],
-        "answer": 1,
-        "clue": "Middle row is 11 and 9."
-      },
-      {
-        "text": "Which expression matches a machine that doubles n and then adds 5?",
-        "options": [
-          "n + 10",
-          "2n + 5",
-          "5n + 2",
-          "2(n + 5)"
-        ],
-        "answer": 1,
-        "clue": "Do the doubling first, then add 5."
-      },
-      {
-        "text": "Simplify (4P + 3B) - (2P + 3C) + (2A - 3B).",
-        "options": [
-          "2P + 2A - 3C",
-          "6P + 2A",
-          "2P + 3B - 3C",
-          "4P + 2A + 3C"
+          "2",
+          "3",
+          "4",
+          "5"
         ],
         "answer": 0,
-        "clue": "+3B and -3B cancel."
+        "clue": "Each block is the sum of the two below it. Since 4 = 2 + ?, the missing number is 2."
+      },
+      {
+        "text": "Use the two symbol rules below. If (x # 3) @ 2 = 9, what is x?",
+        "brief": {
+          "title": "Symbol rules",
+          "variant": "rule-cards",
+          "items": [
+            {
+              "sentence": "a # b means 2a + b."
+            },
+            {
+              "sentence": "a @ b means a - 2b."
+            }
+          ]
+        },
+        "options": [
+          "4",
+          "5",
+          "6",
+          "7"
+        ],
+        "answer": 1,
+        "clue": "First x # 3 becomes 2x + 3. Then (2x + 3) @ 2 becomes 2x - 1."
+      },
+      {
+        "text": "Given R = P + Q, simplify (5P + 2R) - (3P + 2Q) + (R - P). Which expression is always equal to it?",
+        "options": [
+          "4P + Q",
+          "4P - Q",
+          "2P + 3Q",
+          "P + 3Q"
+        ],
+        "answer": 0,
+        "clue": "Combine first to get P + 3R - 2Q. Then replace R with P + Q."
       },
       {
       "text": "If 5A, 5B, and C9 are two-digit numbers, A, B, and C are non-zero digits, and A + B + C = 12, what is the largest possible value of A + C?",
@@ -889,15 +967,15 @@ window.CT7_MODULES = [
         "clue": "Keep B as small as possible while digits remain valid."
       },
       {
-        "text": "If $ means equal to, what must be true in x $ y?",
+        "text": "Symbols are coded: # means greater than, @ means equal to, and $ means not greater than. If p $ q # r @ s is true, which statement must also be true?",
         "options": [
-          "x is larger",
-          "y is larger",
-          "x and y have the same value",
-          "x and y are consecutive"
+          "q > s",
+          "p = s",
+          "p > r",
+          "s > q"
         ],
-        "answer": 2,
-        "clue": "The symbol is defined as equality."
+        "answer": 0,
+        "clue": "Translate the chain as p <= q, q > r, and r = s. Since r and s match, q must be greater than s."
       }
     ]
   },
@@ -951,37 +1029,57 @@ window.CT7_MODULES = [
         "clue": "The hour hand can point to 3 or 9."
       },
       {
-        "text": "Two lines intersect. One angle is 74 degrees. What is the vertically opposite angle?",
+        "text": "Use the mouse to explore the stepped solid: drag to rotate it, Shift-drag or right-drag to move it left and right, and click faces to inspect them. How many different pairs of parallel outer faces are present?",
+        "model": {
+          "type": "steppedParallelFaces",
+          "alt": "Interactive 3D stepped solid made from two joined rectangular prisms."
+        },
+        "visual": {
+          "type": "parallelFacePairs3d",
+          "title": "3D Hint: The 7 Parallel Face Pairs",
+          "instruction": "Click each pair button to highlight the two matching faces on the 3D solid.",
+          "hint": "Drag to rotate the solid. Shift-drag or right-drag to move it left and right. A face can be part of more than one pair."
+        },
         "options": [
-          "16 degrees",
-          "74 degrees",
-          "106 degrees",
-          "180 degrees"
-        ],
-        "answer": 1,
-        "clue": "Vertically opposite angles are equal."
-      },
-      {
-        "text": "Two adjacent angles form a straight line. One is 68 degrees. What is the other?",
-        "options": [
-          "102 degrees",
-          "108 degrees",
-          "112 degrees",
-          "122 degrees"
+          "5",
+          "6",
+          "7",
+          "8"
         ],
         "answer": 2,
-        "clue": "Subtract from 180 degrees."
+        "clue": "Group faces by direction. Front/back make 1 pair, the 3 horizontal faces make 3 pairs, and the 3 vertical side faces make 3 pairs. Total: 1 + 3 + 3 = 7."
       },
       {
-        "text": "Two different lines are both perpendicular to the same line. What must be true?",
+        "text": "A U-shaped solid is made from three cuboids joined together. The red line marks one edge along the inside bottom of the U. How many surface edges of the whole solid are parallel to the red edge, including the red edge itself?",
+        "model": {
+          "type": "uParallelEdges",
+          "alt": "Interactive 3D U-shaped solid with one horizontal inner bottom edge highlighted in red."
+        },
+        "visual": {
+          "type": "uParallelEdges3d",
+          "title": "3D Hint: Parallel Edges on a U",
+          "instruction": "Click Front edges and Back edges to see the two groups that match the red edge's direction.",
+          "hint": "Count the front matching edges, then count the matching edges at the back."
+        },
         "options": [
-          "They are parallel",
-          "They are curved",
-          "They meet at 45 degrees",
-          "They are equal in length"
+          "6",
+          "7",
+          "8",
+          "10"
+        ],
+        "answer": 2,
+        "clue": "Look at the front outline of the U first: four horizontal edges run in the red edge's direction. The matching four edges at the back are parallel too, so there are 8 in all."
+      },
+      {
+        "text": "Two survey lines, L1 and L2, both meet the same straight boundary line at exactly 90 degrees, but they touch the boundary at different points. A planner says the two survey lines may meet later because they start from different places. Which conclusion is forced?",
+        "options": [
+          "L1 and L2 are parallel",
+          "L1 and L2 meet at the boundary",
+          "L1 and L2 form a 45 degree angle",
+          "No conclusion can be made"
         ],
         "answer": 0,
-        "clue": "Think of two vertical lines meeting the same horizontal line at right angles."
+        "clue": "Two distinct straight lines perpendicular to the same straight line have the same direction, so they are parallel."
       },
       {
         "text": "A square is divided into a 2 by 2 grid. How many squares can be counted in all?",
@@ -1006,15 +1104,15 @@ window.CT7_MODULES = [
         "clue": "Adjacent angles are supplements."
       },
       {
-        "text": "Which statement about parallel lines is correct?",
+        "text": "On a coordinate map, line A passes through (0, 1) and (3, 7). Line B passes through (1, 0) and (4, 6). Which reasoning best proves their relationship?",
         "options": [
-          "They meet at one point",
-          "They stay the same distance apart",
-          "They always form triangles",
-          "They must be vertical"
+          "Both lines rise 6 units for every 3 units across, but they pass through different points, so they are parallel",
+          "Both lines use the number 6, so they must intersect",
+          "The starting points are different, so the lines must be perpendicular",
+          "They have the same rise, so they are the same line"
         ],
-        "answer": 1,
-        "clue": "Parallel lines do not intersect."
+        "answer": 0,
+        "clue": "Compare direction, not just position. Both lines have the same rise/run, so they have the same slope and are parallel rather than intersecting."
       },
       {
         "text": "If a line inside a triangle is parallel to the base, what kind of smaller triangle is formed at the top?",
@@ -1028,26 +1126,26 @@ window.CT7_MODULES = [
         "clue": "Parallel lines preserve angle relationships."
       },
       {
-        "text": "A transversal cuts two parallel lines. Which angles are equal?",
+        "text": "Line p is parallel to line q. A transversal cuts both lines. One interior angle at line p is 112 degrees. Angle x is the alternate interior angle to it at line q, and angle y sits next to x on a straight line. What are x and y?",
         "options": [
-          "corresponding angles",
-          "random angles",
-          "only all obtuse angles",
-          "only all reflex angles"
+          "x = 112 degrees, y = 68 degrees",
+          "x = 68 degrees, y = 112 degrees",
+          "x = 112 degrees, y = 112 degrees",
+          "x = 68 degrees, y = 68 degrees"
         ],
         "answer": 0,
-        "clue": "This is one of the standard parallel-line rules."
+        "clue": "Alternate interior angles are equal, so x is 112 degrees. Adjacent angles on a straight line add to 180 degrees, so y is 68 degrees."
       },
       {
-        "text": "Which property is always true for a rectangle?",
+        "text": "A quadrilateral ABCD has AB parallel to CD and BC parallel to AD. If angle A is 90 degrees, what must be true?",
         "options": [
-          "All sides are unequal",
-          "Opposite sides are parallel",
-          "No angle is 90 degrees",
-          "It has exactly one side"
+          "All four angles are 90 degrees, so ABCD is a rectangle",
+          "Only angle A is known; the other angles can be any size",
+          "ABCD must be a square because one angle is 90 degrees",
+          "AB and BC must intersect again if extended"
         ],
-        "answer": 1,
-        "clue": "A rectangle has two pairs of parallel sides."
+        "answer": 0,
+        "clue": "Opposite sides are parallel. Consecutive interior angles are supplementary, so a 90 degree angle forces the neighboring angles to be 90 degrees too."
       }
     ]
   },

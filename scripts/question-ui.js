@@ -10,6 +10,7 @@ function renderQuestionImage(question) {
     questionImage.src = question.image.src;
     questionImage.alt = question.image.alt || "";
     questionImageWrap.classList.toggle("wide", question.image.size === "wide");
+    questionImageWrap.classList.toggle("small", question.image.size === "small");
     questionImageWrap.hidden = false;
     return;
   }
@@ -17,6 +18,7 @@ function renderQuestionImage(question) {
   questionImage.removeAttribute("src");
   questionImage.alt = "";
   questionImageWrap.classList.remove("wide");
+  questionImageWrap.classList.remove("small");
   questionImageWrap.hidden = true;
 }
 
@@ -74,13 +76,29 @@ function renderQuestionBrief(question) {
 
   const article = document.createElement("article");
   article.className = "question-brief";
+  if (question.brief.compact) {
+    article.classList.add("compact");
+  }
+  if (question.brief.variant === "expression") {
+    article.classList.add("expression-focus");
+  }
+  if (question.brief.variant) {
+    article.classList.add(question.brief.variant);
+  }
 
   const title = document.createElement("p");
   title.className = "question-brief-title";
   title.textContent = question.brief.title;
   article.appendChild(title);
 
-  article.appendChild(createBriefGrid(question.brief));
+  if (question.brief.text) {
+    const text = document.createElement("p");
+    text.className = "question-brief-line";
+    text.textContent = question.brief.text;
+    article.appendChild(text);
+  } else if (question.brief.items?.length) {
+    article.appendChild(createBriefGrid(question.brief));
+  }
 
   if (question.brief.note) {
     const note = document.createElement("p");
@@ -91,6 +109,41 @@ function renderQuestionBrief(question) {
 
   briefWrap.appendChild(article);
   briefWrap.hidden = false;
+}
+
+function renderQuestionModel(question) {
+  const modelWrap = document.querySelector("#question-model-wrap");
+  if (!modelWrap) {
+    return;
+  }
+
+  if (window.CT7SolidVisuals?.destroy) {
+    window.CT7SolidVisuals.destroy();
+  }
+
+  modelWrap.innerHTML = "";
+  if (!question.model) {
+    modelWrap.hidden = true;
+    return;
+  }
+
+  const card = document.createElement("article");
+  card.className = "question-model-card";
+
+  const stage = document.createElement("div");
+  stage.className = "question-model-stage";
+  stage.setAttribute("aria-label", question.model.alt || "Interactive 3D model");
+  stage.setAttribute("role", "img");
+
+  card.appendChild(stage);
+  modelWrap.appendChild(card);
+  modelWrap.hidden = false;
+
+  if (window.CT7SolidVisuals?.mount) {
+    window.CT7SolidVisuals.mount(stage, question.model);
+  } else {
+    stage.textContent = "Loading interactive model...";
+  }
 }
 
 function createBriefGrid(brief) {
@@ -105,6 +158,15 @@ function createBriefGrid(brief) {
   brief.items.forEach((item) => {
     const card = document.createElement("section");
     card.className = "question-brief-card";
+
+    if (item.sentence) {
+      const sentence = document.createElement("p");
+      sentence.className = "question-brief-card-sentence";
+      sentence.textContent = item.sentence;
+      card.appendChild(sentence);
+      list.appendChild(card);
+      return;
+    }
 
     const label = document.createElement("span");
     label.textContent = item.label;
@@ -125,5 +187,6 @@ function createBriefGrid(brief) {
 window.CT7QuestionUI = {
   renderQuestionBrief,
   renderQuestionImage,
+  renderQuestionModel,
   renderQuestionTable
 };

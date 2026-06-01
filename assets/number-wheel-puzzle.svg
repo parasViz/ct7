@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 520" role="img" aria-labelledby="title desc">
+  <title id="title">Number wheel puzzle</title>
+  <desc id="desc">A circular number wheel with eight outer numbers and eight inner sector numbers. The top-right outer number is a question mark.</desc>
+  <defs>
+    <filter id="softShadow" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#172034" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <rect width="520" height="520" rx="28" fill="#ffffff"/>
+
+  <g transform="translate(260 260)" font-family="Roboto, Segoe UI, Arial, sans-serif" font-weight="900">
+    <circle r="142" fill="#ffffff" stroke="#2f3035" stroke-width="4" filter="url(#softShadow)"/>
+
+    <g stroke="#2f3035" stroke-width="4" stroke-linecap="round">
+      <line x1="0" y1="-202" x2="0" y2="142"/>
+      <line x1="0" y1="202" x2="0" y2="-142"/>
+      <line x1="-202" y1="0" x2="142" y2="0"/>
+      <line x1="202" y1="0" x2="-142" y2="0"/>
+      <line x1="-143" y1="-143" x2="100" y2="100"/>
+      <line x1="143" y1="143" x2="-100" y2="-100"/>
+      <line x1="143" y1="-143" x2="-100" y2="100"/>
+      <line x1="-143" y1="143" x2="100" y2="-100"/>
+    </g>
+
+    <g fill="#06a85f" font-size="26">
+      <text x="-47" y="-91" text-anchor="middle">7</text>
+      <text x="47" y="-91" text-anchor="middle">4</text>
+      <text x="91" y="-47" text-anchor="middle">1</text>
+      <text x="91" y="47" text-anchor="middle">7</text>
+      <text x="47" y="91" text-anchor="middle">5</text>
+      <text x="-47" y="91" text-anchor="middle">8</text>
+      <text x="-91" y="47" text-anchor="middle">9</text>
+      <text x="-91" y="-47" text-anchor="middle">7</text>
+    </g>
+
+    <g fill="#ffffff" stroke="#2f3035" stroke-width="3">
+      <circle cx="0" cy="-214" r="29"/>
+      <circle cx="151" cy="-151" r="29"/>
+      <circle cx="214" cy="0" r="29"/>
+      <circle cx="151" cy="151" r="29"/>
+      <circle cx="0" cy="214" r="29"/>
+      <circle cx="-151" cy="151" r="29"/>
+      <circle cx="-214" cy="0" r="29"/>
+      <circle cx="-151" cy="-151" r="29"/>
+    </g>
+
+    <g fill="#1788e8" font-size="25">
+      <text x="0" y="-205" text-anchor="middle">13</text>
+      <text x="214" y="9" text-anchor="middle">16</text>
+      <text x="151" y="160" text-anchor="middle">14</text>
+      <text x="0" y="223" text-anchor="middle">11</text>
+      <text x="-151" y="160" text-anchor="middle">5</text>
+      <text x="-214" y="9" text-anchor="middle">8</text>
+      <text x="-151" y="-142" text-anchor="middle">12</text>
+    </g>
+
+    <text x="151" y="-142" text-anchor="middle" fill="#f47b20" font-size="30">?</text>
+  </g>
+</svg>

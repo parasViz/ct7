@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 380" role="img" aria-labelledby="title desc">
+  <title id="title">Number pyramid with one missing block</title>
+  <desc id="desc">A number pyramid. The bottom row has 1, 2, and a question mark. The middle row has 3 and 4. The top block has 7.</desc>
+  <defs>
+    <filter id="softShadow" x="-12%" y="-12%" width="124%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#172034" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+
+  <rect width="560" height="380" rx="28" fill="#ffffff"/>
+  <rect x="42" y="34" width="476" height="292" rx="20" fill="#f3ffe8" stroke="#172034" stroke-width="3"/>
+
+  <g font-family="Roboto, Segoe UI, Arial, sans-serif" font-weight="900" text-anchor="middle" filter="url(#softShadow)">
+    <g transform="translate(0 6)">
+      <rect x="222" y="54" width="116" height="72" rx="0" fill="#f9fff5" stroke="#172034" stroke-width="3"/>
+      <text x="280" y="102" fill="#172034" font-size="34">7</text>
+
+      <rect x="156" y="126" width="116" height="72" rx="0" fill="#f9fff5" stroke="#172034" stroke-width="3"/>
+      <rect x="272" y="126" width="116" height="72" rx="0" fill="#f9fff5" stroke="#172034" stroke-width="3"/>
+      <text x="214" y="174" fill="#172034" font-size="34">3</text>
+      <text x="330" y="174" fill="#172034" font-size="34">4</text>
+
+      <rect x="90" y="198" width="116" height="72" rx="0" fill="#f9fff5" stroke="#172034" stroke-width="3"/>
+      <rect x="206" y="198" width="116" height="72" rx="0" fill="#f9fff5" stroke="#172034" stroke-width="3"/>
+      <rect x="322" y="198" width="116" height="72" rx="0" fill="#f9fff5" stroke="#172034" stroke-width="3"/>
+      <text x="148" y="246" fill="#172034" font-size="34">1</text>
+      <text x="264" y="246" fill="#172034" font-size="34">2</text>
+      <text x="380" y="246" fill="#172034" font-size="34">?</text>
+    </g>
+  </g>
+</svg>

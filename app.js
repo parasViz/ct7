@@ -13,12 +13,14 @@
 
   const SKETCH_SCRIPTS = [
     "https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js",
+    "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/three.min.js",
     "sketches/pattern-hints.js",
     "sketches/pattern-hints-shapes.js",
     "sketches/binary-fingers.js",
     "sketches/place-value.js",
     "sketches/expression-debugger.js",
     "sketches/module-labs.js",
+    "sketches/solid-visuals.js",
     "scripts/question-ui.js"
   ];
 
@@ -107,6 +109,10 @@
 
   function renderQuizQuestionBrief(question) {
     window.CT7QuestionUI && window.CT7QuestionUI.renderQuestionBrief && window.CT7QuestionUI.renderQuestionBrief(question);
+  }
+
+  function renderQuizQuestionModel(question) {
+    window.CT7QuestionUI && window.CT7QuestionUI.renderQuestionModel && window.CT7QuestionUI.renderQuestionModel(question);
   }
 
   function renderQuizQuestionImage(question) {
@@ -690,6 +696,7 @@
     renderQuizQuestionImage(question);
     renderQuizQuestionTable(question);
     renderQuizQuestionBrief(question);
+    renderQuizQuestionModel(question);
 
     els.feedback.textContent = "";
     els.feedback.className = "feedback";

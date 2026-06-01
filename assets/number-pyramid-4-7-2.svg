@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 380" role="img" aria-labelledby="title desc">
+  <title id="title">Number pyramid with bottom row 4, 7, and 2</title>
+  <desc id="desc">A number pyramid. The bottom row has 4, 7, and 2. The two blocks above and the top block have question marks.</desc>
+  <defs>
+    <filter id="softShadow" x="-12%" y="-12%" width="124%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#172034" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+
+  <rect width="560" height="380" rx="28" fill="#ffffff"/>
+  <g font-family="Roboto, Segoe UI, Arial, sans-serif" font-weight="900" text-anchor="middle" filter="url(#softShadow)">
+    <g transform="translate(0 6)">
+      <rect x="222" y="38" width="116" height="78" rx="14" fill="#fff1f4" stroke="#f95877" stroke-width="3"/>
+      <text x="280" y="88" fill="#f95877" font-size="34">?</text>
+
+      <rect x="156" y="130" width="116" height="78" rx="14" fill="#f3fffb" stroke="#06d6a0" stroke-width="3"/>
+      <rect x="288" y="130" width="116" height="78" rx="14" fill="#f3fffb" stroke="#06d6a0" stroke-width="3"/>
+      <text x="214" y="180" fill="#118ab2" font-size="34">?</text>
+      <text x="346" y="180" fill="#118ab2" font-size="34">?</text>
+
+      <rect x="90" y="222" width="116" height="78" rx="14" fill="#fff8e9" stroke="#ffd166" stroke-width="3"/>
+      <rect x="222" y="222" width="116" height="78" rx="14" fill="#fff8e9" stroke="#ffd166" stroke-width="3"/>
+      <rect x="354" y="222" width="116" height="78" rx="14" fill="#fff8e9" stroke="#ffd166" stroke-width="3"/>
+      <text x="148" y="274" fill="#172034" font-size="36">4</text>
+      <text x="280" y="274" fill="#172034" font-size="36">7</text>
+      <text x="412" y="274" fill="#172034" font-size="36">2</text>
+    </g>
+  </g>
+
+  <g font-family="Roboto, Segoe UI, Arial, sans-serif" font-size="16" font-weight="800" fill="#7a8699" text-anchor="middle">
+    <text x="280" y="344">Each block is the sum of the two blocks below it.</text>
+  </g>
+</svg>

@@ -83,7 +83,12 @@ function createPatternSketch(host, visual) {
   const entry = SKETCH_MOUNTERS[visual.type];
   if (!entry) return;
   const sketchHost = host.querySelector(entry.selector);
-  if (sketchHost) entry.mount(sketchHost, visual);
+  if (sketchHost) {
+    const mounted = entry.mount(sketchHost, visual);
+    if (mounted && typeof mounted.remove === "function") {
+      activePatternSketch = mounted;
+    }
+  }
 }
 
 Object.assign(SKETCH_MOUNTERS, {
@@ -95,11 +100,23 @@ Object.assign(SKETCH_MOUNTERS, {
   numberLine:        { selector: ".number-line-host",     mount: mountNumberLineSketch },
   digitBalance:      { selector: ".digit-balance-host",   mount: mountDigitBalanceSketch },
   multiplierCompare: { selector: ".multiplier-compare-host", mount: mountMultiplierCompareSketch },
+  operatorSwapCircles: { selector: ".operator-swap-circles-host", mount: mountOperatorSwapCirclesSketch },
   binaryCount:       { selector: ".binary-count-host",    mount: mountBinaryCountSketch }
 });
 
 function briefHintMarkup(brief) {
-  const itemCountClass = brief.items?.length === 3 ? " three" : "";
+  const articleClasses = [
+    "question-brief",
+    "hint-brief",
+    brief.compact ? "compact" : "",
+    brief.variant === "expression" ? "expression-focus" : "",
+    brief.variant && brief.variant !== "expression" ? brief.variant : ""
+  ].filter(Boolean).join(" ");
+  const gridClasses = [
+    brief.items?.length === 3 ? "three" : "",
+    brief.layout === "vertical" ? "vertical" : ""
+  ].filter(Boolean);
+  const itemCountClass = gridClasses.length ? ` ${gridClasses.join(" ")}` : "";
   const items = (brief.items || [])
     .map(
       (item) => `
@@ -111,14 +128,21 @@ function briefHintMarkup(brief) {
       `
     )
     .join("");
+  const text = brief.text
+    ? `<p class="question-brief-line">${escapeHintHtml(brief.text)}</p>`
+    : "";
+  const grid = items
+    ? `<div class="question-brief-grid${itemCountClass}">${items}</div>`
+    : "";
   const note = brief.note
     ? `<p class="question-brief-note">${escapeHintHtml(brief.note)}</p>`
     : "";
 
   return `
-    <article class="question-brief hint-brief">
+    <article class="${articleClasses}">
       <p class="question-brief-title">${escapeHintHtml(brief.title || "Hint")}</p>
-      <div class="question-brief-grid${itemCountClass}">${items}</div>
+      ${text}
+      ${grid}
       ${note}
     </article>
   `;
@@ -174,6 +198,7 @@ Object.assign(HINT_RENDERERS, {
   numberLine: numberLineHint,
   digitBalance: digitBalanceHint,
   multiplierCompare: multiplierCompareHint,
+  operatorSwapCircles: operatorSwapCirclesHint,
   binaryCount: binaryCountHint,
   densityCompare: densityCompareHint
 });
@@ -430,6 +455,12 @@ function digitBalanceHint(visual) {
 function multiplierCompareHint(visual) {
   return `
     ${p5SketchHost("multiplier-compare-host", "Multiplier comparison animation")}
+  `;
+}
+
+function operatorSwapCirclesHint() {
+  return `
+    ${p5SketchHost("operator-swap-circles-host", "Operator swap circle visual hint")}
   `;
 }
 
@@ -928,9 +959,18 @@ function mountMultiplierCompareSketch(host, visual) {
       const growth = ((displayK - 1) * 100);
       const delta = result - start;
 
-      drawBadge(p.width / 2 - 154, 20, 92, 30, `k ${formatK(displayK)}`, accent);
-      drawBadge(p.width / 2 - 46, 20, 92, 30, formatNumber(result), accent);
-      drawBadge(p.width / 2 + 62, 20, 92, 30, formatPercent(growth), accent);
+      const badges = badgeLayout();
+      drawBadge(badges.x, badges.y, badges.w, badges.h, `k ${formatK(displayK)}`, accent, badges.fontSize);
+      drawBadge(
+        badges.x + badges.w + badges.gap,
+        badges.y,
+        badges.w,
+        badges.h,
+        formatNumber(result),
+        accent,
+        displayK > 1 ? badges.growFontSize : badges.shrinkFontSize
+      );
+      drawBadge(badges.x + (badges.w + badges.gap) * 2, badges.y, badges.w, badges.h, formatPercent(growth), accent, badges.fontSize);
 
       drawAnchorRail(x0, xMax, y, maxValue);
 
@@ -1076,15 +1116,33 @@ function mountMultiplierCompareSketch(host, visual) {
       p.circle(knobX, y, dragging ? 16 : 13);
     }
 
-    function drawBadge(x, y, w, h, label, accent) {
+    function badgeLayout() {
+      const gap = p.width < 420 ? 10 : 18;
+      const available = Math.max(0, p.width - 32);
+      const w = Math.min(p.width < 420 ? 104 : 118, Math.max(78, (available - gap * 2) / 3));
+      const h = p.width < 420 ? 34 : 38;
+      const totalW = w * 3 + gap * 2;
+      return {
+        x: (p.width - totalW) / 2,
+        y: 16,
+        w,
+        h,
+        gap,
+        fontSize: p.width < 420 ? 13 : 15,
+        growFontSize: p.width < 420 ? 17 : 20,
+        shrinkFontSize: p.width < 420 ? 11 : 12
+      };
+    }
+
+    function drawBadge(x, y, w, h, label, accent, fontSize) {
       p.stroke(colorWithAlpha(accent, 0.28));
-      p.strokeWeight(1.4);
+      p.strokeWeight(1.7);
       p.fill(colorWithAlpha(accent, 0.08));
       p.rect(x, y, w, h, 999);
       p.noStroke();
       p.fill(accent);
       p.textStyle(p.BOLD);
-      p.textSize(12);
+      p.textSize(fontSize);
       p.textAlign(p.CENTER, p.CENTER);
       p.text(label, x + w / 2, y + h / 2 + 0.5);
     }
@@ -1161,6 +1219,174 @@ function mountMultiplierCompareSketch(host, visual) {
       const rounded = Math.round(value);
       if (Math.abs(rounded) <= 1) return "0%";
       return `${rounded > 0 ? "+" : ""}${rounded}%`;
+    }
+  });
+}
+
+function mountOperatorSwapCirclesSketch(host, visual) {
+  const theme = ctTheme();
+  const numbers = Array.isArray(visual.numbers) && visual.numbers.length === 4
+    ? visual.numbers
+    : [8, 4, 2, 1];
+  const operators = Array.isArray(visual.operators) && visual.operators.length === 3
+    ? visual.operators
+    : ["x", "+", "-"];
+
+  makeP5Sketch(host, (p) => {
+    p.setup = () => {
+      p.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
+      p.createCanvas(sketchWidth(), sketchHeight());
+    };
+
+    p.windowResized = () => p.resizeCanvas(sketchWidth(), sketchHeight());
+
+    p.draw = () => {
+      p.clear();
+      p.background("#ffffff");
+      drawScene();
+    };
+
+    function sketchWidth() {
+      return Math.max(320, host.clientWidth || 700);
+    }
+
+    function sketchHeight() {
+      return p.width < 520 ? 300 : 278;
+    }
+
+    function drawScene() {
+      const layout = buildLayout();
+      const pulse = (p.sin(p.frameCount * 0.045) + 1) / 2;
+
+      drawTrack(layout.nodes);
+      drawBigPairGlow(layout.nodes[0], layout.nodes[1], pulse);
+      layout.nodes.forEach((node, index) => drawNumberCircle(node, index));
+      layout.ops.forEach((op, index) => drawOperatorChip(op.x, op.y, operators[index], opColor(operators[index]), index === 0, 1));
+      drawSwapMotion(layout.ops[0], layout.ops[2]);
+    }
+
+    function buildLayout() {
+      const compact = p.width < 520;
+      const margin = compact ? 40 : 70;
+      const usable = p.width - margin * 2;
+      const y = compact ? 128 : 126;
+      const scale = compact ? 0.62 : p.width < 680 ? 0.82 : 1;
+      const maxRoot = Math.sqrt(Math.max(...numbers));
+      const nodes = numbers.map((value, index) => {
+        const root = Math.sqrt(Math.max(1, value));
+        const radius = p.map(root, 1, maxRoot, 24, 54) * scale;
+        return {
+          value,
+          x: margin + (usable / (numbers.length - 1)) * index,
+          y,
+          r: radius
+        };
+      });
+      const ops = operators.map((operator, index) => ({
+        operator,
+        x: (nodes[index].x + nodes[index + 1].x) / 2,
+        y
+      }));
+      return { nodes, ops };
+    }
+
+    function drawTrack(nodes) {
+      p.stroke(colorWithAlpha(theme.soft, 0.16));
+      p.strokeWeight(5);
+      p.strokeCap(p.ROUND);
+      p.line(nodes[0].x, nodes[0].y, nodes[nodes.length - 1].x, nodes[nodes.length - 1].y);
+    }
+
+    function drawBigPairGlow(left, right, pulse) {
+      const y = left.y + Math.max(left.r, right.r) + 14;
+      p.stroke(colorWithAlpha(theme.pink, 0.2 + pulse * 0.16));
+      p.strokeWeight(6);
+      p.strokeCap(p.ROUND);
+      p.line(left.x, y, right.x, y);
+      p.noStroke();
+      p.fill(colorWithAlpha(theme.pink, 0.08 + pulse * 0.06));
+      p.rect(left.x - left.r * 0.72, left.y - left.r * 0.9, right.x - left.x + right.r * 1.44, left.r * 1.8, 28);
+    }
+
+    function drawNumberCircle(node, index) {
+      const palette = [theme.yellow, theme.teal, theme.blue, theme.orange];
+      const color = palette[index % palette.length];
+      p.noStroke();
+      p.fill(colorWithAlpha(theme.text, 0.08));
+      p.circle(node.x + 2, node.y + 5, node.r * 2);
+      p.stroke(colorWithAlpha(color, 0.78));
+      p.strokeWeight(2.2);
+      p.fill(colorWithAlpha(color, 0.16));
+      p.circle(node.x, node.y, node.r * 2);
+      p.noStroke();
+      p.fill(theme.text);
+      p.textAlign(p.CENTER, p.CENTER);
+      p.textStyle(p.BOLD);
+      p.textSize(Math.max(18, node.r * 0.72));
+      p.text(String(node.value), node.x, node.y + 1);
+    }
+
+    function drawOperatorChip(x, y, label, color, emphasized, alpha) {
+      const w = p.width < 520 ? 32 : 38;
+      const h = p.width < 520 ? 30 : 34;
+      p.push();
+      p.drawingContext.globalAlpha = alpha;
+      p.noStroke();
+      if (emphasized) {
+        const pulse = (p.sin(p.frameCount * 0.06) + 1) / 2;
+        p.fill(colorWithAlpha(color, 0.12 + pulse * 0.1));
+        p.circle(x, y, w + 22 + pulse * 8);
+      }
+      p.stroke(colorWithAlpha(color, 0.58));
+      p.strokeWeight(emphasized ? 2.2 : 1.7);
+      p.fill("#ffffff");
+      p.rect(x - w / 2, y - h / 2, w, h, 999);
+      p.noStroke();
+      p.fill(color);
+      p.textAlign(p.CENTER, p.CENTER);
+      p.textStyle(p.BOLD);
+      p.textSize(p.width < 520 ? 18 : 20);
+      p.text(label, x, y + 0.5);
+      p.pop();
+      p.drawingContext.globalAlpha = 1;
+    }
+
+    function drawSwapMotion(firstOp, lastOp) {
+      const t = (p.sin(p.frameCount * 0.026) + 1) / 2;
+      const eased = 0.5 - Math.cos(t * Math.PI) / 2;
+      const minusPoint = arcPoint(lastOp, firstOp, eased, 78);
+      const xPoint = arcPoint(firstOp, lastOp, eased, -58);
+
+      drawArc(lastOp, firstOp, 78, theme.blue);
+      drawArc(firstOp, lastOp, -58, theme.pink);
+      drawOperatorChip(minusPoint.x, minusPoint.y, "-", theme.blue, false, 0.86);
+      drawOperatorChip(xPoint.x, xPoint.y, "x", theme.pink, false, 0.6);
+    }
+
+    function arcPoint(from, to, amount, lift) {
+      return {
+        x: p.lerp(from.x, to.x, amount),
+        y: p.lerp(from.y, to.y, amount) - Math.sin(amount * Math.PI) * lift
+      };
+    }
+
+    function drawArc(from, to, lift, color) {
+      const midX = (from.x + to.x) / 2;
+      p.push();
+      p.noFill();
+      p.stroke(colorWithAlpha(color, 0.22));
+      p.strokeWeight(2);
+      p.drawingContext.setLineDash([5, 9]);
+      p.bezier(from.x, from.y, midX, from.y - lift, midX, to.y - lift, to.x, to.y);
+      p.drawingContext.setLineDash([]);
+      p.pop();
+    }
+
+    function opColor(operator) {
+      if (operator === "x" || operator === "*") return theme.pink;
+      if (operator === "+") return theme.teal;
+      if (operator === "-") return theme.blue;
+      return theme.orange;
     }
   });
 }
